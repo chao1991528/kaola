@@ -1,0 +1,160 @@
+* {
+    font-family: "Microsoft YaHei";
+}
+body {
+  padding-bottom: 0;
+  background-color: rgb(247, 247, 247);
+}
+body p {
+    line-height: 2;
+}
+.navbar {
+    margin-bottom: 0;
+}
+.navbar > .container .navbar-brand {
+    margin-left:0;
+}
+.navbar a.navbar-brand {
+    width: 160px;
+    background:url('../img/echarts-logo.png') no-repeat 0 10px;
+    padding-left: 48px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 25px;
+}
+.navbar-default {
+    background-color: rgb(247, 247, 247);
+    border-color:rgb(218, 218, 218);
+}
+.navbar-default .navbar-nav > li.active > a {
+    background-color: transparent;
+    color: #3E98C5;
+    font-weight: bolder;
+    border-bottom: 3px solid rgb(62,152, 197);
+}
+@media (max-width: 980px) {
+    .navbar-default .navbar-nav > li > a {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+.navbar-default .navbar-nav > li > a:hover {
+    background-color: #eee;
+}
+.navbar-fixed-top {
+    z-index: 999999;
+}
+
+
+.container-fluid .example {
+    padding: 10px 0;
+}
+.col-md-2,.col-md-10{
+    padding-left: 10px !important;
+    padding-right: 0 !important;
+}
+.sidebar-nav {
+    height: 570px;
+    padding: 9px 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+}
+.nav-header {
+    display: block;
+    padding: 3px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #999999;
+    border-bottom: 1px solid rgba(211, 211, 211, 0.50);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+#icon-resize {
+    color:#000;
+    float:right;
+    opacity:.4;
+    filter:alpha(opacity=30);
+}
+a#icon-resize:hover {
+    opacity:.8;
+    filter:alpha(opacity=60);
+    text-decoration: blink;
+}
+.nav-content {
+    display: block;
+    padding: 3px 15px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+.nav-content ul{
+    overflow: auto;
+    height: 325px;
+}
+.nav-content ul li{
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 25px;
+}
+.nav-content ul li a{text-decoration: underline;}
+.footer-header {
+    display: block;
+    padding: 3px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 30px;
+    color: #999999;
+    border-bottom: 1px solid rgba(211, 211, 211, 0.50);
+    border-top: 1px solid rgba(211, 211, 211, 0.50);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    text-transform: uppercase;
+}
+
+.nav-footer{
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    margin: 0 auto;
+    height: 140px;
+    line-height: 22px;
+    font-size: 14px;
+    font-weight: bold;
+    /*border: 1px solid rgba(211, 211, 211, 0.50);*/
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+.nav-footer table th{
+border-bottom: 1px solid rgba(211, 211, 211, 0.50);
+border-top: 1px solid rgba(211, 211, 211, 0.50);
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+text-transform: uppercase;
+}
+.col-md-2.ani {
+    transition: width 1s;
+    -moz-transition: width 1s;
+    -webkit-transition: width 1s;
+    -o-transition: width 1s;
+}
+.col-md-10.ani {
+    transition: width 1s;
+    -moz-transition: width 1s;
+    -webkit-transition: width 1s;
+    -o-transition: width 1s;
+}
+#main {
+    height: 400px;
+    /*width: 778px !important;*/
+    overflow: hidden;
+    padding : 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e3e3e3;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}

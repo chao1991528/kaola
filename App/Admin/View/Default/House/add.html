@@ -1,0 +1,517 @@
+<include file="Public/header" />
+<style type="text/css">
+.table .title{background-color: #f5fafe;font-size: 12px;vertical-align: middle;}
+.input-text,.select {font-size: 12px;}
+#imgDiv div{height:180px;}
+</style>
+<div class="pd-10">
+	<form action="<{:U('House/add')}>" method="post" class="form form-horizontal" enctype="multipart/form-data"  id="form-admin-add" >
+		<table class="table table-border table-bordered table-bg" style="width: 100%; margin: auto;">
+		<thead>
+			<tr class="text-c">
+				<th scope="col" colspan="6" style="font-size: 14px;">发布租房</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+                    <td width="120" class="title">标题：</td>
+                    <td colspan="5"><input type="text" class="input-text" value="" placeholder="请输入标题" name="title" ></td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">副标题：</td>
+                    <td colspan="5"><input type="text" class="input-text" value="" placeholder="请输入副标题" name="sub_title" ></td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">房源类型：</td>
+                    <td width="130">
+                        <select class="select" name="house_resource_type">     
+                            <volist name="house_resource_type_list" id="item">
+                            <option value="<{$key}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td width="120" class="title">出租类型：</td>
+                    <td width="130">
+                        <select class="select" name="house_rent_type">     
+                            <volist name="house_rent_type_list" id="item">
+                            <option value="<{$key}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="title">是否允许宠物：</td>
+                    <td>
+                        <select class="select" name="can_keep_pat">     
+                            <volist name="can_keep_pat_list" id="item">
+                            <option value="<{$key}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="text-c" id="part1">
+                    <td width="120" class="title">房间类型：</td>
+                    <td width="130">
+                        <select class="select" name="house_room_type">     
+                            <volist name="house_room_type_list" id="item">
+                            <option value="<{$key}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="title">是否有人居住：</td>
+                    <td>
+                        <select class="select" name="is_parlor_resident">     
+                            <volist name="is_parlor_resident_list" id="item">
+                            <option value="<{$key}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="title">是否有独立卫浴：</td>
+                    <td>
+                        <select class="select" name="have_separate_bathroom">     
+                            <volist name="have_separate_bathroom_list" id="item">
+                            <option value="<{$key}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="text-c" id="gender">
+                    <td width="120" class="title">租客性别：</td>
+                    <td width="130" >
+                    	<select class="select" name="tenant_gender">
+                        <volist name="tenant_gender" id="item">                          
+                            <option value="<{$key}>"><{$item}></option>
+                        </volist>
+                        </select>
+                    </td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr class="text-c" id="floor" style="display:none">
+                    <td class="title">最高楼层;</td>
+                    <td ><input type='text' value="" name='max_floor' class="input-text"></td>
+                    <td class="title">当前楼层;</td>
+                    <td ><input type='text' value="" name='floor' class="input-text"></td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">手机号：</td>
+                    <td width="130" >
+                        <input type="text" class="input-text" value="" name="mobile">
+                    </td>
+                    <td width="80" class="title">联系人：</td>
+                    <td width="130"><input type="text" class="input-text" value="" name="contact_person"></td>
+                    <td width="80" class="title">微信：</td>
+                    <td width="130" class="title"><input type="text" class="input-text" value="" name="weixin_no"></td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">租金（元/周）：</td>
+                    <td width="130" >
+                        <input type="text" class="input-text" value="" name="rent_amount">
+                    </td>
+                    <td width="80" class="title">最短租期（周）：</td>
+                    <td width="130" class="title"><input type="text" class="input-text" value="" name="min_lease_period"></td>
+                    <td width="80" class="title">邮箱：</td>
+                    <td width="130"><input type="text" class="input-text" value="" name="email"></td>
+                </tr>
+                <tr class="text-c" id="part2" style="display:none">
+                    <td width="120" class="title">房间数量（室）：</td>
+                    <td width="130" >
+                        <select class="select" name="room_count">     
+                            <volist name="number_list" id="item">
+                            <option value="<{$item}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td width="80" class="title">卫生间数量：</td>
+                    <td width="130" class="title">
+                        <select class="select" name="bathroom_count">     
+                            <volist name="number_list" id="item">
+                            <option value="<{$item}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td width="80" class="title">车位数量：</td>
+                    <td width="130">
+                        <select class="select" name="parking_space_count">     
+                            <volist name="number_list" id="item">
+                            <option value="<{$item}>"><{$item}></option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="text-c">
+                    <td width="80" class="title">所属城市：</td>
+                    <td width="130" class="title">
+                        <select class="select" name="house_resource_city_id">
+                            <volist name="city_list" id="item">
+                            <option value="<{$item.id}>"><{$item.name}> <{$item.name_zh}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td width="80" class="title">房源区域：</td>
+                    <td width="130" class="title">
+                        <select class="select" name="house_resource_districts_id">
+                        </select>
+                    </td>
+                    <td width="120" class="title">可入住时间：</td>
+                    <td width="130" colspan="5"><input type="text" class="input-text Wdate" onclick="WdatePicker()" value="" name="can_reside_time"></td>
+                </tr>
+                <tr class="text-c">
+                    <td width="80" class="title">房源地址：</td>
+                    <td width="130" class="title" colspan="4">
+                        <input type="text" class="input-text" placeholder="" value="" name="house_resource_address">
+                        <input type="hidden" id="lng" value="" name="house_resource_longitude">
+                        <input type="hidden" id="lat" value="" name="house_resource_latitude">
+                    </td>
+                    <td><input type="button" value="点击定位" id="locationBtn" style="padding:2px;"></td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">选择位置：</td>
+                    <td width="130" id='googleMap' colspan="5" style="height:200px;">
+                    </td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">优惠折扣：</td>
+                    <td width="130" >
+                        <select class="select" name="coupon_id">
+                            <option>请选择</option>
+                            <volist name="coupons" id="item">
+                            <option value="<{$item['id']}>"><{$item['title']}></option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td width="80" class="title">会员ID：</td>
+                    <td width="130"><input type="text" class="input-text" value="" name="mem_id" id="mem_id"></td>
+                    <td width="80" class="title">会员昵称：</td>
+                    <td width="130" class="nick_name_td"></td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">房屋标签：</td>
+                    <td width="130" colspan="5" style="text-align:left;">
+                        <volist name="tags" id="item">
+                            <input type="checkbox" name="house_tag[]" value="<{$item.id}>" class="check-box"> <{$item.tag_name}>&nbsp;&nbsp;
+                        </volist>
+                    </td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">房屋配置：</td>
+                    <td width="130" colspan="5" style="text-align:left;">
+                        <volist name="configs" id="item">
+                            <input type="checkbox" name="house_config[]" value="<{$item.id}>" class="check-box"> <{$item.config_name}>&nbsp;&nbsp;
+                        </volist>
+                    </td>
+                </tr>
+                <tr class="text-c">
+                    <td width="120" class="title">房屋户型：</td>
+                    <td width="130" colspan="5" style="text-align:left;">
+                        <select class="select" name="house_type_id">
+                            <volist name="house_type_list" id="item">
+                            <option value="<{$item['id']}>"><{$item['type_name']}></option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                
+                <tr class="text-c">
+                        <td class="title">房屋图片：</td>
+                        <td colspan="5" height="100">
+                                <div class="uploader-thum-container" style="">
+                                        <div id="imgDiv" style=""></div>
+                                        <div id="fileList" class="uploader-list"></div>
+                                        <br/>
+                                        <div id="filePicker">选择图片</div>
+                                        <div style="float: left;width: 100%;color: #cdcdcd;text-align: left;">最多上传九张图片，首张会作为封面</div>
+
+                                </div>
+                        </td>
+                </tr>
+                <tr class="text-c">
+                    <td class="title">内容：</td>
+                    <td colspan="5" height="100">
+                        <textarea cols="100" rows="5" name="content"></textarea>
+                    </td>
+                </tr>
+                <tr class="text-c" >
+                        <td colspan="6">
+
+                                <input type="hidden" id="images" name="images" value="" />
+                                <input type="submit" id="submit-btn" value="提交" class="btn btn-primary radius" style="width:35%;">
+                        </td>
+                </tr>
+	    </tbody>
+	</table>	
+    </form>
+</div>
+
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__LIB__/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<link href="__LIB__/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__LIB__/webuploader/0.1.5/webuploader.min.js"></script>
+<!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCrsOlTSUACyNCDNmMGShq9CUPValrCyCo&callback=initMap" async defer></script>-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8&callback=initMap" async defer></script>
+ 
+<script>   
+    function initMap() {
+        var myLatlng = {
+            lat: -33.7816385,
+            lng: 150.0707447
+        };
+        var marker ;
+        var markersArray = [];
+        var map = new google.maps.Map(document.getElementById('googleMap'), {
+            zoom: 14,
+            center: myLatlng
+        });
+        $("#locationBtn").click(function(){
+            $.ajax({
+                type:"post",
+                url:"https://maps.googleapis.com/maps/api/geocode/json?address=" + $("input[name='house_resource_address']").val() + "&region=au&key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8",
+                async:true,
+                success:function(data){
+                    if(data.status == "OK"){
+                        if(data.results.length > 0){
+                            var lat = data.results[0].geometry.location.lat;
+                            var lng = data.results[0].geometry.location.lng;
+                            $('#lng').val(lng);
+                            $('#lat').val(lat);
+                            addMarker({lat, lng}, map);
+                            map.setCenter({lat, lng}, 14);
+                        }else{
+                            alert("经纬度获取失败，请重新填写地址");
+                        }
+                    }else{
+                        alert("经纬度获取失败，请重新填写地址");
+                    }            
+                }
+            });
+        });     
+        //添加坐标对象
+        function addMarker(latLng, map) {
+            if(markersArray.length>0){
+                    markersArray[0].setMap(null);
+            };
+            markersArray.shift(marker)
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map
+            });
+            markersArray.push(marker);
+        }        
+    }    
+</script>
+
+<script type="text/javascript">
+var fileIds = [];
+var uploader,btn_del;
+$(function(){
+        
+	$list = $("#fileList"),
+	$btn = $("#btn-star"),
+	btn_del = $("#btn-del"),
+	state = "pending";
+
+	uploader = WebUploader.create({
+		auto: true,
+		swf: '__LIB__/webuploader/0.1.5/Uploader.swf',	
+		// 文件接收服务端。
+		server: '<{:U("House/upload", array("model"=>"house", "thumb"=>2, "thumb_width"=>200, "thumb_height"=>200, "thumb_width2"=>750, "thumb_height2"=>750))}>',	
+		// 选择文件的按钮。可选。
+		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		pick: {
+			id:'#filePicker',
+			multiple:true
+		},
+		fileNumLimit:9,
+		threads :1,
+		
+		// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+		resize: false,
+		// 只允许选择图片文件。
+		accept: {
+			title: 'Image',
+			extensions: 'png,jpg,gif',
+		}
+	});
+	
+	uploader.on( 'fileQueued', function( file ) {
+		var $li = $(
+			'<div id="' + file.id + '" class="item">' +
+				'<div class="pic-box"><img></div>'+
+				'<div class="info">' + file.name + '</div>' +
+				'<p class="state">等待上传...</p>'+
+			'</div>'
+		),
+		$img = $li.find('img');
+		$list.append( $li );
+	
+	});
+	// 文件上传过程中创建进度条实时显示。
+	uploader.on( 'uploadProgress', function( file, percentage ) {
+		var $li = $( '#'+file.id ),
+			$percent = $li.find('.progress-box .sr-only');
+		
+	});
+	
+	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+	uploader.on( 'uploadSuccess', function( file ,response) {
+		if($('#images').val().split(",").length-1 == 9){
+			layer.msg("最多上传九张图片",{icon: 5,time:1000});
+			return;
+		}
+		fileIds.push(file.id);
+		$list.html('');
+		
+		if(response.code == 1){
+			//$("#filename").val(response.filename);
+			layer.msg(response.info,{icon: 6,time:1000}, function(){
+				//window.location.reload();
+				$('#images').val($('#images').val() + ',' + response.filename);
+				$('#imgDiv').html($('#imgDiv').html() + '<div style="float:left;width:33%;"><img src="'+response.filename+'" style="width: 82%;margin-bottom: 5px;" /><br><button class="btn btn-default radius ml-10" onclick="removeFile(this)">删除</button></div>');
+			});
+			for(var i in fileIds){
+				uploader.removeFile( fileIds[i],true );
+				$("#"+fileIds[i]).remove();
+				fileIds.pop();
+			}
+		}
+		else {
+			layer.msg(response.info,{icon: 5,time:1000});
+		}
+	});
+	
+	// 文件上传失败，显示上传出错。
+	uploader.on( 'uploadError', function( file ) {
+		$( '#'+file.id ).addClass('upload-state-error').find(".state").text("上传出错");
+	});
+	
+	// 完成上传完了，成功或者失败，先删除进度条。
+	uploader.on( 'uploadComplete', function( file ) {
+		$( '#'+file.id ).find('.progress-box').fadeOut();
+	});
+	uploader.on('all', function (type) {
+        if (type === 'startUpload') {
+            state = 'uploading';
+        } else if (type === 'stopUpload') {
+            state = 'paused';
+        } else if (type === 'uploadFinished') {
+            state = 'done';
+        }
+		
+    });
+
+});
+function removeFile(obj){
+	$(obj).parent().remove();
+	$('#images').val('');
+	$('#imgDiv img').each(function(i){
+		$('#images').val($('#images').val() + "," + $(this).attr('src'));
+	});
+}
+
+</script>
+<script type="text/javascript">
+$(function(){
+        $('#mem_id').on('blur', function(){
+		if ($(this).val() == ''){
+			return;
+		}
+		var index = layer.load(1, {
+	  		  shade: [0.1,'#b3b3b3'] //0.1透明度的白色背景
+	  		});
+		$.ajax({
+			url:'<{:U("Member/ajax_get_member_info")}>',
+			type:'post',
+			dataType:'json',
+			data:{'id':$('#mem_id').val()},
+			success:function(data){
+				layer.close(index);
+				if(data.status == 'y'){
+					if (data.info){
+						$('.nick_name_td').html(data.info.nick_name);
+					}
+					else {
+						$('.nick_name_td').html('未查找到会员');
+					}
+				}else{
+					layer.msg('连接服务器超时',{icon:2,time:1000});
+				}
+			}
+		});	
+	});
+	
+	$("#form-admin-add").Validform({
+		tiptype:1,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.status == 'y'){
+				setTimeout(function(){
+					parent.window.location = '<{:U("House/index")}>';	
+				},1000);
+			}else{
+				layer.msg(data.info,{icon:2,time:1000});
+			}
+			return false;
+		}
+	});
+        
+        var districtSelect = $("select[name='house_resource_districts_id']");
+        var citySelect = $("select[name='house_resource_city_id']");
+        var default_city_id = citySelect.val();
+        var district_id_json = '<{$districts_id_json}>';
+        var dataObj=eval("("+district_id_json+")");
+        var optionStr = '';
+        $.each(dataObj, function(index, item){
+            if(default_city_id == item.city_id){
+                optionStr = optionStr + '<option value="' + item.id +'">' + item.name + '</option>';
+            }
+        });
+        if(!optionStr){
+            optionStr = "<option value=''>暂无区域可选</option>";
+        }
+        districtSelect.append(optionStr);
+        citySelect.change(function(){
+            var value = $(this).val();
+            districtSelect.empty();
+            var optionStr = '';
+            $.each(dataObj, function(index, item){
+                if(value == item.city_id){
+                    optionStr = optionStr + '<option value="' + item.id +'">' + item.name + '</option>';
+                }
+            });
+            if(!optionStr){
+                optionStr = "<option value=''>暂无区域可选</option>";
+            }
+            districtSelect.append(optionStr);
+        });
+                        
+        $("select[name='house_rent_type']").change(function(){
+            var value = $(this).val();
+            if(1 == value){
+                //合租
+                $('#gender').show();
+                $('#floor').hide();
+                $('#part1').show();
+                $('#part2').hide();
+                //$("input[name='tenant_gender']").eq(0).prop('checked', 'true');
+                $("select[name='house_room_type']").val(1);
+                $("input[name='is_parlor_resident']").eq(0).prop('checked', 'true');
+                $("input[name='have_separate_bathroom']").eq(0).prop('checked', 'true');
+                $("input[name='parking_space_count']").val('');
+                $("input[name='bathroom_count']").val('');
+                $("input[name='room_count']").val('');
+            }else{
+                //整租
+                $('#gender').hide();
+                $('#floor').show();
+                $('#part1').hide();
+                $('#part2').show();
+                //$("input[name='tenant_gender']").val(1);
+                $("select[name='house_room_type']").val(1);
+                $("input[name='is_parlor_resident']").val(0);
+                $("input[name='have_separate_bathroom']").val(0);
+            }
+        });
+
+});
+</script>
+</body>
+</html>

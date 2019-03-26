@@ -1,0 +1,47 @@
+<include file="Public/header" />
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-add">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>输入新密码：</label>
+			<div class="formControls col-5">
+				<input type="password" name="password" placeholder="密码" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="密码不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>确认新密码：</label>
+			<div class="formControls col-5">
+				<input type="password" placeholder="确认新密码" autocomplete="off" class="input-text Validform_error" errormsg="您两次输入的新密码不一致！" datatype="*6-20" nullmsg="请再输入一次新密码！" recheck="password" id="password2" name="password2">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$("#form-admin-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.status == 'y'){
+				setTimeout(function(){
+					parent.window.location = '<{:U("Login/loginOut")}>';	
+				},1000);
+			}else{
+				layer.msg(data.info,{icon:2,time:1000});
+			}
+			return false;
+		}
+	});
+});
+</script>
+</body>
+</html>

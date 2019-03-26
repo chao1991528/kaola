@@ -1,0 +1,53 @@
+<include file="Public/header" />
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-add">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>分类名称：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="<{$info.category_name}>" placeholder="请输入分类名称" name="category_name" datatype="*2-50" nullmsg="分类名称不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red"></span>排序：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="<{$info.sort}>" placeholder="请输入排序" name="sort" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input type="hidden" name="id" value="<{$info.id}>" />
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="__LIB__/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript">
+$(function(){
+	
+	$("#form-admin-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		datatype:{
+		},
+		callback:function(data){
+			if(data.status == 'y'){
+				setTimeout(function(){
+					//parent.window.location = '<{:U("DiscountCategory/index")}>';
+					parent.window.location.reload();
+				},1000);
+			}else{
+				layer.msg(data.info,{icon:2,time:1000});
+			}
+			return false;
+		}
+	});
+});
+</script>
+</body>
+</html>

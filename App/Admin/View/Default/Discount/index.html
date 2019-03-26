@@ -1,0 +1,189 @@
+﻿<include file="Public/header" />
+<style>
+.select{width:160px; font-size:12px;}
+.underA{color: #5a98de; text-decoration: underline;}
+</style>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 折扣管理<span class="c-gray en">&gt;</span> 折扣列表 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<div class="pd-20">
+	<form method="get" action="">
+	<div class="text-c"> 
+		<input type="text" class="input-text" style="width:180px" placeholder="输入标题" id="" name="title" value="<?php echo $_GET['title'] ?>">
+		<select class="select select-box" name="category_id" >
+			<option value="0" >选择分类</option>
+			<volist name="category_mapping" id="item">
+			<if condition="$key gt 2">
+			<option value="<{$key}>" <if condition="$_GET['category_id'] eq $key">selected="selected"</if>><{$item}></option>
+			</if>
+			</volist>
+		</select>
+		<select class="select select-box" name="source_id">
+			<option value="0" >选择来源</option>
+			<volist name="source_mapping" id="item">
+			<option value="<{$key}>" <if condition="$_GET['source_id'] eq $key">selected="selected"</if>><{$item}></option>
+			</volist>
+		</select>
+		<input type="checkbox" name="is_recommend" value="1" class="check-box" <if condition="$_GET['is_recommend'] eq 1">checked="checked"</if>> 是否推荐&nbsp;&nbsp;
+		<input type="checkbox" name="is_hot" value="1" class="check-box" <if condition="$_GET['is_hot'] eq 1">checked="checked"</if>> 是否热门
+		<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 查询</button>
+	</div>
+	 </form>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	 <span class="l">
+	 <a href="javascript:;" onclick="admin_add('添加折扣','<{:U(\'Discount/add\')}>','800','600')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe600;</i> 添加折扣</a>
+	 </span> 
+	 <span class="r">共有数据：<strong><{$total}></strong> 条</span> </div>
+	<table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr class="text-c">
+				<th width="40">ID</th>
+				<th width="80">折扣分类</th>
+				<th width="80">折扣来源</th>
+				<th width="140">折扣标题</th>
+				<th width="140">折扣副标题</th>
+				<th width="140">折扣封面</th>
+				<th width="80">折扣内容</th>
+				<th width="80">折扣地址</th>
+				<th width="80">是否启用</th>
+				<th width="80">是否推荐</th>
+				<th width="80">是否热门</th>
+				<th width="80">阅读数</th>
+				<th width="80">创建时间</th>
+				<th width="80">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="item">
+			<tr class="text-c">
+				<td><{$item.id}></td>
+				<td><{$category_mapping[$item['category_id']]}></td>
+				<td><{$source_mapping[$item['source_id']]}></td>
+				<td><{$item.title}></td>
+				<td><{$item.title2}></td>
+				<td><img src="<{$item['picture']}>" width="120" /></td>
+				<td><a href="javascript:;" onclick="showDescription('<{$item.title}>', <{$item.id}>)">点击预览</a></td>
+				<td><a href="<{$item.url}>" target="blank">点击跳转</a></td>
+				<td>
+					<if condition="$item['is_valid'] eq '0'">
+						<span class="label label-default radius">停用</span>
+					<else />
+						<span class="label label-success radius">启用</span>
+					</if>
+				</td>	
+				<td>
+					<if condition="$item['is_recommend'] eq '0'">
+						<span class="label label-default radius">否</span>
+					<else />
+						<span class="label label-success radius">是</span>
+					</if>
+				</td>	
+				<td>
+					<if condition="$item['is_hot'] eq '0'">
+						<span class="label label-default radius">否</span>
+					<else />
+						<span class="label label-success radius">是</span>
+					</if>
+				</td>			
+				<td><{$item.read_count}></td>
+				<td><{$item.add_time|sub_date}></td>
+				<td class="td-manage">
+								
+					<if condition="$item['is_valid'] eq 1">
+						<a style="text-decoration:none" onClick="admin_valid(this,'<{$item.id}>')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+					<else/>
+						<a style="text-decoration:none" onClick="admin_valid(this,'<{$item.id}>')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a>
+					</if>
+					
+					 <a title="编辑" href="javascript:;" onclick="admin_edit('编辑','<{$item.id}>','800','600')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+					 
+				   <a title="删除" href="javascript:;" onclick="admin_del(this,'<{$item.id}>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+						 
+				</td>
+			</tr>
+			</volist>
+			
+			
+		</tbody>
+	</table>
+	
+	 <div id="pageNav" class="pageNav"><{$page}></div>
+	
+</div>
+
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.admin.js"></script> 
+<script type="text/javascript">
+
+function showDescription(title, id){
+	
+	layer_show('【' + title + '】折扣内容','<{:U("Discount/content")}>?id='+id,'500','600');
+}
+
+function admin_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-删除*/
+function admin_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		$.ajax({
+			url:'<{:U("Discount/ajax_del")}>',
+			type:'post',
+			dataType:'json',
+			data:{'id':id},
+			success:function(data){
+				if(data.status == 'y'){
+					layer.msg(data.info,{icon: 1,time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg(data.info,{icon: 5,time:1000});
+				}
+			},
+			error:function(error){
+				
+			}
+		});	
+	
+	});
+}
+/*管理员-编辑*/
+function admin_edit(title,id,w,h){
+	var url = '<{:U("Discount/edit")}>?id='+id;
+	layer_show(title,url,w,h);
+}
+/*管理员-停用*/
+function admin_valid(obj,id){
+	var valid = 0;
+	var tip = '确认要停用吗？';
+	if ($(obj).attr('title') == '启用'){
+		valid = 1;
+		tip = '确认要启用吗？';
+	}
+	layer.confirm(tip, function(index){
+		$.ajax({
+			url:'<{:U("Discount/ajax_changeValid")}>',
+			type:'post',
+			dataType:'json',
+			data:{'id':id,'valid':valid},
+			success:function(data){
+				if(data.status == 'y'){
+					layer.msg('操作成功!',{icon: 6,time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg(data.info,{icon: 5,time:1000});
+				}
+			},
+			error:function(error){
+				
+			}
+		});		
+	});
+}
+
+
+</script>
+</body>
+</html>

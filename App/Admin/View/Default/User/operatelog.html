@@ -1,0 +1,27 @@
+<include file="Public/header" />
+<div class="pd-20">
+	<table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr class="text-c">
+				<th width="40">ID</th>
+				<th width="100">操作账号</th>
+				<th width="100">操作时间</th>
+				<th width="200">操作内容</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="item">
+			<tr class="text-c">
+				<td><{$item.id}></td>
+				<td><{$user_mapping[$item['operate_uid']]}></td>
+				<td><{$item.operate_time}></td>
+				<td><{$item.content}></td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	
+</div>
+
+</body>
+</html>

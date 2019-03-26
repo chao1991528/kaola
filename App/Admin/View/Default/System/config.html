@@ -1,0 +1,54 @@
+﻿<include file="Public/header" />
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 系统参数设置 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-add">
+		<div id="tab-system" class="HuiTab">
+			<div class="tabBar cl"><span>新闻设置</span><span>其他设置</span></div>
+			<div class="tabCon">
+				<div class="row cl">
+					<label class="form-label col-2"><span class="c-red">*</span>新闻Banner数量：</label>
+					<div class="formControls col-10">
+						<input type="text" name="news_banner_count" placeholder="控制在1-6以内" value="<{$info.news_banner_count}>" class="input-text" style="width:150px;">
+						<span class="c-999">控制在1-6以内</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="tabCon">
+				
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-10 col-offset-2">
+				<button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+				
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/js/H-ui.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/js/H-ui.admin.js"></script> 
+<script type="text/javascript">
+$(function(){
+	
+	$.Huitab("#tab-system .tabBar span","#tab-system .tabCon","current","click","0");
+	
+	$("#form-admin-add").Validform({
+		tipType:1,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.status == 'y'){
+				layer.msg('操作成功!',{icon: 6,time:1000},function(){
+					window.location.reload();
+				});
+			}else{
+				layer.msg(data.info,{icon:2,time:1000});
+			}
+			return false;
+		}
+	});
+});
+</script>
+</body>
+</html>

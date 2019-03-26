@@ -1,0 +1,83 @@
+<include file="Public/header" />
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-add">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>登录账号：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="请输入登录账号" id="user-name" name="user_number" datatype="*2-16" ajaxurl="<{:U('User/ajax_checkUserName',array('userid'=>0))}>" nullmsg="登录账号不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>初始密码：</label>
+			<div class="formControls col-5">
+				<input type="password" name="password" placeholder="请输入密码" autocomplete="off" value="" class="input-text" datatype="*6-20" nullmsg="密码不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>确认密码：</label>
+			<div class="formControls col-5">
+				<input type="password" placeholder="请确认新密码" autocomplete="off" class="input-text Validform_error" errormsg="您两次输入的新密码不一致！" datatype="*6-20" nullmsg="请再输入一次新密码！" recheck="password" id="password2" name="password2">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>角色：</label>
+			<div class="formControls col-5"> 
+				<select class="select" name="role_id">
+					<volist name="role_list" id="item" >
+					<if condition="$key gt 1">
+					<option value="<{$key}>" ><{$item}></option>
+					</if>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red"></span>姓名：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="请输入姓名" name="user_manager">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">手机号：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="请输入手机号" name="user_cellphone" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="__LIB__/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__LIB__/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$("#form-admin-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.status == 'y'){
+				setTimeout(function(){
+					parent.window.location = '<{:U("User/index")}>';	
+				},1000);
+			}else{
+				layer.msg(data.info,{icon:2,time:1000});
+			}
+			return false;
+		}
+	});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<include file="Public/header" />
+<style type="text/css">
+    .table .title{background-color: #f5fafe;font-size: 12px;vertical-align: middle;}
+    .input-text,.select {font-size: 12px;}
+
+</style>
+<div class="pd-10">
+    <table class="table table-border table-bordered table-bg" style="width: 100%; margin: auto;">
+        <thead>
+            <tr class="text-c">
+                <th scope="col" colspan="6" style="font-size: 14px;">审核房屋</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-c">
+                <td width="120" class="title">标题：</td>
+                <td colspan="5"><{$info.title}></td>
+            </tr>
+            <tr class="text-c">
+                <td width="120" class="title">副标题：</td>
+                <td colspan="5"><{$info.sub_title}></td>
+            </tr>
+            <tr class="text-c">
+                <td width="120" class="title">房源类型：</td>
+                <td width="130"><{$house_resource_type_list[$info['house_resource_type']]}></td>
+                <td width="120" class="title">出租类型：</td>
+                <td width="130">
+                    <{$house_rent_type_list[$info['house_rent_type']]}>
+                </td>
+                <td class="title">是否允许宠物：</td>
+                <td>
+                    <{$can_keep_pat_list[$info['can_keep_pat']]}>
+                </td>
+            </tr>
+            <tr class="text-c" id="part1" <if condition="$info['house_rent_type'] eq 2">style="display:none"</if>>
+                <td width="120" class="title">房间类型：</td>
+                <td width="130">
+                    <{$house_room_type_list[$info['house_room_type']]}>
+                </td>
+                <td class="title">是否有人居住：</td>
+                <td>
+                    <{$is_parlor_resident_list[$info['is_parlor_resident']]}>
+                </td>
+
+                <td class="title">是否有独立卫浴：</td>
+                <td>
+                    <{$have_separate_bathroom_list[$info['have_separate_bathroom']]}>
+                </td>
+            </tr>
+            <tr class="text-c" id="gender" <if condition="$info['house_rent_type'] eq 2">style="display:none"</if>>
+                <td width="120" class="title">租客性别：</td>
+                <td width="130" colspan="5">
+                    <{$tenant_gender[$info['tenant_gender']]}>
+                </td>
+            </tr>
+            <tr class="text-c">
+                <td width="120" class="title">优惠折扣：</td>
+                <td width="130" colspan="5">
+                    <empty name="info.coupon_title">
+                        无
+                    <else /> 
+                        <{$info.coupon_title}>
+                    </empty> 
+                </td>
+            </tr>
+            <tr class="text-c">
+                <td width="120" class="title">房屋标签：</td>
+                <td width="130" colspan="5">
+                    <volist name="tags" id="item">
+                        <input disabled="disabled" type="checkbox" name="house_tag[]" value="<{$item.id}>" class="check-box" <in name='item.id' value="$info['house_tag']">checked="checked"</in>> <{$item.tag_name}>&nbsp;&nbsp;
+                    </volist>
+                </td>
+            </tr>
+            <tr class="text-c">
+                <td width="120" class="title">房屋配置：</td>
+                <td width="130" colspan="5">
+                    <volist name="configs" id="item">
+                        <input disabled="disabled" type="checkbox" name="house_config[]" value="<{$item.id}>" class="check-box" <in name='item.id' value="$info['house_config']">checked="checked"</in>> <{$item.config_name}>&nbsp;&nbsp;
+                    </volist>
+                </td>
+            </tr>
+            <tr class="text-c">
+                <td class="title">审核操作：</td>
+                <td colspan="5">
+                    <button type="botton" class="btn btn-success" onclick="changeStatus(<{$info.id}>,1)" style="margin-right:40px;"> 审核通过</button>
+                    <button type="botton" class="btn btn-warning" onclick="changeStatus(<{$info.id}>,2)" style="margin-right:40px;"> 审核不通过</button>
+                    <button type="botton" class="btn btn-secondary" onclick="changeStatus(<{$info.id}>,3)" style="margin-right:40px;"> 已出租</button>
+                    <button type="botton" class="btn btn-primary" onclick="changeStatus(<{$info.id}>,4)" style="margin-right:40px;" > 关闭</button>
+                    <button type="botton" class="btn btn-danger" onclick="admin_del(this,'<{$info.id}>')" > 删除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+
+function changeStatus(id, status){
+    layer.confirm('确认要修改状态吗？',function(index){
+        var index = layer.load(1, {
+            shade: [0.1,'#b3b3b3'] //0.1透明度的白色背景
+        });
+        //此处请求后台程序，下方是成功后的前台处理……
+        $.ajax({
+            url:'<{:U("House/ajax_change_status")}>',
+            type:'post',
+            dataType:'json',
+            data:{'id':id, 'status':status},
+            success:function(data){
+                    layer.close(index);
+                    if(data.status == 'y'){
+                            layer.msg(data.info,{icon: 1,time:1000},function(){
+                                    parent.window.location.reload();
+                            });
+                    }else{
+                            layer.msg(data.info,{icon: 5,time:1000});
+                    }
+            },
+            error:function(error){
+
+            }
+        });	
+
+    });
+}
+/*管理员-删除*/
+function admin_del(obj,id){
+    layer.confirm('确认要删除吗？',function(index){
+            //此处请求后台程序，下方是成功后的前台处理……
+            $.ajax({
+                    url:'<{:U("House/ajax_del")}>',
+                    type:'post',
+                    dataType:'json',
+                    data:{'id':id},
+                    success:function(data){
+                            if(data.status == 'y'){
+                                    layer.msg(data.info,{icon: 1,time:1000},function(){
+                                            parent.window.location.reload();
+                                    });
+                            }else{
+                                    layer.msg(data.info,{icon: 5,time:1000});
+                            }
+                    },
+                    error:function(error){
+
+                    }
+            });	
+
+    });
+}
+</script>
+</body>
+</html>

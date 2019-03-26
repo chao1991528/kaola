@@ -1,0 +1,183 @@
+<include file="Public/header" />
+<style type="text/css">
+.table .title{background-color: #f5fafe;font-size: 12px;vertical-align: middle;}
+.input-text,.select {font-size: 12px;}
+
+</style>
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" enctype="multipart/form-data"  id="form-admin-add" >
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>来源名称：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="请输入来源名称" name="source_name" datatype="*2-50" nullmsg="名称不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red"></span>来源头像：</label>
+			<div class="formControls col-5">
+				<div class="uploader-thum-container" style="">
+						<div id="imgDiv" style="float: left; padding: 5px 10px 10px 5px;"></div>
+						<br/>
+						<div id="fileList" class="uploader-list"></div>
+						<div id="filePicker">选择图片</div>
+						<button id="btn-del" class="btn btn-default btn-uploadstar radius ml-10" style="display:none;height: 30px; padding-top: 3px;" onclick="return removeFile();">删除</button>
+						
+						<button id="btn-star" class="btn btn-default btn-uploadstar radius ml-10" style="display:none;">开始上传</button>
+						
+					</div>
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input type="hidden" id="source_image" name="source_image" value="" />
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<link href="__LIB__/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__LIB__/webuploader/0.1.5/webuploader.min.js"></script> 
+
+<script type="text/javascript">
+
+var fileIds = [];
+var uploader,btn_del;
+$(function(){
+	
+	$list = $("#fileList"),
+	$btn = $("#btn-star"),
+	btn_del = $("#btn-del"),
+	state = "pending";
+
+	uploader = WebUploader.create({
+		auto: true,
+		swf: '__LIB__/webuploader/0.1.5/Uploader.swf',	
+		// 文件接收服务端。
+		server: '<{:U("DiscountSource/upload", array("model"=>"discount_source", "thumb"=>1, "thumb_width"=>200, "thumb_height"=>200))}>',	
+		// 选择文件的按钮。可选。
+		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		pick: {
+			id:'#filePicker',
+			multiple:false
+		},
+		fileNumLimit:1,
+		
+		// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+		resize: false,
+		// 只允许选择图片文件。
+		accept: {
+			title: 'Image',
+			extensions: 'png,jpg,gif',
+		}
+	});
+	uploader.on( 'fileQueued', function( file ) {
+		var $li = $(
+			'<div id="' + file.id + '" class="item">' +
+				'<div class="pic-box"><img></div>'+
+				'<div class="info">' + file.name + '</div>' +
+				'<p class="state">等待上传...</p>'+
+			'</div>'
+		),
+		$img = $li.find('img');
+		$list.append( $li );
+	
+	});
+	// 文件上传过程中创建进度条实时显示。
+	uploader.on( 'uploadProgress', function( file, percentage ) {
+		var $li = $( '#'+file.id ),
+			$percent = $li.find('.progress-box .sr-only');
+		// 避免重复创建
+		if ( !$percent.length ) {
+			//$percent = $('<div class="progress-box"><span class="progress-bar radius"><span class="sr-only" style="width:0%"></span></span></div>').appendTo( $li ).find('.sr-only');
+		}
+		//$li.find(".state").text("上传中");
+		//$percent.css( 'width', percentage * 100 + '%' );
+	});
+	
+	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+	uploader.on( 'uploadSuccess', function( file ,response) {		
+		//$( '#'+file.id ).addClass('upload-state-success').find(".state").text('');
+		//btn_del.show();
+		fileIds.push(file.id);
+		removeFile();
+		$list.html('');
+		
+		if(response.code == 1){
+			//$("#filename").val(response.filename);
+			layer.msg(response.info,{icon: 6,time:1000}, function(){
+				//window.location.reload();
+				$('#source_image').val(response.filename);
+				$('#imgDiv').html('<img src="'+response.filename+'" style="width: 100%;" />');
+			});
+		}
+		else {
+			layer.msg(response.info,{icon: 5,time:1000});
+		}
+	});
+	
+	// 文件上传失败，显示上传出错。
+	uploader.on( 'uploadError', function( file ) {
+		$( '#'+file.id ).addClass('upload-state-error').find(".state").text("上传出错");
+	});
+	
+	// 完成上传完了，成功或者失败，先删除进度条。
+	uploader.on( 'uploadComplete', function( file ) {
+		$( '#'+file.id ).find('.progress-box').fadeOut();
+	});
+	uploader.on('all', function (type) {
+        if (type === 'startUpload') {
+            state = 'uploading';
+        } else if (type === 'stopUpload') {
+            state = 'paused';
+        } else if (type === 'uploadFinished') {
+            state = 'done';
+        }
+		
+    });
+
+    $btn.on('click', function () {
+        if (state === 'uploading') {
+            uploader.stop();
+        } else {
+            uploader.upload();
+        }
+    });	
+});
+function removeFile(){
+	if(fileIds.length <= 0) return false;
+	for(var i in fileIds){
+		uploader.removeFile( fileIds[i],true );
+		$("#"+fileIds[i]).remove();
+		//$("#filename").val('');
+		fileIds.pop();
+	}
+	return false;
+}
+
+</script>
+<script type="text/javascript">
+$(function(){
+	
+	$("#form-admin-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.status == 'y'){
+				setTimeout(function(){
+					parent.window.location = '<{:U("DiscountSource/index")}>';	
+				},1000);
+			}else{
+				layer.msg(data.info,{icon:2,time:1000});
+			}
+			return false;
+		}
+	});
+});
+</script>
+</body>
+</html>

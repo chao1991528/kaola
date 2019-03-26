@@ -1,0 +1,143 @@
+﻿<include file="Public/header" />
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 租房管理 <span class="c-gray en">&gt;</span> 房屋优惠折扣 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<div class="pd-20">
+	<form method="get" action="">
+	<div class="text-c"> 
+		<input type="text" class="input-text" style="width:200px" placeholder="输入名称" id="" name="title" value="<?php echo isset($_GET['title']) ? $_GET['title'] : '' ?>">
+		
+		<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 查询</button>
+	</div>
+	 </form>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	 <span class="l">
+	 <a href="javascript:;" onclick="admin_add('添加优惠','<{:U(\'HouseCoupon/add\')}>','800','350')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加优惠</a></span> 
+	 <span class="r">共有数据：<strong><{$total}></strong> 条</span> </div>
+	<table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr class="text-c">
+				<th width="40">ID</th>
+				<th width="120">优惠图标</th>
+				<th width="120">优惠名称</th>
+				<th width="80">状态</th>
+				<th width="80">创建时间</th>
+				<th width="80">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="item">
+			<tr class="text-c">
+				<td><{$item.id}></td>
+				<td><img src="<{$item['icon']}>" width="28" /></td>
+				<td><{$item.title}></td>
+				<td>
+					<if condition="$item['is_valid'] eq '0'">
+						<span class="label label-default radius">停用</span>
+					<else />
+						<span class="label label-success radius">启用</span>
+					</if>
+				</td>	
+				<td><{$item.add_time|sub_date_all}></td>		
+				<td class="td-manage">
+					<if condition="$item['is_valid'] eq 1 and ($item['id'] neq 1 or $item['id'] neq 2)">
+						<a style="text-decoration:none" onClick="admin_valid(this,'<{$item.id}>')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+					<else/>
+						<a style="text-decoration:none" onClick="admin_valid(this,'<{$item.id}>')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a>
+					</if>
+					 <a title="编辑" href="javascript:;" onclick="admin_edit('编辑信息','<{$item.id}>','800','350')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+					 <a title="删除" href="javascript:;" onclick="admin_del(this,'<{$item.id}>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					
+				</td>
+			</tr>
+			</volist>
+			
+			
+		</tbody>
+	</table>
+	
+	 <div id="pageNav" class="pageNav"><{$page}></div>
+	
+</div>
+
+<script type="text/javascript" src="__LIB__/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.admin.js"></script> 
+<script type="text/javascript">
+
+/*
+	参数解释：
+	title	标题
+	url		请求的url
+	id		需要操作的数据id
+	w		弹出层宽度（缺省调默认值）
+	h		弹出层高度（缺省调默认值）
+*/
+/*管理员-增加*/
+function admin_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-删除*/
+function admin_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		$.ajax({
+			url:'<{:U("HouseCoupon/ajax_del")}>',
+			type:'post',
+			dataType:'json',
+			data:{'id':id},
+			success:function(data){
+				if(data.status == 'y'){
+					layer.msg(data.info,{icon: 1,time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg(data.info,{icon: 5,time:1000});
+				}
+			},
+			error:function(error){
+				
+			}
+		});	
+	
+	});
+}
+/*管理员-编辑*/
+function admin_edit(title,id,w,h){
+	var url = '<{:U("HouseCoupon/edit")}>?id='+id;
+	layer_show(title,url,w,h);
+}
+
+/*管理员-停用*/
+function admin_valid(obj,id){
+	var valid = 0;
+	var tip = '确认要停用吗？';
+	if ($(obj).attr('title') == '启用'){
+		valid = 1;
+		tip = '确认要启用吗？';
+	}
+	layer.confirm(tip, function(index){
+		$.ajax({
+			url:'<{:U("HouseCoupon/ajax_changeValid")}>',
+			type:'post',
+			dataType:'json',
+			data:{'id':id,'valid':valid},
+			success:function(data){
+				if(data.status == 'y'){
+					layer.msg('操作成功!',{icon: 6,time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg(data.info,{icon: 5,time:1000});
+				}
+			},
+			error:function(error){
+				
+			}
+		});		
+	});
+}
+
+</script>
+</body>
+</html>

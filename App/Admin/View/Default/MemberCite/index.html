@@ -1,0 +1,146 @@
+﻿<include file="Public/header" />
+<style>
+.select{width:160px; font-size:12px;}
+.underA{color: #5a98de; text-decoration: underline;}
+</style>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> APP用户管理<span class="c-gray en">&gt;</span> APP用户爆料 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<div class="pd-20">
+	<form method="get" action="">
+	<div class="text-c"> 
+		<input type="text" class="input-text" style="width:180px" placeholder="输入标题" id="" name="title" value="<?php echo $_GET['title'] ?>">
+		
+		<select class="select select-box" name="status">
+			<option value="-1" >选择处理状态</option>
+			<option value="0" <if condition="isset($_GET['status']) && $_GET['status'] eq 0">selected="selected"</if>>未处理</option>
+			<option value="1" <if condition="$_GET['status'] eq 1">selected="selected"</if>>已处理</option>
+			
+		</select>
+		<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 查询</button>
+	</div>
+	 </form>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	 <span class="l">
+	 
+	 </span> 
+	 <span class="r">共有数据：<strong><{$total}></strong> 条</span> </div>
+	<table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr class="text-c">
+				<th width="40">ID</th>
+				<th width="80">APP用户头像</th>
+				<th width="80">APP用户昵称</th>
+				<th width="80">爆料标题</th>
+				<th width="80">爆料内容</th>
+				<th width="80">爆料附件</th>
+				<th width="80">处理状态</th>
+				<th width="80">爆料时间</th>
+				<th width="80">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="item">
+			<tr class="text-c">
+				<td><{$item.id}></td>
+				<td><img src="<{$item.mem_id|get_member_headpic}>" width="60" /></td>
+				<td><{$item.mem_id|get_member_nickname}></td>
+				<td><{$item.title}></td>
+				<td><{$item.content|nl2br}></td>
+				<td><a href="javascript:;" onclick="showDescription('<{$item.title}>', <{$item.id}>)">点击预览</a></td>
+				
+				<td>
+					<if condition="$item['status'] eq '0'">
+						<span class="label label-default radius">未处理</span>
+					<else />
+						<span class="label label-success radius">已处理</span>
+					</if>
+				</td>	
+				<td><{$item.add_time|sub_date_all}></td>
+				<td class="td-manage">
+								
+					<if condition="$item['status'] eq 0">
+						<a style="text-decoration:none" onClick="admin_valid(this,'<{$item.id}>')" href="javascript:;" title="处理"><i class="Hui-iconfont">&#xe615;</i></a>
+					</if>
+					
+				   <a title="删除" href="javascript:;" onclick="admin_del(this,'<{$item.id}>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					
+				</td>
+			</tr>
+			</volist>
+			
+			
+		</tbody>
+	</table>
+	
+	 <div id="pageNav" class="pageNav"><{$page}></div>
+	
+</div>
+
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.admin.js"></script> 
+<script type="text/javascript">
+function showDescription(title, id){
+	
+	layer_show('【' + title + '】爆料内容','<{:U("MemberCite/content")}>?id='+id,'500','600');
+}
+/*管理员-删除*/
+function admin_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		$.ajax({
+			url:'<{:U("MemberCite/ajax_del")}>',
+			type:'post',
+			dataType:'json',
+			data:{'id':id},
+			success:function(data){
+				if(data.status == 'y'){
+					layer.msg(data.info,{icon: 1,time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg(data.info,{icon: 5,time:1000});
+				}
+			},
+			error:function(error){
+				
+			}
+		});	
+	
+	});
+}
+
+/*管理员-停用*/
+function admin_valid(obj,id){
+	var valid = 0;
+	var tip = '确认要停用吗？';
+	if ($(obj).attr('title') == '处理'){
+		valid = 1;
+		tip = '确认要标记处理吗？';
+	}
+	layer.confirm(tip, function(index){
+		$.ajax({
+			url:'<{:U("MemberCite/ajax_change_status")}>',
+			type:'post',
+			dataType:'json',
+			data:{'id':id,'status':valid},
+			success:function(data){
+				if(data.status == 'y'){
+					layer.msg('操作成功!',{icon: 6,time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg(data.info,{icon: 5,time:1000});
+				}
+			},
+			error:function(error){
+				
+			}
+		});		
+	});
+}
+
+
+</script>
+</body>
+</html>

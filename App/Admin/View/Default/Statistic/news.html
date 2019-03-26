@@ -1,0 +1,87 @@
+﻿<include file="Public/header" />
+<style>
+.select{width:160px; font-size:12px;}
+.underA{color: #5a98de; text-decoration: underline;}
+</style>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 数据统计<span class="c-gray en">&gt;</span> 新闻统计 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+<div class="pd-20">
+	<form method="get" action="">
+	<div class="text-c"> 
+		<input type="text" class="input-text" style="width:180px" placeholder="输入新闻标题" id="" name="news_title" value="<?php echo $_GET['news_title'] ?>">
+		
+		<input type="text" name="start_time" placeholder=" 开始时间" autoComplete="off" onfocus="WdatePicker({maxDate:'%y-%M-%d' })" id="logmin" value="<?php echo $_GET['start_time']?>" class="input-text Wdate" style="width:180px;"> - 
+		<input type="text" name="end_time" placeholder=" 结束时间" autoComplete="off" onfocus="WdatePicker({ maxDate:'%y-%M-%d' })" id="logmax" value="<?php echo $_GET['end_time']?>" class="input-text Wdate" style="width:180px;">
+		<select class="select select-box" name="order">
+			<option value="0" >选择排序字段</option>
+			
+			<option value="read_count" <if condition="$_GET['order'] eq 'read_count'">selected="selected"</if>>APP阅读数</option>
+			<option value="read_count_share" <if condition="$_GET['order'] eq 'read_count_share'">selected="selected"</if>>分享阅读数</option>
+			<option value="like_count" <if condition="$_GET['order'] eq 'like_count'">selected="selected"</if>>点赞数</option>
+			<option value="discuss_count" <if condition="$_GET['order'] eq 'discuss_count'">selected="selected"</if>>评论数</option>
+		</select>
+		<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 查询</button>
+	</div>
+	 </form>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	 <span class="l">
+	 
+	 </span> 
+	 <span class="r">共有数据：<strong><{$total}></strong> 条</span> </div>
+	<table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr class="text-c">
+				<th width="40">ID</th>
+				<th width="60">新闻分类</th>
+				<th width="60">新闻来源</th>
+				<th width="60">新闻布局</th>
+				<th width="60">新闻类型</th>
+				<th width="180">新闻标题</th>
+				<th width="130">新闻图片</th>
+				<th width="60">新闻内容</th>
+				<th width="50">APP阅读数</th>
+				<th width="50">分享阅读数</th>
+				<th width="40">点赞数</th>
+				<th width="40">评论数</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="item">
+			<tr class="text-c">
+				<td><{$item.id}></td>
+				<td><{$category_mapping[$item['category_id']]}></td>
+				<td><{$source_mapping[$item['source_id']]}></td>
+				<td><{$layout_mapping[$item['layout_id']]}></td>
+				<td><{$type_mapping[$item['type_id']]}></td>
+				<td><{$item.news_title}></td>
+				<td><img src="<{$item['news_picture']|sub_picture}>" width="120" /></td>
+				<td><a href="javascript:;" onclick="showDescription('<{$item.news_title}>', <{$item.id}>)">点击预览</a></td>
+						
+				<td><{$item.read_count}></td>
+				<td><{$item.read_count_share}></td>
+				<td><{$item.like_count}></td>
+				<td><{$item.discuss_count}></td>
+			</tr>
+			</volist>
+			
+			
+		</tbody>
+	</table>
+	
+	 <div id="pageNav" class="pageNav"><{$page}></div>
+	
+</div>
+<script type="text/javascript" src="__LIB__/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.js"></script> 
+<script type="text/javascript" src="__JS__/H-ui.admin.js"></script> 
+<script type="text/javascript">
+
+function showDescription(title, id){
+	
+	layer_show('【' + title + '】新闻内容','<{:U("News/content")}>?id='+id,'500','600');
+}
+
+</script>
+</body>
+</html>

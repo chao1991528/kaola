@@ -1,0 +1,92 @@
+#index .open-app {
+	position: relative;
+	text-align: left;
+  padding: 14px 0;
+}
+.none {
+	display: none;
+}
+#index video {
+	width:100%;
+}
+#index img {
+	width:100%;
+}
+#index .back {
+    width: 9.5px;
+    float: left;
+    top: 19px;
+    left: 22px;
+    position: absolute;
+}
+#index .more {
+    width: 20px;
+    position: absolute;
+    right: 25px;
+    top: 23px;
+}
+#index .title-container {
+	text-align: center;
+}
+#index .open-app .btn {
+    position: absolute;
+    right: 25px;
+    top: 30px;
+}
+#index .article {
+	margin-top: 20px;
+	padding: 0 25px;
+}
+#index .article .title {
+	font-weight: bold;
+    text-align: left;
+}
+#index .article .user-info {
+	position: relative;
+	text-align: left;
+	margin-top: 25px;
+}
+#index .article .user-logo {
+    width: 40px;
+    float: left;
+}
+#index .article .info-container {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+#index .article .info-container .user-name{
+	font-size: 14px;
+	display: block;
+    line-height: 20px;
+}
+#index .article .info-container .publish-time{
+	color: #999999;
+	display: block;
+    line-height: 17px;
+}
+#index .article .btn {
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    width: 64px;
+}
+#index .content {
+    width: 100%;
+    overflow: hidden;
+}
+#index .disclaimer {
+  text-align: left;
+  margin-top: 20px;
+}
+#index .disclaimer span{
+ font-family: PingFangSC-Regular;
+ font-size: 14px;
+ color: #999999;
+ line-height: 24px;
+ text-align: left;
+}
+#index .zan img {
+  width: 60px;
+  margin-top: 30px;
+}
