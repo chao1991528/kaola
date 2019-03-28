@@ -36,7 +36,7 @@ class LoginController extends Controller {
     		$username = trim($username);
     		$password = trim($password);
     		$Verify =   new \Think\Verify($this->_verify_config);
-    		if(!$Verify->check($code) && !$_SESSION['isMobile']){
+    		if(!$Verify->check($code)){
     			$_return_data['status'] = -2;
     			$_return_data['info'] = '验证码错误';
     			$this->ajaxReturn($_return_data,'JSON');
