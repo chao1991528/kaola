@@ -64,7 +64,7 @@ class HouseController extends BaseController {
         }
                 
     	$count = D('Houses')->where($where)->count();
-    	 
+ 	 
     	$Page= new \Think\Page($count,20);// 实例化分页类 传入总记录数和每页显示的记录数(25)
     	$show = $Page->show();// 分页显示输出
     	$list = D('Houses')->where($where)->order('id desc')->limit($Page->firstRow.','.$Page->listRows)->select();
@@ -274,8 +274,8 @@ class HouseController extends BaseController {
                     $data['can_reside_time'] = strtotime($data['can_reside_time']);
                 }
                 if(!empty($data['images'])){
-                    $data['image_thumbs_200'] = str_replace('.', '_thumb_200.' ,$data['images']);
-                    $data['image_thumbs_750'] = str_replace('.', '_thumb_750.' ,$data['images']);
+//                    $data['image_thumbs_200'] = str_replace('.', '_thumb_200.' ,$data['images']);
+//                    $data['image_thumbs_750'] = str_replace('.', '_thumb_750.' ,$data['images']);
                 } else {
                     $_return_data['info'] = '房屋图片必须上传!';
                     echo json_encode($_return_data);
@@ -304,6 +304,16 @@ class HouseController extends BaseController {
     
     	$info = M('Houses')->where(array('id' => $id))->find();
         if($info){
+            $house_config_new = explode(',', $info['house_config_new']);
+            $configs = M('House_config')->where(array('is_valid' => 1, 'delete_time' => 0))->field('id,config_name')->select();
+            $info['house_config'] = '';
+            foreach ($house_config_new as $v) {
+                foreach ($configs as $v2) {
+                    if($v2['config_name'] == $v){
+                        $info['house_config'] .= $v2['id'] . ',';
+                    }
+                }
+            }
             $info['house_tag'] = explode(',', trim($info['house_tag'], ','));
             $info['house_config'] = explode(',', trim($info['house_config'], ','));
             $info['images_list'] = $info['images'] ? explode(',', trim($info['images'])) : array();
@@ -348,24 +358,17 @@ class HouseController extends BaseController {
         exit;
     }
     
-    public function verify(){
-    	$id = I('id');
-    	if(empty($id)){
-    		$this->error('参数错误!',U('Video/index'));
-    		exit;
-    	}
-    
-        $field = 'h.id,h.title,sub_title,house_resource_type,house_rent_type,house_room_type,is_parlor_resident,can_keep_pat,have_separate_bathroom,tenant_gender,c.title as coupon_title,house_config,house_tag';
-    	$info = M('Houses')->alias('h')
-                           ->join('__HOUSE_COUPON__ c ON h.coupon_id = c.id', 'LEFT')
-                           ->where(array('h.id' => $id))
-                           ->field($field)
-                           ->find();
-        $this->assign('info', $info);
-        $tags = M('House_tag')->where(array('is_valid' => 1, 'delete_time' => 0))->field('id,tag_name')->select();
-        $configs = M('House_config')->where(array('is_valid' => 1, 'delete_time' => 0))->field('id,config_name')->select();
-        $this->assign('configs', $configs);
-        $this->assign('tags', $tags);
-        $this->display();
+    public function uploadToProduct(){
+        $data = array();
+    	$data['id'] = I('id');
+    	$data['is_delete'] = 1;
+    	$data['delete_time'] = time();
+    	$insertData = D('Houses')->where("id = {$data['id']}")->field('email_img,house_config_new,id,mem_id', true)->select();
+        $Houser = M('houses','kl_','mysql://root:root@localhost/kaola_news2#utf8');
+        $Houser->add($insertData[0]);   	
+    	$_return_data = array('info'=>'操作成功','status'=>'y');
+    	
+    	echo json_encode($_return_data);
+    	exit;
     }
 }

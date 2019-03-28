@@ -98,6 +98,7 @@
 				<td><{$item.add_time|sub_date_all}></td>
 				<td><{$item.check_time|sub_date_all}></td>
 				<td class="td-manage">
+                                    <a title="上传" href="javascript:;" onclick="uploadToProduct('上传','<{$item.id}>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe627;</i></a>
                                     <a title="编辑" href="javascript:;" onclick="admin_edit('编辑信息','<{$item.id}>','800','600')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
 				    <a title="删除" href="javascript:;" onclick="admin_del(this,'<{$item.id}>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 				</td>
@@ -190,9 +191,29 @@ function admin_edit(title,id,w,h){
 	layer_show(title,url,w,h);
 }
 
-function verify(title,id,w,h){
-	var url = '<{:U("House/verify")}>?id='+id;
-	layer_show(title,url,w,h);
+function uploadToProduct(obj,id){
+	layer.confirm('确认要上传吗？',function(index){
+            //此处请求后台程序，下方是成功后的前台处理……
+            $.ajax({
+                    url:'<{:U("House/uploadToProduct")}>',
+                    type:'post',
+                    dataType:'json',
+                    data:{'id':id},
+                    success:function(data){
+                            if(data.status == 'y'){
+                                    layer.msg(data.info,{icon: 1,time:1000},function(){
+                                            window.location.reload();
+                                    });
+                            }else{
+                                    layer.msg(data.info,{icon: 5,time:1000});
+                            }
+                    },
+                    error:function(error){
+
+                    }
+            });	
+
+    });
 }
 
 </script>
