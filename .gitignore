@@ -1,0 +1,5 @@
+.env
+runtime/
+public/uploads/
+nbproject/
+*.log
