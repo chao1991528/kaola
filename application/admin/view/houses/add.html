@@ -1,0 +1,300 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_sn')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_sn" data-rule="required" class="form-control" name="row[house_sn]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mem_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mem_id" data-rule="required" data-source="mem/index" class="form-control selectpage" name="row[mem_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Sub_title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sub_title" data-rule="required" class="form-control" name="row[sub_title]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-content" data-rule="required" class="form-control" name="row[content]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mobile')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mobile" data-rule="required" class="form-control" name="row[mobile]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Contact_person')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-contact_person" data-rule="required" class="form-control" name="row[contact_person]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Weixin_no')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weixin_no" data-rule="required" class="form-control" name="row[weixin_no]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Email')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-email" data-rule="required" class="form-control" name="row[email]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_resource_type" data-rule="required" class="form-control" name="row[house_resource_type]" type="number" value="1">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_rent_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_rent_type" data-rule="required" class="form-control" name="row[house_rent_type]" type="number" value="1">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_room_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_room_type" data-rule="required" class="form-control" name="row[house_room_type]" type="number" value="1">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Is_parlor_resident')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-is_parlor_resident" data-rule="required" class="form-control" name="row[is_parlor_resident]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Can_keep_pat')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-can_keep_pat" data-rule="required" class="form-control" name="row[can_keep_pat]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Have_separate_bathroom')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-have_separate_bathroom" data-rule="required" class="form-control" name="row[have_separate_bathroom]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Tenant_gender')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-tenant_gender" data-rule="required" class="form-control" name="row[tenant_gender]" type="number" value="1">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_city_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_resource_city_id" data-rule="required" data-source="house/resource/city/index" class="form-control selectpage" name="row[house_resource_city_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_districts_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_resource_districts_id" data-rule="required" data-source="house/resource/districts/index" class="form-control selectpage" name="row[house_resource_districts_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_resource_address" data-rule="required" class="form-control" name="row[house_resource_address]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_longitude')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_resource_longitude" data-rule="required" class="form-control" step="0.00000001" name="row[house_resource_longitude]" type="number" value="0.00000000">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_latitude')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_resource_latitude" data-rule="required" class="form-control" step="0.00000001" name="row[house_resource_latitude]" type="number" value="0.00000000">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_type_id" data-rule="required" data-source="house/type/index" class="form-control selectpage" name="row[house_type_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Room_count')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-room_count" data-rule="required" class="form-control" name="row[room_count]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Bathroom_count')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-bathroom_count" data-rule="required" class="form-control" name="row[bathroom_count]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Parking_space_count')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-parking_space_count" data-rule="required" class="form-control" name="row[parking_space_count]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Max_floor')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-max_floor" data-rule="required" class="form-control" name="row[max_floor]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Floor')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-floor" data-rule="required" class="form-control" name="row[floor]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Min_lease_period')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-min_lease_period" data-rule="required" class="form-control" name="row[min_lease_period]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Rent_amount')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-rent_amount" data-rule="required" class="form-control" step="0.001" name="row[rent_amount]" type="number" value="0.000">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Coupon_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-coupon_id" data-rule="required" data-source="coupon/index" class="form-control selectpage" name="row[coupon_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-images" data-rule="required" class="form-control" size="50" name="row[images]" type="text" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-images" class="btn btn-danger plupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Image_thumbs_200')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-image_thumbs_200" data-rule="required" class="form-control" name="row[image_thumbs_200]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Image_thumbs_750')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-image_thumbs_750" data-rule="required" class="form-control" name="row[image_thumbs_750]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_tag')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_tag" data-rule="required" class="form-control" name="row[house_tag]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_config')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_config" data-rule="required" class="form-control" name="row[house_config]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Can_reside_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-can_reside_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[can_reside_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Collection_count')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-collection_count" data-rule="required" class="form-control" name="row[collection_count]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Read_count')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-read_count" data-rule="required" class="form-control" name="row[read_count]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-status" data-rule="required" class="form-control" name="row[status]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Is_delete')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-is_delete" data-rule="required" class="form-control" name="row[is_delete]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Check_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-check_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[check_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Add_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-add_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[add_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Rented_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-rented_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[rented_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Update_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-update_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[update_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Delete_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-delete_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[delete_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Email_img')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-email_img" data-rule="required" class="form-control" name="row[email_img]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_config_new')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-house_config_new" class="form-control" name="row[house_config_new]" type="text">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
