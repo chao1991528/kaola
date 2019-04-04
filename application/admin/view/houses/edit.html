@@ -1,8 +1,11 @@
 <form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Mem_id')}:</label>
+        
         <div class="col-xs-12 col-sm-8">
-            <input id="c-mem_id" data-rule="required" data-source="mem/index" class="form-control selectpage" name="row[mem_id]" type="text" value="{$row.mem_id}">
+            <input id="c-mem_id" class="col-xs-4" data-rule="required" name="row[mem_id]" type="text" value="{$row.mem_id}" style="height: 31px;padding: 6px 12px;font-size: 12px;line-height: 1.42857143;color: #555555;background-color: #fff;background-image: none;border: 1px solid #ccc;">
+            <label class="control-label col-xs-3">{:__('Mem_nickname')}:</label>
+            <input id="c-mem_nickname" class="col-xs-5" readonly="readonly" type="text" value="{$row.member.nick_name}" style="height: 31px;padding: 6px 12px;font-size: 12px;line-height: 1.42857143;color: #555555;background-color: #fff;background-image: none;border: 1px solid #ccc;background-color: #eeeeee;opacity: 1;">
         </div>
     </div>
     <div class="form-group">
@@ -18,9 +21,162 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_type')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-content" data-rule="required" class="form-control" name="row[content]" type="text" value="{$row.content}">
+            <select class="selectpicker form-control" name="row[house_resource_type]">
+                {volist name="resourceType" id="vo"}
+                <option value="{$key}" {if condition="$key == $row['house_resource_type']"}selected="selected"{/if}>{$vo}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_rent_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="selectpicker form-control" name="row[house_rent_type]" id="rent_type">
+                {volist name="rentType" id="vo"}
+                <option value="{$key}" {if condition="$key == $row['house_rent_type']"}selected="selected"{/if}>{$vo}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Can_keep_pat')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="selectpicker form-control" name="row[can_keep_pat]">
+                {volist name="canKeepPat" id="vo"}
+                <option value="{$key}" {if condition="$key == $row['can_keep_pat']"}selected="selected"{/if}>{$vo}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    
+    <!--合租 start-->
+    <div id="part1" {if condition="$row.house_rent_type == 2"}style="display:none"{/if}>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('House_room_type')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <select class="selectpicker form-control" name="row[house_room_type]">
+                    {volist name="roomType" id="vo"}
+                    <option value="{$key}" {if condition="$key == $row['house_room_type']"}selected="selected"{/if}>{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Is_parlor_resident')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <select class="selectpicker form-control" name="row[is_parlor_resident]" id="have_person">
+                    {volist name="isParlorResident" id="vo"}
+                    <option value="{$key}" {if condition="$key == $row['is_parlor_resident']"}selected="selected"{/if}>{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Have_separate_bathroom')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <select class="selectpicker form-control" name="row[have_separate_bathroom]" id="have_separate_bathroom">
+                    {volist name="haveSeparateBathroom" id="vo"}
+                    <option value="{$key}" {if condition="$key == $row['have_separate_bathroom']"}selected="selected"{/if}>{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Tenant_gender')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <select class="selectpicker form-control" name="row[tenant_gender]" id="gender">
+                    {volist name="tenantGender" id="vo"}
+                    <option value="{$key}" {if condition="$key == $row['tenant_gender']"}selected="selected"{/if}>{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+    </div>
+    <!--合租 end-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="selectpicker form-control" name="house_type_id">
+                {volist name="houseType" id="vo"}
+                <option value="{$vo.id}" {if condition="$vo.id == $row['house_type_id']"}selected="selected"{/if}>{$vo.type_name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <!--//整租开始-->
+    <div id="part2" {if condition="$row.house_rent_type == 1"}style="display:none"{/if}>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Room_count')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <input id="c-room_count" data-rule="required" class="form-control" name="row[room_count]" type="number" value="{$row.room_count}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Bathroom_count')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <input id="c-bathroom_count" data-rule="required" class="form-control" name="row[bathroom_count]" type="number" value="{$row.bathroom_count}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Parking_space_count')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <input id="c-parking_space_count" data-rule="required" class="form-control" name="row[parking_space_count]" type="number" value="{$row.parking_space_count}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Max_floor')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <input id="c-max_floor" data-rule="required" class="form-control" name="row[max_floor]" type="number" value="{$row.max_floor}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2">{:__('Floor')}:</label>
+            <div class="col-xs-12 col-sm-8">
+                <input id="c-floor" data-rule="required" class="form-control" name="row[floor]" type="number" value="{$row.floor}">
+            </div>
+        </div>
+    </div>    
+    <!--//整租结束-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Min_lease_period')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-min_lease_period" data-rule="required" class="form-control" name="row[min_lease_period]" type="number" value="{$row.min_lease_period}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Rent_amount')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-rent_amount" data-rule="required" class="form-control" step="0.01" name="row[rent_amount]" type="number" value="{$row.rent_amount}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_tag')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {volist name="houseTag" id="vo"}
+            <input type="checkbox" name="row[house_tag][]" value="{$vo.id}" {in name="vo.id" value="$row.house_tag"}checked="checked"{/in} >&nbsp;&nbsp;{$vo.tag_name}&nbsp;&nbsp;
+            {/volist}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('House_config')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {volist name="houseConfig" id="vo"}
+            <input type="checkbox" name="row[house_config][]" value="{$vo.id}" {in name="vo.id" value="$row.house_config"}checked="checked"{/in} >&nbsp;&nbsp;{$vo.config_name}&nbsp;&nbsp;
+            {/volist}       
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Can_reside_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-can_reside_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[can_reside_time]" type="text" value="{$row.can_reside_time|datetime}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Coupon_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-coupon_id" data-rule="required" data-source="coupon/index" data-field="title" data-params='{"is_valid":"1"}' class="form-control selectpage" name="row[coupon_id]" type="text" value="{$row.coupon_id}">
         </div>
     </div>
     <div class="form-group">
@@ -38,139 +194,48 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Weixin_no')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-weixin_no" data-rule="required" class="form-control" name="row[weixin_no]" type="text" value="{$row.weixin_no}">
+            <input id="c-weixin_no" class="form-control" name="row[weixin_no]" type="text" value="{$row.weixin_no}">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Email')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-email" data-rule="required" class="form-control" name="row[email]" type="text" value="{$row.email}">
+        <div class="col-xs-10 col-sm-6">
+            <input id="c-email" class="form-control" name="row[email]" type="text" value="{$row.email}"> 
         </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_type')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_resource_type" data-rule="required" class="form-control" name="row[house_resource_type]" type="number" value="{$row.house_resource_type}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_rent_type')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_rent_type" data-rule="required" class="form-control" name="row[house_rent_type]" type="number" value="{$row.house_rent_type}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_room_type')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_room_type" data-rule="required" class="form-control" name="row[house_room_type]" type="number" value="{$row.house_room_type}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Is_parlor_resident')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-is_parlor_resident" data-rule="required" class="form-control" name="row[is_parlor_resident]" type="number" value="{$row.is_parlor_resident}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Can_keep_pat')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-can_keep_pat" data-rule="required" class="form-control" name="row[can_keep_pat]" type="number" value="{$row.can_keep_pat}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Have_separate_bathroom')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-have_separate_bathroom" data-rule="required" class="form-control" name="row[have_separate_bathroom]" type="number" value="{$row.have_separate_bathroom}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Tenant_gender')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-tenant_gender" data-rule="required" class="form-control" name="row[tenant_gender]" type="number" value="{$row.tenant_gender}">
+        <div class="col-xs-2 col-sm-2">
+            <img src="{$row.email_img}" style="height: 50px;">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_city_id')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-house_resource_city_id" data-rule="required" data-source="house/resource/city/index" class="form-control selectpage" name="row[house_resource_city_id]" type="text" value="{$row.house_resource_city_id}">
+            <select class="selectpicker form-control" name="row[house_resource_city_id]">
+                {volist name="citys" id="vo"}
+                <option value="{$vo.id}" {if condition="$vo.id == $row['house_resource_city_id']"}selected="selected"{/if}>{$vo.name} {$vo.name_zh}</option>
+                {/volist}
+            </select>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_districts_id')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-house_resource_districts_id" data-rule="required" data-source="house/resource/districts/index" class="form-control selectpage" name="row[house_resource_districts_id]" type="text" value="{$row.house_resource_districts_id}">
+            <input id="c-house_resource_districts_id" data-init="{$row.house_resource_districts_id}" data-rule="required" class="form-control" name="row[house_resource_districts_id]" type="text">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_address')}:</label>
-        <div class="col-xs-12 col-sm-8">
+        <div class="col-xs-11 col-sm-7">
             <input id="c-house_resource_address" data-rule="required" class="form-control" name="row[house_resource_address]" type="text" value="{$row.house_resource_address}">
+            <input type="hidden" id="lng" value="{$row.house_resource_longitude}" name="row[house_resource_longitude]">
+            <input type="hidden" id="lat" value="{$row.house_resource_latitude}" name="row[house_resource_latitude]">
+        </div>
+        <div clas="col-xs-1 col-sm-1">
+            <input type="button" value="点击定位" id="locationBtn" style="padding:2px;">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_longitude')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_resource_longitude" data-rule="required" class="form-control" step="0.00000001" name="row[house_resource_longitude]" type="number" value="{$row.house_resource_longitude}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_resource_latitude')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_resource_latitude" data-rule="required" class="form-control" step="0.00000001" name="row[house_resource_latitude]" type="number" value="{$row.house_resource_latitude}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_type_id')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_type_id" data-rule="required" data-source="house/type/index" class="form-control selectpage" name="row[house_type_id]" type="text" value="{$row.house_type_id}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Room_count')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-room_count" data-rule="required" class="form-control" name="row[room_count]" type="number" value="{$row.room_count}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Bathroom_count')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-bathroom_count" data-rule="required" class="form-control" name="row[bathroom_count]" type="number" value="{$row.bathroom_count}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Parking_space_count')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-parking_space_count" data-rule="required" class="form-control" name="row[parking_space_count]" type="number" value="{$row.parking_space_count}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Max_floor')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-max_floor" data-rule="required" class="form-control" name="row[max_floor]" type="number" value="{$row.max_floor}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Floor')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-floor" data-rule="required" class="form-control" name="row[floor]" type="number" value="{$row.floor}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Min_lease_period')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-min_lease_period" data-rule="required" class="form-control" name="row[min_lease_period]" type="number" value="{$row.min_lease_period}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Rent_amount')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-rent_amount" data-rule="required" class="form-control" step="0.001" name="row[rent_amount]" type="number" value="{$row.rent_amount}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Coupon_id')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-coupon_id" data-rule="required" data-source="coupon/index" class="form-control selectpage" name="row[coupon_id]" type="text" value="{$row.coupon_id}">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Choose_location')}:</label>
+        <div class="col-xs-12 col-sm-8" style="height: 200px;" id="googleMap">
         </div>
     </div>
     <div class="form-group">
@@ -188,33 +253,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Image_thumbs_200')}:</label>
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-image_thumbs_200" data-rule="required" class="form-control" name="row[image_thumbs_200]" type="text" value="{$row.image_thumbs_200}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Image_thumbs_750')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-image_thumbs_750" data-rule="required" class="form-control" name="row[image_thumbs_750]" type="text" value="{$row.image_thumbs_750}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_tag')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_tag" data-rule="required" class="form-control" name="row[house_tag]" type="text" value="{$row.house_tag}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_config')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_config" data-rule="required" class="form-control" name="row[house_config]" type="text" value="{$row.house_config}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Can_reside_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-can_reside_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[can_reside_time]" type="text" value="{$row.can_reside_time|datetime}">
+            <textarea class="form-control" id="content" data-rule="required" name="row[content]" rows="5">{$row.content}</textarea>
         </div>
     </div>
     <div class="form-group">
@@ -229,60 +270,6 @@
             <input id="c-read_count" data-rule="required" class="form-control" name="row[read_count]" type="number" value="{$row.read_count}">
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-status" data-rule="required" class="form-control" name="row[status]" type="number" value="{$row.status}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Is_delete')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-is_delete" data-rule="required" class="form-control" name="row[is_delete]" type="number" value="{$row.is_delete}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Check_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-check_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[check_time]" type="text" value="{$row.check_time|datetime}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Add_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-add_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[add_time]" type="text" value="{$row.add_time|datetime}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Rented_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-rented_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[rented_time]" type="text" value="{$row.rented_time|datetime}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Update_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-update_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[update_time]" type="text" value="{$row.update_time|datetime}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Delete_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-delete_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[delete_time]" type="text" value="{$row.delete_time|datetime}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Email_img')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-email_img" data-rule="required" class="form-control" name="row[email_img]" type="text" value="{$row.email_img}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('House_config_new')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-house_config_new" class="form-control" name="row[house_config_new]" type="text" value="{$row.house_config_new}">
-        </div>
-    </div>
     <div class="form-group layer-footer">
         <label class="control-label col-xs-12 col-sm-2"></label>
         <div class="col-xs-12 col-sm-8">
@@ -290,4 +277,70 @@
             <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
         </div>
     </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="selectpicker form-control" name="row[status]">
+                {volist name="status" id="vo"}
+                <option value="{$key}" {if condition="$key == $row['status']"}selected="selected"{/if}>{$vo}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
 </form>
+<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8&callback=initMap" async defer></script>
+<script type="text/javascript">
+    var district_id_json = {$districts_id_json};
+    var district_id = {$row.house_resource_districts_id};
+    function initMap() {
+        var lat = parseFloat("{$row.house_resource_latitude}");
+        var lng = parseFloat("{$row.house_resource_longitude}");
+        var myLatlng = {
+            lat: lat,
+            lng: lng
+        };
+        var marker ;
+        var markersArray = [];
+        var map = new google.maps.Map(document.getElementById('googleMap'), {
+            zoom: 14,
+            center: myLatlng
+        });
+        addMarker(myLatlng, map);
+        $("#locationBtn").click(function(){
+            $.ajax({
+                type:"post",
+                url:"https://maps.googleapis.com/maps/api/geocode/json?address=" + $("#c-house_resource_address").val() + "&region=au&key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8",
+                async:true,
+                success:function(data){
+                    if(data.status == "OK"){
+                        if(data.results.length > 0){
+                            var lat = data.results[0].geometry.location.lat;
+                            var lng = data.results[0].geometry.location.lng;
+                            $('#lng').val(lng);
+                            $('#lat').val(lat);
+                            addMarker({lat, lng}, map);
+                            map.setCenter({lat, lng}, 14);
+                        }else{
+                            alert("经纬度获取失败，请重新填写地址");
+                        }
+                    }else{
+                        alert("经纬度获取失败，请重新填写地址");
+                    }            
+                }
+            });
+        });
+        //添加坐标对象
+        function addMarker(latLng, map) {
+            if(markersArray.length>0){
+                    markersArray[0].setMap(null);
+            };
+            markersArray.shift(marker)
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map
+            });
+            markersArray.push(marker);
+        }
+    }
+</script>    

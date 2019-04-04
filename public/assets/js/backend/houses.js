@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage', 'template'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
         index: function () {
@@ -6,11 +6,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Table.api.init({
                 extend: {
                     index_url: 'houses/index',
-                    add_url: 'houses/add',
+//                    add_url: 'houses/add',
                     edit_url: 'houses/edit',
                     del_url: 'houses/del',
                     multi_url: 'houses/multi',
-                    table: 'houses',
+                    table: 'houses'
                 }
             });
 
@@ -21,58 +21,50 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                search: false,
+                showToggle: false,
+                showExport: false,
                 columns: [
                     [
 //                        {checkbox: true},
-                        {field: 'id', title: __('Id')},
-                        {field: 'house_sn', title: __('House_sn')},
-                        {field: 'member.nick_name', title: __('Mem_nickname')},
+                        {field: 'id', title: __('Id'), operate:false},
+                        {field: 'house_sn', title: __('House_sn'), operate:false},
+                        {field: 'member.nick_name', title: __('Mem_nickname'), operate:false},
                         {field: 'title', title: __('Title')},
-//                        {field: 'sub_title', title: __('Sub_title')},
-//                        {field: 'content', title: __('Content')},
-//                        {field: 'mobile', title: __('Mobile')},
-//                        {field: 'contact_person', title: __('Contact_person')},
-//                        {field: 'weixin_no', title: __('Weixin_no')},
-//                        {field: 'email', title: __('Email')},
-                        {field: 'resource_type_text', title: __('House_resource_type'), searchList: {"1":__('ResourceType 1'),"2":__('ResourceType 2')}},
-                        {field: 'rent_type_text', title: __('House_rent_type'),searchList: {"1":__('RentType 1'),"2":__('RentType 2')}},
-                        {field: 'room_type_text', title: __('House_room_type'), searchList: {"1":__('RoomType 1'),"2":__('RoomType 2'), "3":__('RoomType 3'),"4":__('RoomType 4')}},
-                        {field: 'has_person_text', title: __('Is_parlor_resident')},
-                        {field: 'can_keep_pat_text', title: __('Can_keep_pat')},
-                        {field: 'have_separate_bathroom_text', title: __('Have_separate_bathroom')},
-                        {field: 'tenant_gender_text', title: __('Tenant_gender')},
+                        {field: 'resource_type_text', title: __('House_resource_type'), operate:false},
+                        {field: 'house_resource_type', visible: false, searchList: {"1":__('ResourceType 1'),"2":__('ResourceType 2')}},
+                        {field: 'rent_type_text', title: __('House_rent_type'), operate:false},
+                        {field: 'house_rent_type', visible: false, searchList: {"1":__('RentType 1'),"2":__('RentType 2')}},
+                        {field: 'room_type_text', title: __('House_room_type'), operate:false},
+                        {field: 'house_room_type', visible: false, searchList: {"1":__('RoomType 1'),"2":__('RoomType 2'), "3":__('RoomType 3'),"4":__('RoomType 4')}},
+                        {field: 'has_person_text', title: __('Is_parlor_resident'), operate:false},
+                        {field: 'can_keep_pat_text', title: __('Can_keep_pat'), operate:false},
+                        {field: 'have_separate_bathroom_text', title: __('Have_separate_bathroom'), operate:false},
+                        {field: 'tenant_gender_text', title: __('Tenant_gender'), operate:false},
 //                        {field: 'house_resource_city_id', title: __('House_resource_city_id')},
-                        {field: 'district.name', title: __('districts_name')},
-//                        {field: 'house_resource_address', title: __('House_resource_address')},
-//                        {field: 'house_resource_longitude', title: __('House_resource_longitude'), operate:'BETWEEN'},
-//                        {field: 'house_resource_latitude', title: __('House_resource_latitude'), operate:'BETWEEN'},
-//                        {field: 'house_type_id', title: __('House_type_id')},
-//                        {field: 'room_count', title: __('Room_count')},
-//                        {field: 'bathroom_count', title: __('Bathroom_count')},
-//                        {field: 'parking_space_count', title: __('Parking_space_count')},
-//                        {field: 'max_floor', title: __('Max_floor')},
-//                        {field: 'floor', title: __('Floor')},
-//                        {field: 'min_lease_period', title: __('Min_lease_period')},
-//                        {field: 'rent_amount', title: __('Rent_amount'), operate:'BETWEEN'},
-//                        {field: 'coupon_id', title: __('Coupon_id')},
-//                        {field: 'images', title: __('Images'), formatter: Table.api.formatter.images},
-//                        {field: 'image_thumbs_200', title: __('Image_thumbs_200')},
-//                        {field: 'image_thumbs_750', title: __('Image_thumbs_750')},
-//                        {field: 'house_tag', title: __('House_tag')},
-//                        {field: 'house_config', title: __('House_config')},
-//                        {field: 'can_reside_time', title: __('Can_reside_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-//                        {field: 'collection_count', title: __('Collection_count')},
-                        {field: 'read_count', title: __('Read_count')},
-                        {field: 'status_text', title: __('Status'),searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3'),"4":__('Status 4'),"5":__('Status 5')}},
-//                        {field: 'is_delete', title: __('Is_delete')},
-//                        {field: 'check_time', title: __('Check_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-//                        {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-//                        {field: 'rented_time', title: __('Rented_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-//                        {field: 'update_time', title: __('Update_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-//                        {field: 'delete_time', title: __('Delete_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-//                        {field: 'email_img', title: __('Email_img')},
-//                        {field: 'house_config_new', title: __('House_config_new')},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {field: 'district.name', title: __('districts_name'), operate:false},
+                        {
+                            field: 'house_resource_districts_id', title: __('districts_name'), visible: false, searchList: function (column) {
+                                return Template('city_distirct', {});
+                            }
+                        },
+                        {field: 'read_count', title: __('Read_count'), operate:false},
+                        {field: 'status_text', title: __('Status'),operate:false},
+                        {field: 'status', visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3'),"4":__('Status 4'),"5":__('Status 5')}},
+                        {
+                            field: 'id', title: __('Operate'), operate:false, formatter: function(value, row, index){
+                                if(row.status_text == __('Status 1')){
+                                    var links = '<a href="/admin/houses/uploadToProduct/ids/' + value + '" class="btn btn-xs btn-magic btn-success btn-ajax" data-confirm="确认上传吗？" title="上传" data-table-id="table"> 上传 </a>';
+                                    links += '&nbsp;<a href="/admin/houses/edit/ids/' + value + '" class="btn btn-xs btn-success btn-edit btn-dialog"  title="编辑" data-table-id="table"><i class="fa fa-pencil"></i> </a>';
+                                    links += '&nbsp;<a href="/admin/houses/del/ids/' + value + '" class="btn btn-xs btn-danger btn-ajax" data-confirm="确认删除吗？" title="删除" data-table-id="table"><i class="fa fa-trash"></i></a>';
+                                    return links;
+                                }else{
+                                    var links = '&nbsp;<a href="/admin/houses/edit/ids/' + value + '" class="btn btn-xs btn-success btn-edit btn-dialog"  title="编辑" data-table-id="table"><i class="fa fa-pencil"></i> </a>';
+                                    links += '&nbsp;<a href="/admin/houses/del/ids/' + value + '" class="btn btn-xs btn-danger btn-ajax" data-confirm="确认删除吗？" title="删除" data-table-id="table"><i class="fa fa-trash"></i></a>';
+                                    return links;
+                                }
+                            }
+                        }
                     ]
                 ]
             });
@@ -85,6 +77,66 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         },
         edit: function () {
             Controller.api.bindevent();
+            //会员昵称填充
+            $("#c-mem_id").blur(function(){
+                var self = $(this);
+                $.post('ajax/getMemberName', {id:self.val()}, function(res){
+                    if(res.code === 1){
+                        $("#c-mem_nickname").val(res.data.nick_name);
+                    }
+                });
+            });          
+            //房源区域选中
+            var districtSelect = $("#c-house_resource_districts_id");
+            var citySelect = $("select[name='row[house_resource_city_id]']");
+            var city_id = citySelect.val();
+            var optionStr = '';
+            var arr = [];
+            $.each(district_id_json, function(index, item){
+                if(city_id == item.city_id){
+                    arr.push(item);
+                }
+            });
+            districtSelect.selectPage({
+                showField: 'name',
+                keyField: 'id',
+                data: arr
+            });
+
+            citySelect.change(function(){
+                var changeArr = [];
+                var value = $(this).val();
+                districtSelect.selectPageData([]);                
+                $.each(district_id_json, function(index, item){
+                    if(value == item.city_id){
+                        changeArr.push(item);
+                    }
+                });
+                districtSelect.selectPageData(changeArr);
+            });
+            //整租合租切换
+            $("#rent_type").change(function(){
+                var value = $(this).val();
+                if(1 == value){
+                    //合租
+                    $('#part1').show();
+                    $('#part2').hide();
+                    $("input[name='parking_space_count']").val('');
+                    $("input[name='bathroom_count']").val('');
+                    $("input[name='room_count']").val('');
+                    $("input[name='max_floor']").val(0);
+                    $("input[name='floor']").val(0);
+                }else{
+                    //整租
+                    $('#part1').hide();
+                    $('#part2').show();
+                    $("#gender").val(1);
+                    $("#have_person").val(0);
+                    $("#have_separate_bathroom").val(0);
+                }
+            });
+            
+            
         },
         api: {
             bindevent: function () {

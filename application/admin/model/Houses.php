@@ -20,11 +20,11 @@ class Houses extends Model
         'check_time_text',
         'add_time_text',
         'rented_time_text',
-        'update_time_text',
         'status_text',
         'resource_type_text',
         'rent_type_text',
         'room_type_text',
+        'house_type_text',
         'has_person_text',
         'can_keep_pat_text',
         'have_separate_bathroom_text',
@@ -55,12 +55,6 @@ class Houses extends Model
         return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
     }
 
-    public function getUpdateTimeTextAttr($value, $data)
-    {
-        $value = $value ? $value : (isset($data['update_time']) ? $data['update_time'] : '');
-        return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
-    }
-
     protected function setCanResideTimeAttr($value)
     {
         return $value && !is_numeric($value) ? strtotime($value) : $value;
@@ -77,11 +71,6 @@ class Houses extends Model
     }
 
     protected function setRentedTimeAttr($value)
-    {
-        return $value && !is_numeric($value) ? strtotime($value) : $value;
-    }
-
-    protected function setUpdateTimeAttr($value)
     {
         return $value && !is_numeric($value) ? strtotime($value) : $value;
     }
@@ -130,6 +119,18 @@ class Houses extends Model
     {        
         $value = $value ? $value : (isset($data['house_room_type']) ? $data['house_room_type'] : '');
         $list = $this->getRoomTypeList();
+        return isset($list[$value]) ? $list[$value] : '';
+    }
+    
+    public function getHouseTypeList()
+    {
+        return ['1' => __('RoomType 1'), '2' => __('RoomType 2'), '3' => __('RoomType 3'), '4' => __('RoomType 4')];
+    }
+    
+    public function getHouseTypeTextAttr($value, $data)
+    {        
+        $value = $value ? $value : (isset($data['house_type_id']) ? $data['house_type_id'] : '');
+        $list = $this->getHouseTypeList();
         return isset($list[$value]) ? $list[$value] : '';
     }
     
@@ -186,6 +187,11 @@ class Houses extends Model
     }
     
     public function district()
+    {
+        return $this->belongsTo('District', 'house_resource_districts_id', 'id', 'district', 'LEFT')->setEagerlyType(0);
+    }
+    
+    public function coupon()
     {
         return $this->belongsTo('District', 'house_resource_districts_id', 'id', 'district', 'LEFT')->setEagerlyType(0);
     }

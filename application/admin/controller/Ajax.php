@@ -264,5 +264,13 @@ class Ajax extends Backend
         }
         $this->success('', null, $provincelist);
     }
-
+    
+    /**
+     * 
+     */
+    public function getMemberName()
+    {
+        $member = db('member')->where('id', input('param.id'))->field('id,nick_name')->find();
+        $this->success('', null, $member);
+    } 
 }
