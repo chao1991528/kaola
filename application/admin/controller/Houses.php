@@ -213,7 +213,8 @@ class Houses extends Backend
                 $house['update_time'] = time();
             }
             $data[] = $house;
-        } 
+        }
+        model('ProductHouse')->saveAll($data);
         db('houses')->where('id', 'in', $ids)->update(['delete_time' => time()]);
         $this->success('上传成功!',null);       
     }
