@@ -10,5 +10,9 @@ class ProductHouse extends Model
 {
     // 表名
     protected $name = 'kl_houses';
-    protected $connection = 'product_config';
+    
+    public function __construct()
+    {
+        $this->connection = config('product_config');
+    }
 }
