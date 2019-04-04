@@ -280,5 +280,5 @@ return [
         'api_url'             => 'https://api.fastadmin.net',
     ],
     //正式服务器地址
-    'product_config' => Env::get('app.product_db', 'mysql://root:123456@47.91.43.3:3306/kaola_news#kaola_news')
+    'product_config' => Env::get('app.product_db', 'mysql://kaola_news:V*TjSXr#3*9t@47.91.43.3:3306/kaola_news#utf8')
 ];
