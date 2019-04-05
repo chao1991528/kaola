@@ -3,7 +3,6 @@
 namespace app\admin\controller;
 
 use app\common\controller\Backend;
-use think\Db;
 
 /**
  * 房源信息管理
@@ -208,11 +207,17 @@ class Houses extends Backend
         foreach ($ids as $id) {
             $house = db('houses')->where('id', $id)->field('id,house_sn,add_time,update_time,delete_time,email_img', true)->find();
             if ($house) {
+                if($house['status'] !== 1){
+                    $this->error('上传失败：该房源信息尚未审核通过!',null);
+                }
                 $house['house_sn'] = 30 . date('YmdHis') . rand(1000, 9999);
                 $house['add_time'] = time();
                 $house['update_time'] = time();
+                $data[] = $house;
             }
-            $data[] = $house;
+        }
+        if(empty($data)){
+            $this->error('上传失败：房源信息为空!');
         }
         model('ProductHouse')->saveAll($data);
         db('houses')->where('id', 'in', $ids)->update(['delete_time' => time()]);

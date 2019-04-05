@@ -52,18 +52,17 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage', 'templa
                         {field: 'status_text', title: __('Status'),operate:false},
                         {field: 'status', visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3'),"4":__('Status 4'),"5":__('Status 5')}},
                         {
-                            field: 'id', title: __('Operate'), operate:false, formatter: function(value, row, index){
-                                if(row.status_text == __('Status 1')){
-                                    var links = '<a href="/admin/houses/uploadToProduct/ids/' + value + '" class="btn btn-xs btn-magic btn-success btn-ajax" data-confirm="确认上传吗？" title="上传" data-table-id="table"> 上传 </a>';
-                                    links += '&nbsp;<a href="/admin/houses/edit/ids/' + value + '" class="btn btn-xs btn-success btn-edit btn-dialog"  title="编辑" data-table-id="table"><i class="fa fa-pencil"></i> </a>';
-                                    links += '&nbsp;<a href="/admin/houses/del/ids/' + value + '" class="btn btn-xs btn-danger btn-ajax" data-confirm="确认删除吗？" title="删除" data-table-id="table"><i class="fa fa-trash"></i></a>';
-                                    return links;
-                                }else{
-                                    var links = '&nbsp;<a href="/admin/houses/edit/ids/' + value + '" class="btn btn-xs btn-success btn-edit btn-dialog"  title="编辑" data-table-id="table"><i class="fa fa-pencil"></i> </a>';
-                                    links += '&nbsp;<a href="/admin/houses/del/ids/' + value + '" class="btn btn-xs btn-danger btn-ajax" data-confirm="确认删除吗？" title="删除" data-table-id="table"><i class="fa fa-trash"></i></a>';
-                                    return links;
-                                }
-                            }
+                            field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
+                            buttons: [
+                                {
+                                    name: 'upload',
+                                    text:'上传',
+                                    title: __('上传'),
+                                    classname: 'btn btn-xs btn-primary btn-ajax',
+                                    refresh:true,
+                                    url: '/admin/houses/uploadToProduct',
+                                }],
+                            formatter: Table.api.formatter.operate
                         }
                     ]
                 ]
