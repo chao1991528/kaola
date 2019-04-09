@@ -94,6 +94,7 @@ class Houses extends Backend
                     $params['can_reside_time'] = strtotime($params['can_reside_time']);
                     $params['house_tag'] = ',' . implode(',', $params['house_tag']) . ',';
                     $params['house_config'] = ',' . implode(',', $params['house_config']) . ',';
+                    $params['content'] = strip_tags(htmlspecialchars_decode($params['content']));
                     if($params['status'] == 1){
                         $params['check_time'] =time();
                     }
