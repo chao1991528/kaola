@@ -280,5 +280,13 @@ return [
         'api_url'             => 'https://api.fastadmin.net',
     ],
     //正式服务器地址
-    'product_config' => Env::get('app_product_db', 'mysql://kaola_news:V*TjSXr#3*9t@47.91.43.3:3306/kaola_news#utf8')
+    'product_config' => [
+        'type'        => Env::get('product_db.type', 'mysql'),
+        'hostname'    => Env::get('product_db.hostname', '47.91.43.3'),
+        'database'    => Env::get('product_db.database', 'kaola_news'),
+        'username'    => Env::get('product_db.username', 'kaola_news'),
+        'password'    => Env::get('product_db.password', 'V*TjSXr#3*9t'),
+        'charset'     => Env::get('product_db.charset', 'utf8'),
+        'prefix'      => Env::get('product_db.prefix', 'kl_'),
+    ]
 ];

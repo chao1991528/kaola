@@ -26,9 +26,9 @@ class Sync extends Backend
     {
         try {
             //线上数据
-            $roomTypes = model('HouseTypePro')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,type_name');
-            $houseTags = model('HouseTagPro')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,tag_name');
-            $houseConfigs = model('HouseConfigPro')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,config_name');
+            $roomTypes = model('ProductHouseType')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,type_name');
+            $houseTags = model('ProductHouseTag')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,tag_name');
+            $houseConfigs = model('ProductHouseConfig')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,config_name');
 
             //本地数据
             $localRoomTypes = db('house_type')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,type_name');

@@ -1,6 +1,6 @@
 .env
 runtime/
 public/uploads/
-application\admin\model\ProductHouse.php
 nbproject/
 *.log
+sync.txt

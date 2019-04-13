@@ -9,7 +9,7 @@ use think\Model;
 class ProductMember extends Model
 {
     // 表名
-    protected $name = 'kl_member';
+    protected $name = 'member';
     protected $connection = 'product_config';
     protected $resultSetType = 'collection';
 }
