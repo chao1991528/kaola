@@ -103,6 +103,7 @@ class Houses extends Backend
                     }
                     $params['image_thumbs_200'] = $image200;
                     $params['image_thumbs_750'] = $image750;
+                    $params['content'] = strip_tags(htmlspecialchars_decode($params['content']));
                     if($params['status'] == 1){
                         $params['check_time'] =time();
                     }
