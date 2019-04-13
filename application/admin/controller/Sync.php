@@ -5,52 +5,82 @@ namespace app\admin\controller;
 use app\common\controller\Backend;
 
 /**
- * 房源信息管理
+ * 同步正式站的数据
  *
  * @icon fa fa-circle-o
  */
-class Houses extends Backend
+class Sync extends Backend
 {
-
-    /**
-     * Houses模型对象
-     * @var \app\admin\model\Houses
-     */
-    protected $model = null;
-
+    protected $noNeedLogin = ['index'];
+    
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = new \app\admin\model\Houses;
-        $house_resource_districts_id_list = db('Australia_districts')->field('id,name,city_id')->where(['is_valid' => 1])->order('name asc')->select();
-        $this->assign('districts_id_json', json_encode($house_resource_districts_id_list));
     }
 
     /*
-     * 房源列表
+     * 同步房屋配置 房屋标签 房间类型
      */
 
     public function index()
-    {       
-        if ($this->request->isAjax()) {
-            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
-            $total = $this->model
-                    ->with(["member", "district"])
-                    ->where($where)
-                    ->where('delete_time', 0)
-                    ->count();
-            $list = $this->model
-                    ->with(["member", "district"])
-                    ->where($where)
-                    ->where('delete_time', 0)
-                    ->order($sort, $order)
-                    ->limit($offset, $limit)
-                    ->select();
-            $result = array("total" => $total, "rows" => $list);
+    {
+        try {
+            //线上数据
+            $roomTypes = model('HouseTypePro')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,type_name');
+            $houseTags = model('HouseTagPro')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,tag_name');
+            $houseConfigs = model('HouseConfigPro')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,config_name');
 
-            return json($result);
+            //本地数据
+            $localRoomTypes = db('house_type')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,type_name');
+            $localTags = db('house_tag')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,tag_name');
+            $localConfigs = db('house_config')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,config_name');
+            $localMemberIds = db('member')->where('is_valid', 1)->column('id');
+
+            $typeDiff = array_diff_assoc($roomTypes, $localRoomTypes);
+            $tagDiff = array_diff_assoc($houseTags, $localTags);
+            $configDiff = array_diff_assoc($houseConfigs, $localConfigs);
+
+            $typeInsertData = $configInsertData = $tagInsertData = [];
+            //同步房间类型
+            foreach ($typeDiff as $id => $type_name) {
+                $typeInsertData[] = ['id' => $id, 'type_name' => $type_name];
+            }
+            if(!empty($typeInsertData)){
+                db('house_type')->insertAll($typeInsertData);
+            }
+
+            //同步房源标签
+            foreach ($tagDiff as $id => $tag_name) {
+                $tagInsertData[] = ['id' => $id, 'tag_name' => $tag_name];
+            }
+            if(!empty($tagInsertData)){
+                db('house_tag')->insertAll($tagInsertData);
+            }
+
+            //同步房源配置
+            foreach ($configDiff as $id => $config_name) {
+                $configInsertData[] = ['id' => $id, 'config_name' => $config_name];
+            }
+            if(!empty($configInsertData)){
+                db('house_config')->insertAll($configInsertData);
+            }
+            
+            //同步会员信息
+            $memberInsertData = [];
+            $newMembers = model('ProductMember')->where('is_valid', 1)->where('id', 'not in', $localMemberIds)->select()->toArray();
+            foreach ($newMembers as $member) {
+                $memberInsertData[] = $member;
+            }
+            if(!empty($memberInsertData)){
+                db('member')->insertAll($memberInsertData);
+            }
+            
+            echo 'success';
+            file_put_contents('sync.txt', date("Y-m-d H:i:s ") . "同步数据成功。"  . PHP_EOL, FILE_APPEND);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            file_put_contents('sync.txt', date("Y-m-d H:i:s ") . "同步数据失败：" . $e->getMessage() . PHP_EOL, FILE_APPEND);
         }
-        return $this->view->fetch();
     }
 
     public function edit($ids = NULL)
@@ -94,15 +124,6 @@ class Houses extends Backend
                     $params['can_reside_time'] = strtotime($params['can_reside_time']);
                     $params['house_tag'] = ',' . implode(',', $params['house_tag']) . ',';
                     $params['house_config'] = ',' . implode(',', $params['house_config']) . ',';
-                    $imageArr = explode(',', $params['images']);
-                    $image200 = $image750 = '';
-                    foreach ($imageArr as $image) {
-                        $position = strrpos($image, '.'); 
-                        $image200 = $image200 ? $image200 . ',' . substr_replace($image, '_thumb_200', $position, 0) : substr_replace($image, '_thumb_200', $position, 0);
-                        $image750 = $image750 ? $image750 . ',' . substr_replace($image, '_thumb_750', $position, 0) : substr_replace($image, '_thumb_750', $position, 0);
-                    }
-                    $params['image_thumbs_200'] = $image200;
-                    $params['image_thumbs_750'] = $image750;
                     if($params['status'] == 1){
                         $params['check_time'] =time();
                     }
