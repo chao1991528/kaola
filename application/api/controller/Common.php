@@ -54,7 +54,7 @@ class Common extends Api
     public function upload()
     {
         $file = $this->request->file('file');
-        $thumb = input('post.thumb', 0);
+        $thumb = input('post.thumb', 1);
         if (empty($file)) {
             $this->error(__('No file upload or server upload limit exceeded'));
         }
