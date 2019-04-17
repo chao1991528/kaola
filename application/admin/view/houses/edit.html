@@ -1,7 +1,7 @@
 <form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Mem_id')}:</label>
-        
+
         <div class="col-xs-12 col-sm-8">
             <input id="c-mem_id" class="col-xs-4" data-rule="required" name="row[mem_id]" type="text" value="{$row.mem_id}" style="height: 31px;padding: 6px 12px;font-size: 12px;line-height: 1.42857143;color: #555555;background-color: #fff;background-image: none;border: 1px solid #ccc;">
             <label class="control-label col-xs-3">{:__('Mem_nickname')}:</label>
@@ -50,9 +50,9 @@
             </select>
         </div>
     </div>
-    
+
     <!--合租 start-->
-    <div id="part1" {if condition="$row.house_rent_type == 2"}style="display:none"{/if}>
+    <div id="part1" {if condition="$row.house_rent_type == 2" }style="display:none" {/if}>
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-2">{:__('House_room_type')}:</label>
             <div class="col-xs-12 col-sm-8">
@@ -106,7 +106,7 @@
         </div>
     </div>
     <!--//整租开始-->
-    <div id="part2" {if condition="$row.house_rent_type == 1"}style="display:none"{/if}>
+    <div id="part2" {if condition="$row.house_rent_type == 1" }style="display:none" {/if}>
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-2">{:__('Room_count')}:</label>
             <div class="col-xs-12 col-sm-8">
@@ -137,7 +137,7 @@
                 <input id="c-floor" data-rule="required" class="form-control" name="row[floor]" type="number" value="{$row.floor}">
             </div>
         </div>
-    </div>    
+    </div>
     <!--//整租结束-->
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Min_lease_period')}:</label>
@@ -155,16 +155,14 @@
         <label class="control-label col-xs-12 col-sm-2">{:__('House_tag')}:</label>
         <div class="col-xs-12 col-sm-8">
             {volist name="houseTag" id="vo"}
-            <input type="checkbox" name="row[house_tag][]" value="{$vo.id}" {in name="vo.id" value="$row.house_tag"}checked="checked"{/in} >&nbsp;&nbsp;{$vo.tag_name}&nbsp;&nbsp;
-            {/volist}
+            <input type="checkbox" name="row[house_tag][]" value="{$vo.id}" {in name="vo.id" value="$row.house_tag" }checked="checked" {/in}>&nbsp;&nbsp;{$vo.tag_name}&nbsp;&nbsp; {/volist}
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('House_config')}:</label>
         <div class="col-xs-12 col-sm-8">
             {volist name="houseConfig" id="vo"}
-            <input type="checkbox" name="row[house_config][]" value="{$vo.id}" {in name="vo.id" value="$row.house_config"}checked="checked"{/in} >&nbsp;&nbsp;{$vo.config_name}&nbsp;&nbsp;
-            {/volist}       
+            <input type="checkbox" name="row[house_config][]" value="{$vo.id}" {in name="vo.id" value="$row.house_config" }checked="checked" {/in}>&nbsp;&nbsp;{$vo.config_name}&nbsp;&nbsp; {/volist}
         </div>
     </div>
     <div class="form-group">
@@ -176,7 +174,7 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Coupon_id')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-coupon_id" data-rule="required" data-source="coupon/index" data-field="title" data-params='{"is_valid":"1"}' class="form-control selectpage" name="row[coupon_id]" type="text" value="{$row.coupon_id}">
+            <input id="c-coupon_id" data-source="coupon/index" data-field="title" data-params='{"is_valid":"1"}' class="form-control selectpage" name="row[coupon_id]" type="text" value="{$row.coupon_id}">
         </div>
     </div>
     <div class="form-group">
@@ -200,7 +198,7 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Email')}:</label>
         <div class="col-xs-5 col-sm-5">
-            <input id="c-email" class="form-control" name="row[email]" type="text" value="{$row.email}"> 
+            <input id="c-email" class="form-control" name="row[email]" type="text" value="{$row.email}">
         </div>
         <div class="col-xs-5 col-sm-5">
             <img src="{$row.email_img}" style="width: 200px;">
@@ -291,8 +289,13 @@
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8&callback=initMap" async defer></script>
 <script type="text/javascript">
-    var district_id_json = {$districts_id_json};
-    var district_id = {$row.house_resource_districts_id};
+    var district_id_json = {
+        $districts_id_json
+    };
+    var district_id = {
+        $row.house_resource_districts_id
+    };
+
     function initMap() {
         var lat = parseFloat("{$row.house_resource_latitude}");
         var lng = parseFloat("{$row.house_resource_longitude}");
@@ -300,40 +303,46 @@
             lat: lat,
             lng: lng
         };
-        var marker ;
+        var marker;
         var markersArray = [];
         var map = new google.maps.Map(document.getElementById('googleMap'), {
             zoom: 14,
             center: myLatlng
         });
         addMarker(myLatlng, map);
-        $("#locationBtn").click(function(){
+        $("#locationBtn").click(function() {
             $.ajax({
-                type:"post",
-                url:"https://maps.googleapis.com/maps/api/geocode/json?address=" + $("#c-house_resource_address").val() + "&region=au&key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8",
-                async:true,
-                success:function(data){
-                    if(data.status == "OK"){
-                        if(data.results.length > 0){
+                type: "post",
+                url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + $("#c-house_resource_address").val() + "&region=au&key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8",
+                async: true,
+                success: function(data) {
+                    if (data.status == "OK") {
+                        if (data.results.length > 0) {
                             var lat = data.results[0].geometry.location.lat;
                             var lng = data.results[0].geometry.location.lng;
                             $('#lng').val(lng);
                             $('#lat').val(lat);
-                            addMarker({lat, lng}, map);
-                            map.setCenter({lat, lng}, 14);
-                        }else{
+                            addMarker({
+                                lat,
+                                lng
+                            }, map);
+                            map.setCenter({
+                                lat,
+                                lng
+                            }, 14);
+                        } else {
                             alert("经纬度获取失败，请重新填写地址");
                         }
-                    }else{
+                    } else {
                         alert("经纬度获取失败，请重新填写地址");
-                    }            
+                    }
                 }
             });
         });
         //添加坐标对象
         function addMarker(latLng, map) {
-            if(markersArray.length>0){
-                    markersArray[0].setMap(null);
+            if (markersArray.length > 0) {
+                markersArray[0].setMap(null);
             };
             markersArray.shift(marker)
             marker = new google.maps.Marker({
@@ -343,4 +352,4 @@
             markersArray.push(marker);
         }
     }
-</script>    
+</script>

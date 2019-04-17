@@ -35,6 +35,7 @@ class Sync extends Backend
             $localTags = db('house_tag')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,tag_name');
             $localConfigs = db('house_config')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,config_name');
             $localMemberIds = db('member')->where('is_valid', 1)->column('id');
+            $localCouponIds = db('house_coupon')->where('is_valid', 1)->column('id');
 
             $typeDiff = array_diff_assoc($roomTypes, $localRoomTypes);
             $tagDiff = array_diff_assoc($houseTags, $localTags);
@@ -74,7 +75,16 @@ class Sync extends Backend
             if(!empty($memberInsertData)){
                 db('member')->insertAll($memberInsertData);
             }
-            
+            //同步优惠券
+            $couponInsertData = [];
+            $newCoupons = model('ProductCoupon')->where('is_valid', 1)->where('id', 'not in', $localCouponIds)->select()->toArray();
+            foreach ($newCoupons as $coupon) {
+                $couponInsertData[] = $coupon;
+            }
+            if(!empty($couponInsertData)){
+                db('house_coupon')->insertAll($couponInsertData);
+            }
+
             echo 'success';
             file_put_contents('sync.txt', date("Y-m-d H:i:s ") . "同步数据成功。"  . PHP_EOL, FILE_APPEND);
         } catch (\Exception $e) {

@@ -4,3 +4,4 @@ public/uploads/
 nbproject/
 *.log
 sync.txt
+.history/
