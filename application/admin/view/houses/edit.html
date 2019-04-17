@@ -289,12 +289,8 @@
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEen-hRloGhN9lRwyHtgU2_S4LjKcrtY8&callback=initMap" async defer></script>
 <script type="text/javascript">
-    var district_id_json = {
-        $districts_id_json
-    };
-    var district_id = {
-        $row.house_resource_districts_id
-    };
+    var district_id_json = {$districts_id_json};
+    var district_id = {$row.house_resource_districts_id};
 
     function initMap() {
         var lat = parseFloat("{$row.house_resource_latitude}");
