@@ -168,13 +168,18 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Can_reside_time')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-can_reside_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[can_reside_time]" type="text" value="{$row.can_reside_time|datetime}">
+            <input id="c-can_reside_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[can_reside_time]" type="text"  {notempty name="row.can_reside_time"}value="{$row.can_reside_time|datetime}"{else /}value=""{/notempty}>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Coupon_id')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-coupon_id" data-source="coupon/index" data-field="title" data-params='{"is_valid":"1"}' class="form-control selectpage" name="row[coupon_id]" type="text" value="{$row.coupon_id}">
+            <select class="selectpicker form-control" name="row[coupon_id]">
+                <option value="0">无</option>
+                {volist name="coupons" id="vo"}
+                    <option value="{$vo.id}" {if condition="$vo.id == $row['coupon_id']"}selected="selected"{/if}>{$vo.title}</option>
+                {/volist}
+            </select>
         </div>
     </div>
     <div class="form-group">

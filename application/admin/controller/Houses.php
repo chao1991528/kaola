@@ -144,6 +144,7 @@ class Houses extends Backend
             $citys = db('australia_cities')->field('id,name,name_zh')->order('is_hot desc')->where('is_valid', 1)->select();
             $houseConfig = db('house_config')->field('id,config_name')->order('sort desc')->where('is_valid', 1)->select();
             $houseTag = db('house_tag')->field('id,tag_name')->order('sort desc')->where('is_valid', 1)->select();
+            $coupons = db('house_coupon')->where('is_valid=1 and is_delete=0')->field('id,title')->select();
             $this->assign([
                 'status' => $status,
                 'resourceType' => $resourceType,
@@ -157,6 +158,7 @@ class Houses extends Backend
                 'houseType' => $houseType,
                 'houseConfig' => $houseConfig,
                 'houseTag' => $houseTag,
+                'coupons' => $coupons,
                 'row' => $row
             ]);
             return $this->view->fetch();
