@@ -395,7 +395,7 @@ class Backend extends Controller
      * 这里示例了所有的参数，所以比较复杂，实现上自己实现只需简单的几行即可
      *
      */
-    protected function selectpage()
+    public function selectpage()
     {
         //设置过滤方法
         $this->request->filter(['strip_tags', 'htmlspecialchars']);
