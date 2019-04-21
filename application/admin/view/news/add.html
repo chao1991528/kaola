@@ -64,11 +64,27 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">推荐热门置顶:</label>
+        <label class="control-label col-xs-12 col-sm-2">推荐热门小程序:</label>
         <div class="col-xs-12 col-sm-8">
             <input id="c-is_recommend" name="row[is_recommend]" type="checkbox">&nbsp;&nbsp;是否推荐&nbsp;&nbsp;
             <input id="c-is_hot" name="row[is_hot]" type="checkbox">&nbsp;&nbsp;是否热门&nbsp;&nbsp;
-            <input id="c-is_top" name="row[is_top]" type="checkbox">&nbsp;&nbsp;是否置顶&nbsp;&nbsp;
+            <input id="c-is_applet" name="row[is_applet]" type="checkbox">&nbsp;&nbsp;是否发布到小程序&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">是否置顶:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-is_top_no" name="row[is_top]" type="radio" value="0" checked="checked">&nbsp;&nbsp;否&nbsp;&nbsp;
+            <input id="c-is_top_yes" name="row[is_top]" type="radio" value="1">&nbsp;&nbsp;是&nbsp;&nbsp;
+            <input id="c-top_end_date" style="display:none" class="datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[top_end_date]" type="text" placeholder="置顶到期时间" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">定时发布:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-is_publish_no" name="row[is_publish]" type="radio" value="0" checked="checked">&nbsp;&nbsp;否&nbsp;&nbsp;
+            <input id="c-is_publish_yes" name="row[is_publish]" type="radio" value="1">&nbsp;&nbsp;是&nbsp;&nbsp;
+            <input id="c-publish_time" style="display:none" class="datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[publish_time]" type="text" placeholder="请选择发布时间" value="">
         </div>
     </div>
     <div class="form-group">
@@ -79,24 +95,6 @@
                 <option value="{$key}">{$vo}</option>
                 {/volist}
             </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('News_picture')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-news_picture" data-rule="required" class="form-control" name="row[news_picture]" type="text">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('News_image')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <textarea id="c-news_image" data-rule="required" class="form-control " rows="5" name="row[news_image]" cols="50"></textarea>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <textarea id="c-content" data-rule="required" class="form-control editor" rows="5" name="row[content]" cols="50"></textarea>
         </div>
     </div>
     <div class="form-group">
@@ -118,93 +116,29 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Is_hot')}:</label>
+        <label class="control-label col-xs-12 col-sm-2">{:__('News_picture')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-is_hot" data-rule="required" class="form-control" name="row[is_hot]" type="number" value="0">
+            <input id="c-news_picture" data-rule="required" class="form-control" name="row[news_picture]" type="text">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Read_count')}:</label>
+        <label class="control-label col-xs-12 col-sm-2">{:__('News_picture')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-read_count" data-rule="required" class="form-control" name="row[read_count]" type="number" value="0">
+            <div class="input-group">
+                <input id="c-images" data-rule="required" class="form-control" size="50" name="row[news_picture]" type="text" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-images" class="btn btn-danger plupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-images"></ul>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Read_count_share')}:</label>
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-read_count_share" data-rule="required" class="form-control" name="row[read_count_share]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Like_count')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-like_count" data-rule="required" class="form-control" name="row[like_count]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Discuss_count')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-discuss_count" data-rule="required" class="form-control" name="row[discuss_count]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Send_5xini')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-send_5xini" data-rule="required" class="form-control" name="row[send_5xini]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Is_top')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-is_top" data-rule="required" class="form-control" name="row[is_top]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Top_end_date')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-top_end_date" data-rule="required" class="form-control" name="row[top_end_date]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Add_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-add_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[add_time]" type="text" value="{:date('Y-m-d H:i:s')}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Add_uid')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-add_uid" data-rule="required" class="form-control" name="row[add_uid]" type="number">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Is_applet')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-is_applet" data-rule="required" class="form-control" name="row[is_applet]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Is_delete')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-is_delete" data-rule="required" class="form-control" name="row[is_delete]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Delete_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-delete_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[delete_time]" type="text" value="{:date('Y-m-d H:i:s')}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Is_publish')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-is_publish" data-rule="required" class="form-control" name="row[is_publish]" type="number" value="0">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Publish_time')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-publish_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[publish_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+            <textarea id="c-content" data-rule="required" class="form-control editor" rows="5" name="row[content]" cols="50"></textarea>
         </div>
     </div>
     <div class="form-group layer-footer">

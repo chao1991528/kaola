@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage'], function ($, undefined, Backend, Table, Form) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
         index: function () {
@@ -64,10 +64,23 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage'], functi
             Table.api.bindevent(table);
         },
         add: function () {
-            $("select[name='source_id']").selectPage({
-                pageSize : 5,
-            });
             Controller.api.bindevent();
+            $("#c-is_top_no").change(function(){
+                $("#c-top_end_date").hide();
+                $("#c-top_end_date").val('');
+                // 
+            });              
+            $("#c-is_top_yes").change(function(){             
+                $("#c-top_end_date").show();      
+            });
+            $("#c-is_publish_no").change(function(){
+                $("#c-publish_time").hide();
+                $("#c-publish_time").val('');
+                // 
+            })              
+            $("#c-is_publish_yes").change(function(){             
+                $("#c-publish_time").show();      
+            })
         },
         edit: function () {
             Controller.api.bindevent();
