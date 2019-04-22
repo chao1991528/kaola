@@ -67,10 +67,33 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                 $("#c-publish_time").hide();
                 $("#c-publish_time").val('');
                 // 
-            })              
+            });              
             $("#c-is_publish_yes").change(function(){             
                 $("#c-publish_time").show();      
-            })
+            });
+
+            $('#collect').on('click', function(){
+                var index = layer.load(1, {
+                      shade: [0.1,'#fff'] //0.1透明度的白色背景
+                    });
+                $.ajax({
+                    url:'<{:U("News/ajax_collectWechat")}>',
+                    type:'post',
+                    dataType:'json',
+                    data:{'url':$('#wx_url').val()},
+                    success:function(data){
+                        layer.close(index);
+                        if(data.status == 'y'){                          
+                            $('input[name=news_title]').val(data.data.title);
+                            // ue.setContent(data.data.content);
+                        }else{
+                            layer.msg(data.info,{icon: 5,time:1000});
+                        }
+                    }
+                });	
+            });
+
+
         },
         edit: function () {
             Controller.api.bindevent();

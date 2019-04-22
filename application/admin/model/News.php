@@ -86,6 +86,11 @@ class News extends Model
         return $value && !is_numeric($value) ? strtotime($value) : $value;
     }
 
+    protected function setTopEndDateAttr($value)
+    {
+        return $value && !is_numeric($value) ? strtotime($value) : $value;
+    }
+
     public function getIsAppLetList()
     {
         return ['0' => __('Is_applet 0'),'1' => __('Is_applet 1')];
