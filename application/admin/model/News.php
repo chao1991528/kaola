@@ -19,23 +19,56 @@ class News extends Model
     // 追加属性
     protected $append = [
         'add_time_text',
-        'delete_time_text',
-        'publish_time_text'
+        'publish_time_text',
+        'is_applet_text',
+        'is_top_text',
+        'is_hot_text',
+        'is_valid_text',
+        'is_recommend_text',
+        'declare_text'
     ];
+
+    public function getIsAppletTextAttr($value, $data)
+    {
+        $arr = $this->getIsAppLetList();
+        return $arr[$data['is_applet']];
+    }
+
+    public function getIsTopTextAttr($value, $data)
+    {
+        $arr = $this->getIsTopList();
+        return $arr[$data['is_top']];
+    }
+
+    public function getIsHotTextAttr($value, $data)
+    {
+        $arr = $this->getIsHotList();
+        return $arr[$data['is_hot']];
+    }
+
+    public function getIsValidTextAttr($value, $data)
+    {
+        $arr = $this->getIsValidList();
+        return $arr[$data['is_valid']];
+    }
+
+    public function getIsRecommendTextAttr($value, $data)
+    {
+        $arr = $this->getIsRecommendList();
+        return $arr[$data['is_recommend']];
+    }
+
+    public function getDeclareTextAttr($value, $data)
+    {
+        $arr = $this->getDeclareList();
+        return $arr[$data['declare_id']];
+    }
 
     public function getAddTimeTextAttr($value, $data)
     {
         $value = $value ? $value : (isset($data['add_time']) ? $data['add_time'] : '');
         return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
     }
-
-
-    public function getDeleteTimeTextAttr($value, $data)
-    {
-        $value = $value ? $value : (isset($data['delete_time']) ? $data['delete_time'] : '');
-        return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
-    }
-
 
     public function getPublishTimeTextAttr($value, $data)
     {
@@ -48,14 +81,24 @@ class News extends Model
         return $value && !is_numeric($value) ? strtotime($value) : $value;
     }
 
-    protected function setDeleteTimeAttr($value)
+    protected function setPublishTimeAttr($value)
     {
         return $value && !is_numeric($value) ? strtotime($value) : $value;
     }
 
-    protected function setPublishTimeAttr($value)
+    public function getIsAppLetList()
     {
-        return $value && !is_numeric($value) ? strtotime($value) : $value;
+        return ['0' => __('Is_applet 0'),'1' => __('Is_applet 1')];
+    }
+
+    public function getIsTopList()
+    {
+        return ['0' => __('Is_top 0'),'1' => __('Is_top 1')];
+    }
+
+    public function getIsHotList()
+    {
+        return ['0' => __('Is_hot 0'),'1' => __('Is_hot 1')];
     }
 
     public function getIsValidList()
@@ -63,8 +106,29 @@ class News extends Model
         return ['0' => __('Is_valid 0'),'1' => __('Is_valid 1')];
     }
 
+    public function getIsRecommendList()
+    {
+        return ['0' => __('Is_recommend 0'),'1' => __('Is_recommend 1')];
+    }
+
     public function getDeclareList()
     {
         return ['1' => __('Declare_id 1'),'2' => __('Declare_id 2') , '3' => __('Declare_id 3')];
+    }
+
+    public function category(){
+        return $this->belongsTo('NewsCategory', 'category_id')->setEagerlyType(0);
+    }
+
+    public function type(){
+        return $this->belongsTo('NewsType', 'type_id')->setEagerlyType(0);
+    }
+
+    public function source(){
+        return $this->belongsTo('NewsSource', 'source_id')->setEagerlyType(0);
+    }
+
+    public function layout(){
+        return $this->belongsTo('NewsLayout', 'layout_id')->setEagerlyType(0);
     }
 }

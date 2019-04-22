@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
         index: function () {
@@ -24,37 +24,27 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id')},
-                        {field: 'category_id', title: __('Category_id')},
-                        {field: 'source_id', title: __('Source_id')},
-                        {field: 'title_tag_id', title: __('Title_tag_id')},
-                        {field: 'news_tag_id', title: __('News_tag_id')},
-                        {field: 'layout_id', title: __('Layout_id')},
-                        {field: 'type_id', title: __('Type_id')},
+                        {field: 'id', title: __('Id'), operate:false},
+                        {field: 'category.category_name', title: __('Category_id')},
+                        {field: 'source.source_name', title: __('Source_id')},
+                        // {field: 'title_tag_id', title: __('Title_tag_id')},
+                        // {field: 'news_tag_id', title: __('News_tag_id')},
+                        {field: 'layout.layout_name', title: __('Layout_id'), operate:false},
+                        {field: 'type.type_name', title: __('Type_id')},
                         {field: 'news_title', title: __('News_title')},
                         // {field: 'news_picture', title: __('News_picture')},
                         // {field: 'content', title: __('Content')},
-                        {field: 'news_url', title: __('News_url'), formatter: Table.api.formatter.url},
-                        {field: 'search_key', title: __('Search_key')},
-                        {field: 'remark', title: __('Remark')},
-                        {field: 'declare_id', title: __('Declare_id')},
-                        {field: 'is_valid', title: __('Is_valid')},
-                        {field: 'is_recommend', title: __('Is_recommend')},
-                        {field: 'is_hot', title: __('Is_hot')},
-                        {field: 'read_count', title: __('Read_count')},
-                        {field: 'read_count_share', title: __('Read_count_share')},
-                        {field: 'like_count', title: __('Like_count')},
-                        {field: 'discuss_count', title: __('Discuss_count')},
-                        {field: 'send_5xini', title: __('Send_5xini')},
-                        {field: 'is_top', title: __('Is_top')},
-                        {field: 'top_end_date', title: __('Top_end_date')},
+                        // {field: 'news_url', title: __('News_url'), formatter: Table.api.formatter.url},
+                        // {field: 'search_key', title: __('Search_key')},
+                        // {field: 'remark', title: __('Remark')},
+                        {field: 'declare_text', title: __('Declare_id'), operate:false},
+                        {field: 'is_valid_text', title: __('Is_valid'), operate:false},
+                        {field: 'is_recommend_text', title: __('Is_recommend'),operate:false},
+                        {field: 'is_hot_text', title: __('Is_hot'), operate:false},
+                        {field: 'is_top_text', title: __('Is_top'),operate:false},
+                        {field: 'is_applet_text', title: __('Is_applet'), operate:false},
                         {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-                        {field: 'add_uid', title: __('Add_uid')},
-                        {field: 'is_applet', title: __('Is_applet')},
-                        {field: 'is_delete', title: __('Is_delete')},
-                        {field: 'delete_time', title: __('Delete_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-                        {field: 'is_publish', title: __('Is_publish')},
-                        {field: 'publish_time', title: __('Publish_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
+                        // {field: 'is_applet', visible: false, searchList: {"1":__('Is_applet 1'),"2":__('Is_applet 2')}},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
@@ -84,6 +74,22 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         },
         edit: function () {
             Controller.api.bindevent();
+            $("#c-is_top_no").change(function(){
+                $("#c-top_end_date").hide();
+                $("#c-top_end_date").val('');
+                // 
+            });              
+            $("#c-is_top_yes").change(function(){             
+                $("#c-top_end_date").show();      
+            });
+            $("#c-is_publish_no").change(function(){
+                $("#c-publish_time").hide();
+                $("#c-publish_time").val('');
+                // 
+            })              
+            $("#c-is_publish_yes").change(function(){             
+                $("#c-publish_time").show();      
+            })
         },
         api: {
             bindevent: function () {

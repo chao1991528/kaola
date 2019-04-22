@@ -32,11 +32,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage', 'templa
                         {field: 'member.nick_name', title: __('Mem_nickname'), operate:false},
                         {field: 'title', title: __('Title')},
                         {field: 'resource_type_text', title: __('House_resource_type'), operate:false},
-                        {field: 'house_resource_type', visible: false, searchList: {"1":__('ResourceType 1'),"2":__('ResourceType 2')}},
+                        {field: 'house_resource_type', title: __('House_resource_type'), visible: false, searchList: {"1":__('ResourceType 1'),"2":__('ResourceType 2')}},
                         {field: 'rent_type_text', title: __('House_rent_type'), operate:false},
-                        {field: 'house_rent_type', visible: false, searchList: {"1":__('RentType 1'),"2":__('RentType 2')}},
+                        {field: 'house_rent_type', title: __('House_rent_type'), visible: false, searchList: {"1":__('RentType 1'),"2":__('RentType 2')}},
                         {field: 'room_type_text', title: __('House_room_type'), operate:false},
-                        {field: 'house_room_type', visible: false, searchList: {"1":__('RoomType 1'),"2":__('RoomType 2'), "3":__('RoomType 3'),"4":__('RoomType 4')}},
+                        {field: 'house_room_type', title: __('House_room_type'), visible: false, searchList: {"1":__('RoomType 1'),"2":__('RoomType 2'), "3":__('RoomType 3'),"4":__('RoomType 4')}},
                         {field: 'has_person_text', title: __('Is_parlor_resident'), operate:false},
                         {field: 'can_keep_pat_text', title: __('Can_keep_pat'), operate:false},
                         {field: 'have_separate_bathroom_text', title: __('Have_separate_bathroom'), operate:false},
@@ -49,8 +49,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage', 'templa
                             }
                         },
                         {field: 'read_count', title: __('Read_count'), operate:false},
-                        {field: 'status_text', title: __('Status'),operate:false},
-                        {field: 'status', visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3'),"4":__('Status 4'),"5":__('Status 5')}},
+                        {field: 'status_text', title: __('Status'), operate:false},
+                        {field: 'status', title: __('Status'), visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3'),"4":__('Status 4'),"5":__('Status 5')}},
                         {
                             field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
                             buttons: [

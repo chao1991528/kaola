@@ -17,6 +17,7 @@ class News extends Backend
      * @var \app\admin\model\News
      */
     protected $model = null;
+    protected $modelValidate = true;
 
     public function _initialize()
     {
@@ -31,13 +32,47 @@ class News extends Backend
      * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
      * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
      */
+    public function index()
+    {       
+        if ($this->request->isAjax()) {
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+            $total = $this->model
+                    ->alias('news')
+                    ->with(["category", "type", "source", "layout"])
+                    ->where($where)
+                    ->where('news.delete_time', 0)
+                    ->count();
+            $list = $this->model
+                    ->alias('news')
+                    ->with(["category", "type", "source", "layout"])
+                    ->where($where)
+                    ->where('news.delete_time', 0)
+                    ->order($sort, $order)
+                    ->limit($offset, $limit)
+                    ->select();
+            $result = array("total" => $total, "rows" => $list);
+
+            return json($result);
+        }
+        return $this->view->fetch();
+    }
+
     public function add(){
         $data['categories'] = db('news_category')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,category_name');
-        $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,type_name');
+        $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
         $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
         $data['layouts'] = db('news_layout')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,layout_name');
         $this->assign($data);
         return parent::add();
+    }
+
+    public function edit($ids = NULL){
+        $data['categories'] = db('news_category')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,category_name');
+        $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
+        $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
+        $data['layouts'] = db('news_layout')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,layout_name');
+        $this->assign($data);
+        return parent::edit($ids);
     }
 
 }
