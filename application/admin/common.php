@@ -161,3 +161,27 @@ if (!function_exists('build_heading')) {
         return $result;
     }
 }
+
+if (!function_exists('saveFileFromUrl')) {
+
+    /**
+     * 根据图片地址保存图片
+     *
+     * @param string $url 
+     * @return string
+     */
+    function saveFileFromUrl($url, $save_to='')
+    {
+        $uploadRootDir = ROOT_PATH . 'public';
+        $uploadDir = '/uploads/weixin/' . date('Ymd') . "/";
+        $dir = $uploadRootDir . $uploadDir;
+        if(!is_dir($dir)){
+            mkdir($dir);
+        }
+        $file_name = md5(time()) . rand(10000, 99999) . '.jpg';
+        
+        file_put_contents($dir . $file_name, file_get_contents($url));
+        return $uploadDir . $file_name;
+    }
+}
+

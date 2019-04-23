@@ -3,6 +3,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\Backend;
+use QL\QueryList;
 
 /**
  * 
@@ -75,4 +76,69 @@ class News extends Backend
         return parent::edit($ids);
     }
 
+    public function ajax_collect_wechat()
+    {
+        $url = input('url');
+        if(empty($url)){
+            $this->error('微信采集地址不能为空！');
+        }
+        $_host = parse_url($url, PHP_URL_HOST);  //获取主机名
+    	if($_host !== 'mp.weixin.qq.com') {
+            $this->error('文章链接来源不属于微信');
+        }
+        
+        $html = file_get_contents($url);
+        if(empty($html)){
+            $this->error('文章内容为空');
+        }
+        $html = str_replace("<!--headTrap<body></body><head></head><html></html>-->", "", $html);  //去除微信干扰元素!!!否则乱码
+        preg_match("/var msg_cdn_url = \".*\"/", $html, $matches);   //获取微信封面图
+        $coverImgUrl = $matches[0];
+        $coverImgUrl = substr(explode('var msg_cdn_url = "', $coverImgUrl)[1], 0, -1);
+
+        $rules = [  //设置QueryList的解析规则
+            'title'   => ['#activity-name', 'text'],  //文章标题
+            'content' => ['#js_content', 'html'],  //文章内容
+            //'author'  => ['#js_profile_qrcode .profile_nickname','text'],  //公众号
+        ];
+        $data = QueryList::get($url)->rules($rules)->queryData(function($item){
+                //利用回调函数下载文章中的图片并替换图片路径为本地路径
+                //使用本例请确保当前目录下有image文件夹，并有写入权限
+                $content = QueryList::html($item['content']);
+                $content->find('img')->map(function($img){
+                    $src     = $img->attrs('data-src')[0];
+                    $imgpath = saveFileFromUrl($src);	
+    
+                    $img->attr('src',$imgpath);
+                    $img->removeAttr('data-src');
+                    $img->removeAttr('data-ratio');
+                    $img->removeAttr('data-w');
+    
+                });
+                $item['content'] = $content->find('')->html();
+                return $item;
+            }
+        );
+        $data[0]['news_picture'] = saveFileFromUrl($coverImgUrl);
+
+        $this->success('成功',null, $data[0]);
+    }
+
+    public function getSource()
+    {
+        $data =  model('NewsSource')->where('is_valid = 1 and is_delete = 0')->field('id,source_name as name')->select();
+        return $this->success('ok', '', ['searchlist' => $data]);
+    }
+
+    public function getCategory()
+    {
+        $data =  model('NewsCategory')->where('is_valid = 1 and is_delete = 0')->field('id,category_name as name')->select();
+        return $this->success('ok', '', ['searchlist' => $data]);
+    }
+
+    public function getType()
+    {
+        $data =  model('NewsType')->where('is_valid = 1 and is_delete = 0')->where('type_name', 'not like', '图片%')->field('id,type_name as name')->select();
+        return $this->success('ok', '', ['searchlist' => $data]);
+    }
 }

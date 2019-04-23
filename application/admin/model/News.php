@@ -19,7 +19,7 @@ class News extends Model
     // 追加属性
     protected $append = [
         'add_time_text',
-        'publish_time_text',
+        'publish_time',
         'is_applet_text',
         'is_top_text',
         'is_hot_text',
@@ -70,7 +70,7 @@ class News extends Model
         return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
     }
 
-    public function getPublishTimeTextAttr($value, $data)
+    public function getPublishTimeAttr($value, $data)
     {
         $value = $value ? $value : (isset($data['publish_time']) ? $data['publish_time'] : '');
         return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
@@ -84,6 +84,12 @@ class News extends Model
     protected function setPublishTimeAttr($value)
     {
         return $value && !is_numeric($value) ? strtotime($value) : $value;
+    }
+
+    protected function getTopEndDateAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['top_end_date']) ? $data['top_end_date'] : '');
+        return is_numeric($value) ? date("Y-m-d H:i:s", $value) : $value;
     }
 
     protected function setTopEndDateAttr($value)

@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function ($, undefined, Backend, Table, Form) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'summernote'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
         index: function () {
@@ -21,16 +21,22 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                search: false,
+                showToggle: false,
+                showExport: false,
                 columns: [
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id'), operate:false},
-                        {field: 'category.category_name', title: __('Category_id')},
-                        {field: 'source.source_name', title: __('Source_id')},
+                        {field: 'category.category_name', title: __('Category_id'), operate:false},
+                        {field: 'category_id', title: __('Category_id'), visible:false, align: 'left',searchList: $.getJSON('news/getCategory')},
+                        {field: 'source.source_name',title: __('Source_id'),operate:false},
+                        {field: 'source_id',title: __('Source_id'), visible:false, align: 'left', searchList: $.getJSON('news/getSource')},
                         // {field: 'title_tag_id', title: __('Title_tag_id')},
                         // {field: 'news_tag_id', title: __('News_tag_id')},
                         {field: 'layout.layout_name', title: __('Layout_id'), operate:false},
-                        {field: 'type.type_name', title: __('Type_id')},
+                        {field: 'type.type_name', title: __('Type_id'), operate:false},
+                        {field: 'type_id', title: __('Type_id'), visible:false, align: 'left', searchList: $.getJSON('news/getType')},
                         {field: 'news_title', title: __('News_title')},
                         // {field: 'news_picture', title: __('News_picture')},
                         // {field: 'content', title: __('Content')},
@@ -76,18 +82,21 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                 var index = layer.load(1, {
                       shade: [0.1,'#fff'] //0.1透明度的白色背景
                     });
-                $.ajax({
-                    url:'<{:U("News/ajax_collectWechat")}>',
+                $.ajax({ 
+                    url:"News/ajax_collect_wechat",
                     type:'post',
                     dataType:'json',
                     data:{'url':$('#wx_url').val()},
                     success:function(data){
                         layer.close(index);
-                        if(data.status == 'y'){                          
-                            $('input[name=news_title]').val(data.data.title);
+                        if(data.code == 1){                          
+                            $('#c-news_title').val(data.data.title);
+                            // $('#c-content').html(data.data.content);
+                            $('#c-content').summernote('code', data.data.content);
+                            $('#c-images').val(data.data.news_picture);
                             // ue.setContent(data.data.content);
                         }else{
-                            layer.msg(data.info,{icon: 5,time:1000});
+                            layer.msg(data.msg,{icon: 5,time:1000});
                         }
                     }
                 });	
