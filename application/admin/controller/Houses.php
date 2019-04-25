@@ -217,7 +217,7 @@ class Houses extends Backend
         $ids = explode(',', $ids);
         $data = [];
         foreach ($ids as $id) {
-            $house = db('houses')->where('id', $id)->field('id,house_sn,add_time,update_time,delete_time,email_img', true)->find();
+            $house = db('houses')->where('id', $id)->field('id,house_sn,add_time,update_time,delete_time,email_img,source_url', true)->find();
             if ($house) {
                 if($house['status'] !== 1){
                     $this->error('上传失败：该房源信息尚未审核通过!',null);
