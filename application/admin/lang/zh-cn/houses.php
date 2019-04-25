@@ -44,6 +44,7 @@ return [
     'Can_reside_time'  =>  '可入住时间',
     'Collection_count'  =>  '收藏次数',
     'Read_count'  =>  '浏览次数',
+    'Source_url' => '来源网址',
     'Status'  =>  '状态',
     'Is_delete'  =>  '是否删除:0=否;1=是;',
     'Check_time'  =>  '审核时间',
