@@ -92,6 +92,7 @@ class News extends Backend
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
                         $row->validate($validate);
                     }
+                    $params['content'] = strip_tags(htmlspecialchars_decode($params['content']));
                     $result = $row->allowField(true)->save($params);
                     if ($result !== false) {
                         $this->success();
@@ -117,6 +118,7 @@ class News extends Backend
             }
             $row->news_picture = empty($picture_arr) ? '' : implode(',', $picture_arr);
         }
+        $data['status'] = $this->model->getStatusList();
         $data['categories'] = db('news_category')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,category_name');
         $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
         $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
@@ -187,6 +189,10 @@ class News extends Backend
         foreach ($ids as $id) {
             $news = db('news')->field('id', true)->where('id', $id)->find();
             if ($news) {
+                if(!$news['status']){
+                    $this->error('该条新闻未处理，不能上传');
+                }
+                unset($news['status']);
                 $data[] = $news;
             }
         }

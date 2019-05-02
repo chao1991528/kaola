@@ -49,8 +49,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'summerno
                         {field: 'is_hot_text', title: __('Is_hot'), operate:false},
                         {field: 'is_top_text', title: __('Is_top'),operate:false},
                         {field: 'is_applet_text', title: __('Is_applet'), operate:false},
+                        {field: 'status_text', title: __('Status'), operate:false},
+                        {field: 'status', title: __('Status'), visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1')}},
                         {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-                        // {field: 'is_applet', visible: false, searchList: {"1":__('Is_applet 1'),"2":__('Is_applet 2')}},
+                        // {field: 'status', visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1')}},
                         // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                         {
                             field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,

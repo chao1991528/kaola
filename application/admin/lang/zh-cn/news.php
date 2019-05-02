@@ -42,6 +42,9 @@ return [
     'Is_applet'  =>  '展示给小程序',
     'Is_applet 0'  =>  '否',
     'Is_applet 1'  =>  '是',
+    'Status' => '是否处理',
+    'Status 0'  =>  '否',
+    'Status 1'  =>  '是',
     'Is_publish'  =>  '是否定时发布',
     'Publish_time'  =>  '定时发布时间'
 ];

@@ -25,7 +25,8 @@ class News extends Model
         'is_hot_text',
         'is_valid_text',
         'is_recommend_text',
-        'declare_text'
+        'declare_text',
+        'status_text'
     ];
 
     public function getIsAppletTextAttr($value, $data)
@@ -61,7 +62,12 @@ class News extends Model
     public function getDeclareTextAttr($value, $data)
     {
         $arr = $this->getDeclareList();
-        return $value ? $arr[$value] : '-';
+        return $data['declare_id'] ? $arr[$data['declare_id']] : '-';
+    }
+    public function getStatusTextAttr($value, $data)
+    {
+        $arr = $this->getStatusList();
+        return $arr[$data['status']];
     }
 
     public function getAddTimeTextAttr($value, $data)
@@ -125,6 +131,11 @@ class News extends Model
     public function getDeclareList()
     {
         return ['1' => __('Declare_id 1'),'2' => __('Declare_id 2') , '3' => __('Declare_id 3')];
+    }
+
+    public function getStatusList()
+    {
+        return ['0' => __('Status 0'),'1' => __('Status 1')];
     }
 
     public function category(){
