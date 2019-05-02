@@ -61,7 +61,7 @@ class News extends Model
     public function getDeclareTextAttr($value, $data)
     {
         $arr = $this->getDeclareList();
-        return $arr[$data['declare_id']];
+        return $value ? $arr[$value] : '-';
     }
 
     public function getAddTimeTextAttr($value, $data)

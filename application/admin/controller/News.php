@@ -67,13 +67,63 @@ class News extends Backend
         return parent::add();
     }
 
-    public function edit($ids = NULL){
+
+    /**
+     * 编辑
+     */
+    public function edit($ids = NULL)
+    {
+        $row = $this->model->get($ids);
+        if (!$row)
+            $this->error(__('No Results were found'));
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds)) {
+            if (!in_array($row[$this->dataLimitField], $adminIds)) {
+                $this->error(__('You have no permission'));
+            }
+        }
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            if ($params) {
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
+                        $row->validate($validate);
+                    }
+                    $result = $row->allowField(true)->save($params);
+                    if ($result !== false) {
+                        $this->success();
+                    } else {
+                        $this->error($row->getError());
+                    }
+                } catch (\think\exception\PDOException $e) {
+                    $this->error($e->getMessage());
+                } catch (\think\Exception $e) {
+                    $this->error($e->getMessage());
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $row->news_picture = str_replace(['"', '[', ']', ' '], ['', '', '', ''], $row->news_picture);
+        $row->news_image = str_replace(['"', '[', ']', ' '], ['', '', '', ''], $row->news_image);
+        if(!empty($row->news_picture)){
+            $picture_arr = explode(',' , $row->news_picture);
+            foreach ($picture_arr as $key => $value) {
+                if($value == 'http://pool.kaolanews.com/upload'){
+                    unset($picture_arr[$key]);
+                }
+            }
+            $row->news_picture = empty($picture_arr) ? '' : implode(',', $picture_arr);
+        }
         $data['categories'] = db('news_category')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,category_name');
         $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
         $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
         $data['layouts'] = db('news_layout')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,layout_name');
         $this->assign($data);
-        return parent::edit($ids);
+        $this->view->assign("row", $row);
+        return $this->view->fetch();
     }
 
     public function ajax_collect_wechat()
@@ -123,6 +173,31 @@ class News extends Backend
 
         $this->success('成功',null, $data[0]);
     }
+
+    /**
+     * 上传到正式服务器
+     */
+    public function uploadToProduct($ids)
+    {
+        if(empty($ids)){
+            $this->error('id不能为空！');
+        }
+        $ids = explode(',', $ids);
+        $data = [];
+        foreach ($ids as $id) {
+            $news = db('news')->field('id', true)->where('id', $id)->find();
+            if ($news) {
+                $data[] = $news;
+            }
+        }
+        if(empty($data)){
+            $this->error('上传失败：新闻信息为空!');
+        }
+        $newsModel = model('ProductNews');
+        $newsModel->saveAll($data);
+        db('news')->where('id', 'in', $ids)->update(['delete_time' => time()]);
+        $this->success('上传成功!',null);       
+    }   
 
     public function getSource()
     {

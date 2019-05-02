@@ -51,7 +51,31 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'summerno
                         {field: 'is_applet_text', title: __('Is_applet'), operate:false},
                         {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         // {field: 'is_applet', visible: false, searchList: {"1":__('Is_applet 1'),"2":__('Is_applet 2')}},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {
+                            field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
+                            buttons: [
+                                {
+                                    name: 'upload',
+                                    text:'上传',
+                                    title: __('上传'),
+                                    confirm: '确认上传',
+                                    classname: 'btn btn-xs btn-primary btn-ajax',
+                                    refresh:true,
+                                    url: '/admin/news/uploadToProduct',
+                                    success: function (data, ret) {
+                                        // Layer.alert(ret.msg);
+                                        //如果需要阻止成功提示，则必须使用return false;
+                                        //return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    }
+                                }],
+                            formatter: Table.api.formatter.operate
+                        }
                     ]
                 ]
             });
