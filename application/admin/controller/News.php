@@ -192,6 +192,7 @@ class News extends Backend
                 if(!$news['status']){
                     $this->error('该条新闻未处理，不能上传');
                 }
+                $news['news_image'] = '';
                 $news['publish_time'] = time();
                 $news['is_publish'] = 1;
                 unset($news['status']);
