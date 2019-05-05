@@ -92,7 +92,7 @@ class News extends Backend
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
                         $row->validate($validate);
                     }
-                    $params['content'] = strip_tags(htmlspecialchars_decode($params['content']));
+//                    $params['content'] = strip_tags(htmlspecialchars_decode($params['content']));
                     $result = $row->allowField(true)->save($params);
                     if ($result !== false) {
                         $this->success();
@@ -192,6 +192,8 @@ class News extends Backend
                 if(!$news['status']){
                     $this->error('该条新闻未处理，不能上传');
                 }
+                $news['publish_time'] = time();
+                $news['is_publish'] = 1;
                 unset($news['status']);
                 $data[] = $news;
             }
@@ -201,7 +203,7 @@ class News extends Backend
         }
         $newsModel = model('ProductNews');
         $newsModel->saveAll($data);
-        db('news')->where('id', 'in', $ids)->update(['delete_time' => time()]);
+        db('news')->where('id', 'in', $ids)->update(['delete_time' => time(), 'is_delete' => 1]);
         $this->success('上传成功!',null);       
     }   
 
