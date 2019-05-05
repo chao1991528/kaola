@@ -102,14 +102,14 @@ class Ajax extends Backend
         if ($splInfo) {
             $image = \think\Image::open(ROOT_PATH . '/public' . $uploadDir . $fileName);
             // 按照原图的比例生成一个最大为150*150的缩略图并保存为thumb.png
-            $image200 = str_replace('.', '_thumb_200.', ROOT_PATH . '/public' . $uploadDir . $fileName);
-            $image->thumb(200, 200)->save($image200);
+            $image200 = str_replace('.', '_thumb_200.', $fileName);
+            $image->thumb(200, 200)->save(ROOT_PATH . '/public' . $uploadDir . $image200);
             $image = \think\Image::open(ROOT_PATH . '/public' . $uploadDir . $fileName);
-            $image300 = str_replace('.', '_thumb_300.', ROOT_PATH . '/public' . $uploadDir . $fileName);
-            $image->thumb(300, 300)->save($image300);
+            $image300 = str_replace('.', '_thumb_300.', $fileName);
+            $image->thumb(300, 300)->save(ROOT_PATH . '/public' . $uploadDir . $image300);
             $image = \think\Image::open(ROOT_PATH . '/public' . $uploadDir . $fileName);
-            $image750 = str_replace('.', '_thumb_750.', ROOT_PATH . '/public' . $uploadDir . $fileName);
-            $image->thumb(750, 750)->save($image750);
+            $image750 = str_replace('.', '_thumb_750.', $fileName);
+            $image->thumb(750, 750)->save(ROOT_PATH . '/public' . $uploadDir . $image750);
             $imagewidth = $imageheight = 0;
             if (in_array($suffix, ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'])) {
                 $imgInfo = getimagesize($splInfo->getPathname());
