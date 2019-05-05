@@ -94,6 +94,7 @@ class Ajax extends Backend
         $savekey = $upload['savekey'];
         $savekey = str_replace(array_keys($replaceArr), array_values($replaceArr), $savekey);
 
+        $imageDomain = config('image_domain');
         $uploadDir = substr($savekey, 0, strripos($savekey, '/') + 1);
         $fileName = substr($savekey, strripos($savekey, '/') + 1);
         //
@@ -114,7 +115,7 @@ class Ajax extends Backend
                 'imagetype'   => $suffix,
                 'imageframes' => 0,
                 'mimetype'    => $fileInfo['type'],
-                'url'         => $uploadDir . $splInfo->getSaveName(),
+                'url'         => $imageDomain . $uploadDir . $splInfo->getSaveName(),
                 'uploadtime'  => time(),
                 'storage'     => 'local',
                 'sha1'        => $sha1,
@@ -124,7 +125,7 @@ class Ajax extends Backend
             $attachment->save();
             \think\Hook::listen("upload_after", $attachment);
             $this->success(__('Upload successful'), null, [
-                'url' => $uploadDir . $splInfo->getSaveName()
+                'url' => $imageDomain . $uploadDir . $splInfo->getSaveName()
             ]);
         } else {
             // 上传失败获取错误信息
