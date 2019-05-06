@@ -52,7 +52,8 @@ class Index extends Backend
     {
         $url = $this->request->get('url', 'index/index');
         if ($this->auth->isLogin()) {
-            $this->success(__("You've logged in, do not login again"), $url);
+//            $this->success(__("You've logged in, do not login again"), $url);
+            $this->redirect($url);
         }
         $is_remote = $this->request->get('remote', '');
         if ($this->request->isPost() || $is_remote) {
