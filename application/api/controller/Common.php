@@ -55,6 +55,7 @@ class Common extends Api
     {
         $file = $this->request->file('file');
         $thumb = input('post.thumb', 1);
+        $needWater = input('post.type', 0); //0需要水印，1不需要
         if (empty($file)) {
             $this->error(__('No file upload or server upload limit exceeded'));
         }
@@ -119,7 +120,10 @@ class Common extends Api
                 }else {
                     $waterImage = 'water_logo_150.png';
                 }
-                $image->water('./assets/img/' . $waterImage, \think\Image::WATER_SOUTHEAST, 50)->save(ROOT_PATH . '/public' . $uploadDir . $fileName);
+                if($needWater == 0){
+                    //需要水印
+                    $image->water('./assets/img/' . $waterImage, \think\Image::WATER_SOUTHEAST, 50)->save(ROOT_PATH . '/public' . $uploadDir . $fileName);
+                }
                 if ($thumb) {
                     $thumb200Height = $imageheight > $imagewidth ? (200 * $imageheight/$imagewidth) : 200;
                     $thumb750Height = $imageheight > $imagewidth ? (750 * $imageheight/$imagewidth) : 750;
