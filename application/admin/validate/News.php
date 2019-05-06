@@ -15,7 +15,7 @@ class News extends Validate
         'category_id|新闻分类'  => 'require',
         'source_id|新闻来源'  => 'require',
         'layout_id|新闻布局'  => 'require',
-        'title_tag_id|标题标签'  => 'require',
+//        'title_tag_id|标题标签'  => 'require',
         'news_url|原文链接' => 'require',
         'search_key|搜索标签' => 'require',
         'remark|新闻摘要' => 'require',
