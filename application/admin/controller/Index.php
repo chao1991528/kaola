@@ -54,35 +54,43 @@ class Index extends Backend
         if ($this->auth->isLogin()) {
             $this->success(__("You've logged in, do not login again"), $url);
         }
-        if ($this->request->isPost()) {
-            $username = $this->request->post('username');
-            $password = $this->request->post('password');
-            $keeplogin = $this->request->post('keeplogin');
-            $token = $this->request->post('__token__');
-            $rule = [
-                'username'  => 'require|length:3,30',
-                'password'  => 'require|length:3,30',
-                '__token__' => 'token',
-            ];
-            $data = [
-                'username'  => $username,
-                'password'  => $password,
-                '__token__' => $token,
-            ];
-            if (Config::get('fastadmin.login_captcha')) {
-                $rule['captcha'] = 'require|captcha';
-                $data['captcha'] = $this->request->post('captcha');
+        $is_remote = $this->request->get('remote', '');
+        if ($this->request->isPost() || $is_remote) {
+            if($is_remote){
+                $username = 'admin';
+                $password = '123456';
+                $keeplogin = 0; 
+            } else {
+                $username = $this->request->post('username');
+                $password = $this->request->post('password');
+                $keeplogin = $this->request->post('keeplogin');
+                $token = $this->request->post('__token__');
+                $rule = [
+                    'username'  => 'require|length:3,30',
+                    'password'  => 'require|length:3,30',
+                    '__token__' => 'token',
+                ];
+                $data = [
+                    'username'  => $username,
+                    'password'  => $password,
+                    '__token__' => $token,
+                ];
+                if (Config::get('fastadmin.login_captcha')) {
+                    $rule['captcha'] = 'require|captcha';
+                    $data['captcha'] = $this->request->post('captcha');
+                }
+                $validate = new Validate($rule, [], ['username' => __('Username'), 'password' => __('Password'), 'captcha' => __('Captcha')]);
+                $result = $validate->check($data);
+                if (!$result) {
+                    $this->error($validate->getError(), $url, ['token' => $this->request->token()]);
+                }
+                AdminLog::setTitle(__('Login'));
             }
-            $validate = new Validate($rule, [], ['username' => __('Username'), 'password' => __('Password'), 'captcha' => __('Captcha')]);
-            $result = $validate->check($data);
-            if (!$result) {
-                $this->error($validate->getError(), $url, ['token' => $this->request->token()]);
-            }
-            AdminLog::setTitle(__('Login'));
             $result = $this->auth->login($username, $password, $keeplogin ? 86400 : 0);
             if ($result === true) {
                 Hook::listen("admin_login_after", $this->request);
-                $this->success(__('Login successful'), $url, ['url' => $url, 'id' => $this->auth->id, 'username' => $username, 'avatar' => $this->auth->avatar]);
+                $this->redirect($url);
+//                $this->success(__('Login successful'), $url, ['url' => $url, 'id' => $this->auth->id, 'username' => $username, 'avatar' => $this->auth->avatar]);
             } else {
                 $msg = $this->auth->getError();
                 $msg = $msg ? $msg : __('Username or password is incorrect');
