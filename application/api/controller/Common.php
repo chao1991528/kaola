@@ -55,7 +55,7 @@ class Common extends Api
     {
         $file = $this->request->file('file');
         $thumb = input('post.thumb', 1);
-        $needWater = input('post.type', 0); //0需要水印，1不需要
+        $needWater = input('param.type', 0); //0需要水印，1不需要
         if (empty($file)) {
             $this->error(__('No file upload or server upload limit exceeded'));
         }
