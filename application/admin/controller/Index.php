@@ -52,7 +52,9 @@ class Index extends Backend
     {
         $url = $this->request->get('url', 'index/index');
         if ($this->auth->isLogin()) {
-//            $this->success(__("You've logged in, do not login again"), $url);
+            if($this->request->isPost()){
+                $this->success(__("You've logged in, do not login again"), $url);
+            }
             $this->redirect($url);
         }
         $is_remote = $this->request->get('remote', '');
@@ -90,8 +92,7 @@ class Index extends Backend
             $result = $this->auth->login($username, $password, $keeplogin ? 86400 : 0);
             if ($result === true) {
                 Hook::listen("admin_login_after", $this->request);
-                $this->redirect($url);
-//                $this->success(__('Login successful'), $url, ['url' => $url, 'id' => $this->auth->id, 'username' => $username, 'avatar' => $this->auth->avatar]);
+                $this->success(__('Login successful'), $url, ['url' => $url, 'id' => $this->auth->id, 'username' => $username, 'avatar' => $this->auth->avatar]);
             } else {
                 $msg = $this->auth->getError();
                 $msg = $msg ? $msg : __('Username or password is incorrect');
