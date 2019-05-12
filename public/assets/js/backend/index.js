@@ -126,10 +126,10 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'adminlte', 'form'], functi
             };
 
             //读取版本检测信息
-            var ignoreversion = localStorage.getItem("ignoreversion");
-            if (Config.fastadmin.checkupdate && ignoreversion !== "*") {
-                checkupdate(ignoreversion, false);
-            }
+//            var ignoreversion = localStorage.getItem("ignoreversion");
+//            if (Config.fastadmin.checkupdate && ignoreversion !== "*") {
+//                checkupdate(ignoreversion, false);
+//            }
             //手动检测版本信息
             $("a[data-toggle='checkupdate']").on('click', function () {
                 checkupdate('', true);
@@ -432,6 +432,7 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'adminlte', 'form'], functi
         },
         login: function () {
             var lastlogin = localStorage.getItem("lastlogin");
+//            alert(lastlogin);
             if (lastlogin) {
                 lastlogin = JSON.parse(lastlogin);
                 $("#profile-img").attr("src", Backend.api.cdnurl(lastlogin.avatar));

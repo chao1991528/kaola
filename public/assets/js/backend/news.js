@@ -37,7 +37,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'summerno
                         {field: 'layout.layout_name', title: __('Layout_id'), operate:false},
                         {field: 'type.type_name', title: __('Type_id'), operate:false},
                         {field: 'type_id', title: __('Type_id'), visible:false, align: 'left', searchList: $.getJSON('news/getType')},
-                        {field: 'news_title', title: __('News_title')},
+                        {field: 'news_title', title: __('News_title'), operate:'like'},
                         // {field: 'news_picture', title: __('News_picture')},
                         // {field: 'content', title: __('Content')},
                         // {field: 'news_url', title: __('News_url'), formatter: Table.api.formatter.url},
