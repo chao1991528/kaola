@@ -139,7 +139,7 @@ class News extends Backend
             $this->error('文章链接来源不属于微信');
         }
         
-        $html = file_get_contents($url);
+        $html = \fast\Http::get($url);
         if(empty($html)){
             $this->error('文章内容为空');
         }
@@ -175,7 +175,7 @@ class News extends Backend
 
         $this->success('成功',null, $data[0]);
     }
-
+    
     /**
      * 上传到正式服务器
      */
