@@ -145,8 +145,11 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
         <div class="col-xs-12 col-sm-8">
+            <p><input type="button" id="paibanBtn" value="一键排版" /></p>
             <textarea id="c-content" data-rule="required" class="form-control editor" rows="5" name="row[content]" cols="50">{$row.content}</textarea>
         </div>
+    </div>
+    <div id="contentDiv" style="display:none">
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>

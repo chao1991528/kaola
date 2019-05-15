@@ -85,7 +85,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
             // 为表格绑定事件
             Table.api.bindevent(table);
         },
-        add: function () {
+        add: function () {            
             Controller.api.bindevent();
             $("#c-is_top_no").change(function(){
                 $("#c-top_end_date").hide();
@@ -147,7 +147,25 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
             })              
             $("#c-is_publish_yes").change(function(){             
                 $("#c-publish_time").show();      
-            })
+            });
+            var ue = UE.getEditor('c-content');
+            $('#paibanBtn').on('click', function () {
+                $('#contentDiv').html(ue.getContent());
+                $('#contentDiv').find('p').each(function (i) {
+                    $(this).css('font-family', '微软雅黑,Microsoft YaHei');
+                    $(this).css('font-size', '18px');
+                    $(this).css('line-height', '2em');
+                    $(this).css('text-align', 'justify ');
+                    $(this).css('letter-spacing', '0.5px');
+
+                });
+                $('#contentDiv').find('img').each(function (i) {
+                    $(this).css('margin-left', '');
+                    $(this).css('margin-right', '');
+
+                });
+                ue.setContent($('#contentDiv').html());
+            });
         },
         api: {
             bindevent: function () {
