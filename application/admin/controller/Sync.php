@@ -24,6 +24,7 @@ class Sync extends Backend
 
     public function index()
     {
+        set_time_limit(0);
         try {
             //线上数据
             $roomTypes = model('ProductHouseType')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,type_name');
@@ -36,6 +37,8 @@ class Sync extends Backend
             $localConfigs = db('house_config')->where(['is_valid'=>1, 'is_delete'=>0])->column('id,config_name');
             $localMemberIds = db('member')->where('is_valid', 1)->column('id');
             $localCouponIds = db('house_coupon')->where('is_valid', 1)->column('id');
+            $localNewsCategoryIds = db('news_category')->where(['is_valid'=>1, 'is_delete'=>0])->column('id');
+            $localNewsTagIds = db('news_tag')->where(['is_valid'=>1, 'is_delete'=>0])->column('id');
 
             $typeDiff = array_diff_assoc($roomTypes, $localRoomTypes);
             $tagDiff = array_diff_assoc($houseTags, $localTags);
@@ -83,6 +86,26 @@ class Sync extends Backend
             }
             if(!empty($couponInsertData)){
                 db('house_coupon')->insertAll($couponInsertData);
+            }
+            
+            //同步新闻分类
+            $newsCategoryInsertData = [];
+            $newCategorys = model('ProductNewsCategory')->where(['is_valid'=>1, 'is_delete'=>0])->where('id', 'not in', $localNewsCategoryIds)->select()->toArray();
+            foreach ($newCategorys as $category) {
+                $newsCategoryInsertData[] = $category;
+            }
+            if(!empty($newsCategoryInsertData)){
+                db('news_category')->insertAll($newsCategoryInsertData);
+            }
+            
+            //同步新闻标签
+            $newsTagInsertData = [];
+            $newTags = model('ProductNewsTag')->where(['is_valid'=>1, 'is_delete'=>0])->where('id', 'not in', $localNewsTagIds)->select()->toArray();
+            foreach ($newTags as $tag) {
+                $newsTagInsertData[] = $tag;
+            }
+            if(!empty($newsTagInsertData)){
+                db('news_tag')->insertAll($newsTagInsertData);
             }
 
             echo 'success';
