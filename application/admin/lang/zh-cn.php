@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'Add_time'                                              => '添加时间', 
+    'Is_top 1'                                              => '是',
+    'Is_top 0'                                              => '否',
+    'Is_top'                                                => '是否置顶',
     'User id'                                               => '会员ID',
     'Username'                                              => '用户名',
     'Nickname'                                              => '昵称',

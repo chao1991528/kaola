@@ -283,5 +283,21 @@ class Ajax extends Backend
     {
         $member = db('member')->where('id', input('param.id'))->field('id,nick_name')->find();
         $this->success('', null, $member);
-    } 
+    }
+    
+    /**
+     *  获取城市 
+     */
+    public function getCity()
+    {
+        $page = $this->request->request("pageNumber");
+        $pagesize = $this->request->request("pageSize");
+        $total = db('australia_cities')->where('is_valid', 1)->count();
+        $list = db('australia_cities')->where('is_valid', 1)
+                ->field('id,name')
+                ->page($page, $pagesize)
+                ->select();
+        return json(['list' => $list, 'total' => $total]);
+    }
+
 }
