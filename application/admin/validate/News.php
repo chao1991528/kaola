@@ -19,8 +19,8 @@ class News extends Validate
         'news_url|原文链接' => 'require',
 //        'search_key|搜索标签' => 'require',
 //        'remark|新闻摘要' => 'require',
-        'is_top|是否置顶' => 'require|checkTopTime',
-        'is_publish|是否定时发布' => 'require|checkPublishTime', 
+//        'is_top|是否置顶' => 'require|checkTopTime',
+//        'is_publish|是否定时发布' => 'require|checkPublishTime', 
         'content|新闻内容'  => 'require',
     ];
     /**

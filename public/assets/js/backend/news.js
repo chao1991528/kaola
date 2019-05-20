@@ -44,14 +44,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'ueditor'
                         // {field: 'search_key', title: __('Search_key')},
                         // {field: 'remark', title: __('Remark')},
                         {field: 'declare_text', title: __('Declare_id'), operate:false},
-                        {field: 'is_valid_text', title: __('Is_valid'), operate:false},
-                        {field: 'is_recommend_text', title: __('Is_recommend'),operate:false},
-                        {field: 'is_hot_text', title: __('Is_hot'), operate:false},
-                        {field: 'is_top_text', title: __('Is_top'),operate:false},
-                        {field: 'is_applet_text', title: __('Is_applet'), operate:false},
+//                        {field: 'is_recommend_text', title: __('Is_recommend'),operate:false},
+//                        {field: 'is_hot_text', title: __('Is_hot'), operate:false},
+//                        {field: 'is_top_text', title: __('Is_top'),operate:false},
+//                        {field: 'is_applet_text', title: __('Is_applet'), operate:false},
                         {field: 'status_text', title: __('Status'), operate:false},
                         {field: 'status', title: __('Status'), visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1')}},
-                        {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
+//                        {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         // {field: 'status', visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1')}},
                         // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                         {
@@ -150,6 +149,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'ueditor'
                 $("#c-publish_time").show();      
             });
             var ue = UE.getEditor('c-content');
+            ue.ready(function() {
+                ue.setContent($('#contentDiv').html());
+            });
             $('#paibanBtn').on('click', function () {
                 $('#contentDiv').html(ue.getContent());
                 $('#contentDiv').find('p').each(function (i) {
