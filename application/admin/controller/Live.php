@@ -34,18 +34,18 @@ class Live extends Backend
      * @return type
      */
     public function index()
-    {       
+    {
         if ($this->request->isAjax()) {
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
-                    ->alias('news')
                     ->with(["city", "category"])
                     ->where($where)
+                    ->where(['live.is_delete' => 0, 'live.delete_time' => 0])
                     ->count();
             $list = $this->model
-                    ->alias('news')
                     ->with(["city", "category"])
                     ->where($where)
+                    ->where(['live.is_delete' => 0, 'live.delete_time' => 0])
                     ->order($sort, $order)
                     ->limit($offset, $limit)
                     ->select();
@@ -55,7 +55,11 @@ class Live extends Backend
         }
         return $this->view->fetch();
     }
-    
+
+    /**
+     * ajax获取分类
+     * @return type
+     */
     public function ajax_get_category()
     {
         $page = $this->request->request("pageNumber");
@@ -69,6 +73,31 @@ class Live extends Backend
                 ->select();
         return json(['list' => $list, 'total' => $total]);
 //        $this->success(__('success'), null, $categories);
+    }
+    
+    /**
+     * 上传到正式服务器
+     */
+    public function uploadToProduct($ids)
+    {
+        if(empty($ids)){
+            $this->error('id不能为空！');
+        }
+        $ids = explode(',', $ids);
+        $data = [];
+        foreach ($ids as $id) {
+            $lives = db('live')->field('id,source_url,email_image', true)->where('id', $id)->find();
+            if (!empty($lives)) {
+                $data[] = $lives;
+            }
+        }
+        if(empty($data)){
+            $this->error('上传失败：新闻信息为空!');
+        }
+        $liveModel = model('ProductLive');
+        $liveModel->saveAll($data);
+        db('live')->where('id', 'in', $ids)->update(['delete_time' => time(), 'is_delete' => 1]);
+        $this->success('上传成功!',null);       
     }
 
 }

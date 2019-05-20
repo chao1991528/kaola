@@ -43,7 +43,32 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'is_ensure', title: __('Is_ensure'), visible: false, searchList: {"0": __('Is_ensure 0'), "1": __('Is_ensure 1')}},
                         {field: 'source_url', title: __('Source_url'), formatter: Table.api.formatter.url},
                         {field: 'add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD"},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {
+                            field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
+                            buttons: [
+                                {
+                                    name: 'upload',
+                                    text:'上传',
+                                    title: __('上传'),
+                                    confirm: '确认上传',
+                                    classname: 'btn btn-xs btn-primary btn-ajax',
+                                    refresh:true,
+                                    url: '/admin/live/uploadToProduct',
+                                    success: function (data, ret) {
+                                        $('.btn-refresh').click();
+                                        // Layer.alert(ret.msg);
+                                        //如果需要阻止成功提示，则必须使用return false;
+                                        //return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    }
+                                }
+                            ],
+                            formatter: Table.api.formatter.operate
+                        }
                     ]
                 ]
             });

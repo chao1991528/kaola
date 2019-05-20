@@ -66,6 +66,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'ueditor'
                                     refresh:true,
                                     url: '/admin/news/uploadToProduct',
                                     success: function (data, ret) {
+                                        $('.btn-refresh').click();
                                         // Layer.alert(ret.msg);
                                         //如果需要阻止成功提示，则必须使用return false;
                                         //return false;
