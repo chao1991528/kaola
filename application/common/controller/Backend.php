@@ -19,7 +19,7 @@ class Backend extends Controller
      * 无需登录的方法,同时也就不需要鉴权了
      * @var array
      */
-    protected $noNeedLogin = [];
+    protected $noNeedLogin = ['selectpage'];
 
     /**
      * 无需鉴权的方法,但需要登录
