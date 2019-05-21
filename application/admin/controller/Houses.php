@@ -10,8 +10,8 @@ use app\common\controller\Backend;
  * @icon fa fa-circle-o
  */
 class Houses extends Backend
-{
-
+{   
+    protected $noNeedRight = ['getRegion'];
     /**
      * Houses模型对象
      * @var \app\admin\model\Houses

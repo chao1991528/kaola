@@ -11,6 +11,7 @@ use app\common\controller\Backend;
  */
 class Live extends Backend
 {
+    protected $noNeedRight = ['ajax_get_category'];
     
     /**
      * Live模型对象
