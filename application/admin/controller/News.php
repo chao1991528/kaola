@@ -92,7 +92,7 @@ class News extends Backend
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
                         $row->validate($validate);
                     }
-//                    $params['content'] = strip_tags(htmlspecialchars_decode($params['content']));
+                    $params['content'] = htmlentities($params['content']);
                     $result = $row->allowField(true)->save($params);
                     if ($result !== false) {
                         $this->success();
@@ -109,6 +109,7 @@ class News extends Backend
         }
         $row->news_picture = str_replace(['"', '[', ']', ' '], ['', '', '', ''], $row->news_picture);
         $row->news_image = str_replace(['"', '[', ']', ' '], ['', '', '', ''], $row->news_image);
+        $row->content = html_entity_decode($row->content);
         if(!empty($row->news_picture)){
             $picture_arr = explode(',' , $row->news_picture);
             foreach ($picture_arr as $key => $value) {

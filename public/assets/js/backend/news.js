@@ -103,6 +103,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'ueditor'
             $("#c-is_publish_yes").change(function(){             
                 $("#c-publish_time").show();      
             });
+            var ue = UE.getEditor('c-content');
 
             $('#collect').on('click', function(){
                 var index = layer.load(1, {
@@ -118,7 +119,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'ueditor'
                         if(data.code == 1){                          
                             $('#c-news_title').val(data.data.title);
                             // $('#c-content').html(data.data.content);
-                            $('#c-content').summernote('code', data.data.content);
+                            ue.setContent(data.data.content);
+//                            $('#c-content').summernote('code', data.data.content);
                             $('#c-images').val(data.data.news_picture);
                             // ue.setContent(data.data.content);
                         }else{
