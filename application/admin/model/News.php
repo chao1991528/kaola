@@ -143,14 +143,18 @@ class News extends Model
     }
 
     public function type(){
-        return $this->belongsTo('NewsType', 'type_id')->setEagerlyType(0);
+        return $this->belongsTo('NewsType', 'type_id', 'id', '', 'left')->setEagerlyType(0);
     }
 
     public function source(){
-        return $this->belongsTo('NewsSource', 'source_id')->setEagerlyType(0);
+        return $this->belongsTo('NewsSource', 'source_id', 'id', '', 'left')->setEagerlyType(0);
     }
 
     public function layout(){
         return $this->belongsTo('NewsLayout', 'layout_id')->setEagerlyType(0);
+    }
+    
+    public function user(){
+        return $this->belongsTo('User', 'add_uid', 'id', '', 'left')->setEagerlyType(0);
     }
 }

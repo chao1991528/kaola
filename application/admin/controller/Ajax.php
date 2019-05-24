@@ -207,6 +207,7 @@ class Ajax extends Backend
      */
     public function wipecache()
     {
+        $msg = '';
         $type = $this->request->request("type");
         switch ($type) {
             case 'all':
@@ -223,10 +224,16 @@ class Ajax extends Backend
                 Service::refresh();
                 if ($type == 'addons')
                     break;
+            case 'sync':
+                \fast\Http::get(config('domain') . '/admin/Sync/index');
+                if ($type == 'sync'){
+                    $msg = '同步成功！';
+                    break;
+                }   
         }
 
         \think\Hook::listen("wipecache_after");
-        $this->success();
+        $this->success($msg);
     }
 
     /**

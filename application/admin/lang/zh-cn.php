@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Sync'                                                  => '同步数据',
     'Add_time'                                              => '添加时间', 
     'Is_top 1'                                              => '是',
     'Is_top 0'                                              => '否',

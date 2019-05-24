@@ -50,7 +50,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template', 'ueditor'
 //                        {field: 'is_applet_text', title: __('Is_applet'), operate:false},
                         {field: 'status_text', title: __('Status'), operate:false},
                         {field: 'status', title: __('Status'), visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1')}},
-//                        {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
+                        {field: 'add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD"},
+                        {field: 'user.user_number', title: __('Add_uid'), operate:false},
+                        {field: 'user.id', title: __('Add_uid'), visible:false,searchList: $.getJSON('news/getAdmin')},
                         // {field: 'status', visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1')}},
                         // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                         {

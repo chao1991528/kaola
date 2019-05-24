@@ -48,7 +48,6 @@ return [
     'Status'  =>  '状态',
     'Is_delete'  =>  '是否删除:0=否;1=是;',
     'Check_time'  =>  '审核时间',
-    'Add_time'  =>  '创建时间',
     'Rented_time'  =>  '出租成功时间',
     'Update_time'  =>  '更新时间',
     'Status 0' => '审核中',

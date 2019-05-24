@@ -28,9 +28,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage', 'templa
                     [
 //                        {checkbox: true},
                         {field: 'id', title: __('Id'), operate:false},
-                        {field: 'house_sn', title: __('House_sn'), operate:false},
-                        {field: 'member.nick_name', title: __('Mem_nickname'), operate:false},
+//                        {field: 'house_sn', title: __('House_sn'), operate:false},
                         {field: 'title', title: __('Title')},
+                        {field: 'member.nick_name', title: __('Mem_nickname'), operate:false},
                         {field: 'resource_type_text', title: __('House_resource_type'), operate:false},
                         {field: 'house_resource_type', title: __('House_resource_type'), visible: false, searchList: {"1":__('ResourceType 1'),"2":__('ResourceType 2')}},
                         {field: 'rent_type_text', title: __('House_rent_type'), operate:false},
@@ -52,6 +52,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage', 'templa
 //                        {field: 'read_count', title: __('Read_count'), operate:false},
                         {field: 'status_text', title: __('Status'), operate:false},
                         {field: 'status', title: __('Status'), visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3'),"4":__('Status 4'),"5":__('Status 5')}},
+                        {field: 'add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD"},
                         {
                             field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
                             buttons: [

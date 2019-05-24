@@ -12,7 +12,7 @@ use QL\QueryList;
  */
 class News extends Backend
 {
-    
+    protected $noNeedRight = ['ajax_collect_wechat', 'getCategory', 'getSource', 'getType', 'getAdmin'];
     /**
      * News模型对象
      * @var \app\admin\model\News
@@ -38,14 +38,12 @@ class News extends Backend
         if ($this->request->isAjax()) {
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
-                    ->alias('news')
-                    ->with(["category", "type", "source", "layout"])
+                    ->with(["category", "type", "source", "layout", "user"])
                     ->where($where)
                     ->where('news.delete_time', 0)
                     ->count();
             $list = $this->model
-                    ->alias('news')
-                    ->with(["category", "type", "source", "layout"])
+                    ->with(["category", "type", "source", "layout", "user"])
                     ->where($where)
                     ->where('news.delete_time', 0)
                     ->order($sort, $order)
@@ -124,7 +122,7 @@ class News extends Backend
         $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
         $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
         $data['layouts'] = db('news_layout')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,layout_name');
-        $data['admin_ids'] = model('ProductUser')->where(['is_valid' => 1])->column('id,user_number');
+        $data['admin_ids'] = model('User')->where(['is_valid' => 1])->column('id,user_number');
         $this->assign($data);
         $this->view->assign("row", $row);
         return $this->view->fetch();
@@ -227,4 +225,10 @@ class News extends Backend
         $data =  model('NewsType')->where('is_valid = 1 and is_delete = 0')->where('type_name', 'not like', '图片%')->field('id,type_name as name')->select();
         return $this->success('ok', '', ['searchlist' => $data]);
     }
+    
+    public function getAdmin()
+    {
+        $data =  model('User')->field('id,user_number as name')->select();
+        return $this->success('ok', '', ['searchlist' => $data]);
+    }        
 }

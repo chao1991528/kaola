@@ -11,7 +11,7 @@ use app\common\controller\Backend;
  */
 class Coupon extends Backend
 {
-    protected $noNeedLogin = ['index'];
+    protected $noNeedLogin = ['index', 'selectpage'];
     /**
      * Houses模型对象
      * @var \app\admin\model\Houses
