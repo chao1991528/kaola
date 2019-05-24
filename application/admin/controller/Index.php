@@ -61,8 +61,8 @@ class Index extends Backend
         if ($this->request->isPost() || $is_remote) {
             if($is_remote){
                 $username = 'admin';
-                $password = '123456';
-                $keeplogin = 0; 
+                $password = 'CBL@0431286668i';
+                $keeplogin = 0;
             } else {
                 $username = $this->request->post('username');
                 $password = $this->request->post('password');
@@ -92,7 +92,11 @@ class Index extends Backend
             $result = $this->auth->login($username, $password, $keeplogin ? 86400 : 0);
             if ($result === true) {
                 Hook::listen("admin_login_after", $this->request);
-                $this->success(__('Login successful'), $url, ['url' => $url, 'id' => $this->auth->id, 'username' => $username, 'avatar' => $this->auth->avatar]);
+                if($this->request->isAjax()){
+                    $this->success(__('Login successful'), $url, ['url' => $url, 'id' => $this->auth->id, 'username' => $username, 'avatar' => $this->auth->avatar]);
+                }else{
+                    $this->redirect($url);
+                }
             } else {
                 $msg = $this->auth->getError();
                 $msg = $msg ? $msg : __('Username or password is incorrect');
