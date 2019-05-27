@@ -122,7 +122,7 @@ class News extends Backend
         $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
         $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
         $data['layouts'] = db('news_layout')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,layout_name');
-        $data['admin_ids'] = model('User')->where(['is_valid' => 1])->column('id,user_number');
+        $data['admin_ids'] = model('ProductUser')->where(['is_valid' => 1])->column('id,user_number');
         $this->assign($data);
         $this->view->assign("row", $row);
         return $this->view->fetch();
