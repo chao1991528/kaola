@@ -5,14 +5,14 @@ namespace app\admin\controller;
 use app\common\controller\Backend;
 
 /**
- * 
+ *
  *
  * @icon fa fa-circle-o
  */
 class Live extends Backend
 {
     protected $noNeedRight = ['ajax_get_category'];
-    
+
     /**
      * Live模型对象
      * @var \app\admin\model\Live
@@ -39,12 +39,12 @@ class Live extends Backend
         if ($this->request->isAjax()) {
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
-                    ->with(["city", "category"])
+                    ->with(["city", "category", "member"])
                     ->where($where)
                     ->where(['live.is_delete' => 0, 'live.delete_time' => 0])
                     ->count();
             $list = $this->model
-                    ->with(["city", "category"])
+                    ->with(["city", "category", "member"])
                     ->where($where)
                     ->where(['live.is_delete' => 0, 'live.delete_time' => 0])
                     ->order($sort, $order)
@@ -75,7 +75,7 @@ class Live extends Backend
         return json(['list' => $list, 'total' => $total]);
 //        $this->success(__('success'), null, $categories);
     }
-    
+
     /**
      * 上传到正式服务器
      */
@@ -98,7 +98,7 @@ class Live extends Backend
         $liveModel = model('ProductLive');
         $liveModel->saveAll($data);
         db('live')->where('id', 'in', $ids)->update(['delete_time' => time(), 'is_delete' => 1]);
-        $this->success('上传成功!',null);       
+        $this->success('上传成功!',null);
     }
 
 }

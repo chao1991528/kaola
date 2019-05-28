@@ -3,7 +3,6 @@
 return [
     'Id'  =>  'id',
     'House_sn'  =>  '房源编号',
-    'Mem_nickname'  =>  '会员昵称',
     'Mem_id'  =>  '会员ID',
     'Title'  =>  '标题',
     'Sub_title'  =>  '副标题',

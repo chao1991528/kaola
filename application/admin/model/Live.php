@@ -30,11 +30,11 @@ class Live extends Model
             $tag_ids = implode(',', $live->tag_ids);
             $live->tag_ids = $tag_ids ? ',' . $tag_ids . ',' : '';
             $live->top_end_date = $live->top_end_date ? strtotime($live->top_end_date) : 0;
-            
+
             $imageArr = explode(',', $live->images);
             $image200 = $image750 = '';
             foreach ($imageArr as $image) {
-                $position = strrpos($image, '.'); 
+                $position = strrpos($image, '.');
                 $image200 = $image200 ? $image200 . ',' . substr_replace($image, '_thumb_200', $position, 0) : substr_replace($image, '_thumb_200', $position, 0);
                 $image750 = $image750 ? $image750 . ',' . substr_replace($image, '_thumb_750', $position, 0) : substr_replace($image, '_thumb_750', $position, 0);
             }
@@ -79,6 +79,11 @@ class Live extends Model
     public function category()
     {
         return $this->belongsTo('LiveCategory', 'category_id', 'id', '', 'left')->setEagerlyType(0);
+    }
+
+    public function member()
+    {
+        return $this->belongsTo('Member', 'mem_id', 'id', 'member', 'LEFT')->setEagerlyType(0);
     }
 
     public function city()

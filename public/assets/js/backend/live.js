@@ -28,21 +28,27 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id')},
-                        {field: 'city_id', title: __('City_id'), visible: false, operate: false},
-                        {field: 'city.name', title: __('City_id'), operate: 'like'},
-                        {field: 'category_id', title: __('Category_id'), visible: false, operate: false},
-                        {field: 'category.category_name', title: __('Live_category'), operate: 'like'},
+                        {field: 'id', title: __('Id'), operate: false},
+                        // {field: 'city_id', title: __('City_id'), visible: false,searchList: $.getJSON('ajax/getAllCity')},
+                        {field: 'city.name', title: __('City_id'), operate: false},
+                        // {field: 'category_id', title: __('Category_id'), visible: false, operate: false},
+                        {field: 'category.category_name', title: __('Live_category'), operate: false},
+                        {
+                            field: 'city_id', title: __('Live_category'), visible: false, searchList: function (column) {
+                                return Template('categorytpl', {});
+                            }
+                        },
                         {field: 'title', title: __('Title'), operate: 'like'},
 //                        {field: 'status_text', title: __('Status'), operate: false},
-                        {field: 'status', title: __('Status'), visible: false, searchList: {"0": __('Status 0'), "1": __('Status 1'), "2": __('Status 2')}},
-//                        {field: 'is_top_text', title: __('Is_top'), operate: false},
-//                        {field: 'is_top', title: __('Is_top'), visible: false, searchList: {"0": __('Is_top 0'), "1": __('Is_top 1')}},
+                        // {field: 'status', title: __('Status'), visible: false, searchList: {"0": __('Status 0'), "1": __('Status 1'), "2": __('Status 2')}},
+                       {field: 'is_top_text', title: __('Is_top'), operate: false},
+                       {field: 'is_top', title: __('Is_top'), visible: false, searchList: {"0": __('Is_top 0'), "1": __('Is_top 1')}},
 //                        {field: 'top_end_date', title: __('Top_end_date'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD"},
                         {field: 'is_ensure_text', title: __('Is_ensure'), operate: false},
                         {field: 'is_ensure', title: __('Is_ensure'), visible: false, searchList: {"0": __('Is_ensure 0'), "1": __('Is_ensure 1')}},
-                        {field: 'source_url', title: __('Source_url'), formatter: Table.api.formatter.url},
-                        {field: 'add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD"},
+                        {field: 'source_url', title: __('Source_url'), formatter: Table.api.formatter.url, operate: false},
+                        {field: 'add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD", operate: false},
+                        {field: 'live.add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD", visible: false},
                         {
                             field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
                             buttons: [
@@ -80,6 +86,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Controller.api.bindevent();
         },
         edit: function () {
+            //会员昵称填充
+            $("#c-mem_id").blur(function(){
+                var self = $(this);
+                $.post('ajax/getMemberName', {id:self.val()}, function(res){
+                    if(res.code === 1){
+                        $("#c-mem_nickname").val(res.data.nick_name);
+                    }
+                });
+            });
             $("#c-category_id").data("params", function (obj) {
                 return {city_id: $("#c-city_id").val()};
             });
@@ -96,7 +111,24 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         api: {
             bindevent: function () {
                 Form.api.bindevent($("form[role=form]"));
+                Form.api.bindevent($("form[role=form]"), function(data, ret){
+                    //如果我们需要在提交表单成功后做跳转，可以在此使用location.href="链接";进行跳转
+                    Toastr.success("操作成功");
+                }, function(data, ret){
+                    Toastr.error("失败");
+                }, function(success, error){
+                    //bindevent的第三个参数为提交前的回调
+                    //如果我们需要在表单提交前做一些数据处理，则可以在此方法处理
+                    //注意如果我们需要阻止表单，可以在此使用return false;即可
+                    //如果我们处理完成需要再次提交表单则可以使用submit提交,如下
+                    //Form.api.submit(this, success, error);
+                    if(!$('#c-mobile').val() && !$('#c-weixin_no').val() && !$('#c-email').val()){
+                        Toastr.error("手机号、邮箱和微信号三项中至少有一项不为空！");
+                        return false;
+                    }
+                });
             }
+
         }
     };
     return Controller;

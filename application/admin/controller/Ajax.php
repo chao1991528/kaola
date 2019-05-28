@@ -229,7 +229,7 @@ class Ajax extends Backend
                 if ($type == 'sync'){
                     $msg = '同步成功！';
                     break;
-                }   
+                }
         }
 
         \think\Hook::listen("wipecache_after");
@@ -282,18 +282,40 @@ class Ajax extends Backend
         }
         $this->success('', null, $provincelist);
     }
-    
+
     /**
-     * 
+     *
      */
     public function getMemberName()
     {
         $member = db('member')->where('id', input('param.id'))->field('id,nick_name')->find();
         $this->success('', null, $member);
     }
-    
+
+    public function getAllCity()
+    {
+        $list = db('australia_cities')->where('is_valid', 1)
+                ->field('id as value,name')
+                ->select();
+        $this->success('', null, $list);
+    }
+
     /**
-     *  获取城市 
+     * 获取生活分类
+     */
+    public function getLiveCategory()
+    {
+        $city_id = $this->request->request("city_id");
+        $where = $city_id ? ['is_valid' => 1, 'is_delete' => 0, 'city_id' => $city_id] : ['is_valid' => 1, 'is_delete' => 0];
+        $list = db('live_category')->where($where)
+                ->field('id as value,category_name as name')
+                // ->fetchSql()
+                ->select();
+        $this->success('', null, $list);
+    }
+
+    /**
+     *  分页获取城市
      */
     public function getCity()
     {

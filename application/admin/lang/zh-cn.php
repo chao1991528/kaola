@@ -1,8 +1,9 @@
 <?php
 
 return [
+    'Mem_nickname'                                          => '会员昵称',
     'Sync'                                                  => '同步数据',
-    'Add_time'                                              => '添加时间', 
+    'Add_time'                                              => '添加时间',
     'Is_top 1'                                              => '是',
     'Is_top 0'                                              => '否',
     'Is_top'                                                => '是否置顶',
