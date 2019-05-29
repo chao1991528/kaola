@@ -7,6 +7,7 @@ use app\common\model\Area;
 use app\common\model\Version;
 use fast\Random;
 use think\Config;
+use think\Log;
 
 /**
  * 公共接口
@@ -55,6 +56,7 @@ class Common extends Api
     {
         $thumb = input('post.thumb', 1);
         $needWater = input('param.type', 0); //0需要水印，1不需要
+        Log::info('--------begin-------------type:'. $needWater);
 
         $files = $this->request->file('');
         // halt(count($files));
@@ -161,6 +163,7 @@ class Common extends Api
                 $this->error($file->getError());
             }
         }
+        Log::info('--------end-------------return:' . var_export($data));
         $this->success(__('Upload successful'), $data);
     }
 
