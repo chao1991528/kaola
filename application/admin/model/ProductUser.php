@@ -11,4 +11,5 @@ class ProductUser extends Model
     // 表名
     protected $name = 'user';
     protected $connection = 'product_config';
+    protected $resultSetType = 'collection';
 }

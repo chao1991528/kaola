@@ -39,6 +39,7 @@ class Sync extends Backend
             $localCouponIds = db('house_coupon')->where('is_valid', 1)->column('id');
             $localNewsCategoryIds = db('news_category')->where(['is_valid'=>1, 'is_delete'=>0])->column('id');
             $localNewsTagIds = db('news_tag')->where(['is_valid'=>1, 'is_delete'=>0])->column('id');
+            $localUserIds = db('user')->column('id');
 
             $typeDiff = array_diff_assoc($roomTypes, $localRoomTypes);
             $tagDiff = array_diff_assoc($houseTags, $localTags);
@@ -106,6 +107,16 @@ class Sync extends Backend
             }
             if(!empty($newsTagInsertData)){
                 db('news_tag')->insertAll($newsTagInsertData);
+            }
+
+            //同步管理员数据
+            $adminInsertData = [];
+            $newUsers = model('ProductUser')->where(['is_valid'=>1])->where('id', 'not in', $localUserIds)->select()->toArray();
+            foreach ($newUsers as $user) {
+                $adminInsertData[] = $user;
+            }
+            if(!empty($adminInsertData)){
+                db('user')->insertAll($adminInsertData);
             }
 
             echo 'success';
