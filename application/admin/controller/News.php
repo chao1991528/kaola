@@ -117,7 +117,6 @@ class News extends Backend
             }
             $row->news_picture = empty($picture_arr) ? '' : implode(',', $picture_arr);
         }
-        $data['status'] = $this->model->getStatusList();
         $data['categories'] = db('news_category')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,category_name');
         $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
         $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
