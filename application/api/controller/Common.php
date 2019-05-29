@@ -163,7 +163,7 @@ class Common extends Api
                 $this->error($file->getError());
             }
         }
-        Log::info('--------end-------------return:' . var_export($data));
+        Log::info('--------end-------------return:' . json_encode($data));
         $this->success(__('Upload successful'), $data);
     }
 
