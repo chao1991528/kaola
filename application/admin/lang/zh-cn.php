@@ -1,12 +1,16 @@
 <?php
 
 return [
+    'Add_uid'                                               =>  '后台管理员',
     'Mem_nickname'                                          => '会员昵称',
     'Sync'                                                  => '同步数据',
     'Add_time'                                              => '添加时间',
     'Is_top 1'                                              => '是',
     'Is_top 0'                                              => '否',
     'Is_top'                                                => '是否置顶',
+    'Is_uploaded 1'                                         => '是',
+    'Is_uploaded 0'                                         => '否',
+    'Is_uploaded'                                           => '是否已上传',
     'User id'                                               => '会员ID',
     'Username'                                              => '用户名',
     'Nickname'                                              => '昵称',

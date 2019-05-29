@@ -39,12 +39,12 @@ class Live extends Backend
         if ($this->request->isAjax()) {
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
-                    ->with(["city", "category", "member"])
+                    ->with(["city", "category", "member", "user"])
                     ->where($where)
                     ->where(['live.is_delete' => 0, 'live.delete_time' => 0])
                     ->count();
             $list = $this->model
-                    ->with(["city", "category", "member"])
+                    ->with(["city", "category", "member", "user"])
                     ->where($where)
                     ->where(['live.is_delete' => 0, 'live.delete_time' => 0])
                     ->order($sort, $order)
@@ -54,6 +54,49 @@ class Live extends Backend
 
             return json($result);
         }
+        return $this->view->fetch();
+    }
+
+    public function edit($ids = NULL)
+    {
+        $row = $this->model->get($ids);
+        if (!$row)
+            $this->error(__('No Results were found'));
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds)) {
+            if (!in_array($row[$this->dataLimitField], $adminIds)) {
+                $this->error(__('You have no permission'));
+            }
+        }
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            if ($params) {
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
+                        $row->validate($validate);
+                    }
+                    $params['content'] = htmlentities($params['content']);
+                    $result = $row->allowField(true)->save($params);
+                    if ($result !== false) {
+                        $this->success();
+                    } else {
+                        $this->error($row->getError());
+                    }
+                } catch (\think\exception\PDOException $e) {
+                    $this->error($e->getMessage());
+                } catch (\think\Exception $e) {
+                    $this->error($e->getMessage());
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $row->content = html_entity_decode($row->content);
+        $data['admin_ids'] = model('ProductUser')->where(['is_valid' => 1])->column('id,user_number');
+        $this->assign($data);
+        $this->view->assign("row", $row);
         return $this->view->fetch();
     }
 
@@ -89,6 +132,11 @@ class Live extends Backend
         foreach ($ids as $id) {
             $lives = db('live')->field('id,source_url,email_image', true)->where('id', $id)->find();
             if (!empty($lives)) {
+                if($lives['is_uploaded']){
+                    $this->error('已经上传过了，请勿重复上传!');
+                }else{
+                    unset($lives['is_uploaded']);
+                }
                 $data[] = $lives;
             }
         }
@@ -97,7 +145,7 @@ class Live extends Backend
         }
         $liveModel = model('ProductLive');
         $liveModel->saveAll($data);
-        db('live')->where('id', 'in', $ids)->update(['delete_time' => time(), 'is_delete' => 1]);
+        db('live')->where('id', 'in', $ids)->update(['is_uploaded' => 1]);
         $this->success('上传成功!',null);
     }
 

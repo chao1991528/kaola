@@ -49,6 +49,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'source_url', title: __('Source_url'), formatter: Table.api.formatter.url, operate: false},
                         {field: 'add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD", operate: false},
                         {field: 'live.add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD", visible: false},
+                        {field: 'user.user_number', title: __('Add_uid'), operate:false},
+                        {field: 'user.id', title: __('Add_uid'), visible:false,searchList: $.getJSON('news/getAdmin')},
+                        {field: 'is_uploaded_text', title: __('Is_uploaded'), operate: false},
+                        {field: 'is_uploaded', title: __('Is_uploaded'), visible: false, searchList: {"0": __('Is_uploaded 0'), "1": __('Is_uploaded 1')}},
                         {
                             field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
                             buttons: [

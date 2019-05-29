@@ -10,7 +10,7 @@ use app\common\controller\Backend;
  * @icon fa fa-circle-o
  */
 class Houses extends Backend
-{   
+{
     protected $noNeedRight = ['getRegion'];
     /**
      * Houses模型对象
@@ -31,7 +31,7 @@ class Houses extends Backend
      */
 
     public function index()
-    {       
+    {
         if ($this->request->isAjax()) {
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
@@ -54,7 +54,7 @@ class Houses extends Backend
     }
 
     public function edit($ids = NULL)
-    {   
+    {
         $row = $this->model->get($ids);
         if (!$row){
             $this->error(__('No Results were found'));
@@ -97,7 +97,7 @@ class Houses extends Backend
                     $imageArr = explode(',', $params['images']);
                     $image200 = $image750 = '';
                     foreach ($imageArr as $image) {
-                        $position = strrpos($image, '.'); 
+                        $position = strrpos($image, '.');
                         $image200 = $image200 ? $image200 . ',' . substr_replace($image, '_thumb_200', $position, 0) : substr_replace($image, '_thumb_200', $position, 0);
                         $image750 = $image750 ? $image750 . ',' . substr_replace($image, '_thumb_750', $position, 0) : substr_replace($image, '_thumb_750', $position, 0);
                     }
@@ -162,9 +162,9 @@ class Houses extends Backend
                 'row' => $row
             ]);
             return $this->view->fetch();
-        }       
+        }
     }
-    
+
     public function del($ids="")
     {
         if ($ids) {
@@ -186,7 +186,7 @@ class Houses extends Backend
         }
         $this->error(__('Parameter %s can not be empty', 'ids'));
     }
-    
+
     /**
      * 列表页筛选联动用
      */
@@ -196,16 +196,16 @@ class Houses extends Backend
         if($type == 'city'){
             $list = db('australia_cities')->field('id as value,name,name_zh')->order('is_hot desc')->where('is_valid', 1)->select();
             foreach ($list as $k => $v){
-                $list[$k]['name'] = $v['name'] . ' ' . $v['name_zh']; 
+                $list[$k]['name'] = $v['name'] . ' ' . $v['name_zh'];
             }
         } else {
             $city_id = $this->request->get('city_id');
             $list = db('Australia_districts')->field('id as value,name')->where(['is_valid' => 1, 'city_id' => $city_id])->order('name asc')->select();
         }
-        
+
         $this->success('', null, $list);
     }
-    
+
     /**
      * 上传到正式服务器
      */
@@ -222,6 +222,11 @@ class Houses extends Backend
                 if($house['status'] !== 1){
                     $this->error('上传失败：该房源信息尚未审核通过!',null);
                 }
+                if($house['is_uploaded']){
+                    $this->error('已经上传过了，请勿重复上传!');
+                } else {
+                    unset($house['is_uploaded']);
+                }
                 $house['house_sn'] = 30 . date('YmdHis') . rand(1000, 9999);
                 $house['add_time'] = time();
                 $house['update_time'] = time();
@@ -232,7 +237,7 @@ class Houses extends Backend
             $this->error('上传失败：房源信息为空!');
         }
         model('ProductHouse')->saveAll($data);
-        db('houses')->where('id', 'in', $ids)->update(['delete_time' => time()]);
-        $this->success('上传成功!',null);       
+        db('houses')->where('id', 'in', $ids)->update(['is_uploaded' => 1]);
+        $this->success('上传成功!',null);
     }
 }

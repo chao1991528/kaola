@@ -48,11 +48,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'selectpage', 'templa
                                 return Template('city_distirct', {});
                             }
                         },
-                        {field: 'source_url', title: __('Source_url'), formatter: Table.api.formatter.url},
+                        {field: 'source_url', title: __('Source_url'), formatter: Table.api.formatter.url, operate:false},
 //                        {field: 'read_count', title: __('Read_count'), operate:false},
                         {field: 'status_text', title: __('Status'), operate:false},
                         {field: 'status', title: __('Status'), visible: false, searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2'),"3":__('Status 3'),"4":__('Status 4'),"5":__('Status 5')}},
-                        {field: 'add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD"},
+                        {field: 'add_time', title: __('Add_time'), addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD", operate:false},
+                        {field: 'houses.add_time', title: __('Add_time'), operate: 'RANGE', addclass: 'datetimerange', formatter: Table.api.formatter.datetime, datetimeFormat:"YYYY-MM-DD", visible:false},
+                        {field: 'is_uploaded_text', title: __('Is_uploaded'), operate: false},
+                        {field: 'is_uploaded', title: __('Is_uploaded'), visible: false, searchList: {"0": __('Is_uploaded 0'), "1": __('Is_uploaded 1')}},
                         {
                             field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,
                             buttons: [

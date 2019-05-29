@@ -6,7 +6,7 @@ use app\common\controller\Backend;
 use QL\QueryList;
 
 /**
- * 
+ *
  *
  * @icon fa fa-circle-o
  */
@@ -27,14 +27,14 @@ class News extends Backend
         $this->view->assign("isValidList", $this->model->getIsValidList());
         $this->view->assign("declareList", $this->model->getDeclareList());
     }
-    
+
     /**
      * 默认生成的控制器所继承的父类中有index/add/edit/del/multi五个基础方法、destroy/restore/recyclebin三个回收站方法
      * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
      * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
      */
     public function index()
-    {       
+    {
         if ($this->request->isAjax()) {
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
@@ -138,7 +138,7 @@ class News extends Backend
     	if($_host !== 'mp.weixin.qq.com') {
             $this->error('文章链接来源不属于微信');
         }
-        
+
         $html = \fast\Http::get($url);
         if(empty($html)){
             $this->error('文章内容为空');
@@ -159,13 +159,13 @@ class News extends Backend
                 $content = QueryList::html($item['content']);
                 $content->find('img')->map(function($img){
                     $src     = $img->attrs('data-src')[0];
-                    $imgpath = saveFileFromUrl($src);	
-    
+                    $imgpath = saveFileFromUrl($src);
+
                     $img->attr('src',$imgpath);
                     $img->removeAttr('data-src');
                     $img->removeAttr('data-ratio');
                     $img->removeAttr('data-w');
-    
+
                 });
                 $item['content'] = $content->find('')->html();
                 return $item;
@@ -175,7 +175,7 @@ class News extends Backend
 
         $this->success('成功',null, $data[0]);
     }
-    
+
     /**
      * 上传到正式服务器
      */
@@ -189,13 +189,13 @@ class News extends Backend
         foreach ($ids as $id) {
             $news = db('news')->field('id', true)->where('id', $id)->find();
             if ($news) {
-                if(!$news['status']){
-                    $this->error('该条新闻未处理，不能上传');
+                if($news['is_uploaded']){
+                    $this->error('已经上传过了，请勿重复上传!');
                 }
                 $news['news_image'] = '';
                 $news['publish_time'] = time();
                 $news['is_publish'] = 1;
-                unset($news['status']);
+                unset($news['is_uploaded']);
                 $data[] = $news;
             }
         }
@@ -204,9 +204,9 @@ class News extends Backend
         }
         $newsModel = model('ProductNews');
         $newsModel->saveAll($data);
-        db('news')->where('id', 'in', $ids)->update(['delete_time' => time(), 'is_delete' => 1]);
-        $this->success('上传成功!',null);       
-    }   
+        db('news')->where('id', 'in', $ids)->update(['is_uploaded' => 1]);
+        $this->success('上传成功!',null);
+    }
 
     public function getSource()
     {
@@ -225,10 +225,10 @@ class News extends Backend
         $data =  model('NewsType')->where('is_valid = 1 and is_delete = 0')->where('type_name', 'not like', '图片%')->field('id,type_name as name')->select();
         return $this->success('ok', '', ['searchlist' => $data]);
     }
-    
+
     public function getAdmin()
     {
         $data =  model('User')->field('id,user_number as name')->select();
         return $this->success('ok', '', ['searchlist' => $data]);
-    }        
+    }
 }

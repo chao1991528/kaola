@@ -22,6 +22,7 @@ class Live extends Model
         'status_text',
         'is_top_text',
         'is_ensure_text',
+        'is_uploaded_text'
     ];
 
     protected static function init()
@@ -40,6 +41,7 @@ class Live extends Model
             }
             $live->image_thumbs_200 = $image200;
             $live->image_thumbs_750 = $image750;
+            $live->content = htmlentities($live->content);
         });
     }
 
@@ -91,6 +93,10 @@ class Live extends Model
         return $this->belongsTo('City', 'city_id', 'id', '', 'left')->setEagerlyType(0);
     }
 
+    public function user(){
+        return $this->belongsTo('User', 'add_uid', 'id', '', 'left')->setEagerlyType(0);
+    }
+
     public function getStatusList()
     {
         return ['0' => __('Status 0'), '1' => __('Status 1'), '2' => __('Status 2')];
@@ -111,6 +117,17 @@ class Live extends Model
     {
         $arr = $this->getIsTopList();
         return $arr[$data['is_top']];
+    }
+
+    public function getIsUploadedList()
+    {
+        return ['0' => __('Is_uploaded 0'), '1' => __('Is_uploaded 1')];
+    }
+
+    public function getIsUploadedTextAttr($value, $data)
+    {
+        $arr = $this->getIsUploadedList();
+        return $arr[$data['is_uploaded']];
     }
 
     public function getIsEnsureList()

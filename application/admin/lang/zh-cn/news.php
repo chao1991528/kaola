@@ -38,7 +38,6 @@ return [
     'Is_top 1'  =>  '是',
     'Top_end_date'  =>  '置顶到期时间',
     'Add_time'  =>  '添加时间',
-    'Add_uid'  =>  '后台管理员',
     'Is_applet'  =>  '展示给小程序',
     'Is_applet 0'  =>  '否',
     'Is_applet 1'  =>  '是',

@@ -26,7 +26,7 @@ class News extends Model
         'is_valid_text',
         'is_recommend_text',
         'declare_text',
-        'status_text'
+        'is_uploaded_text'
     ];
 
     public function getIsAppletTextAttr($value, $data)
@@ -63,11 +63,6 @@ class News extends Model
     {
         $arr = $this->getDeclareList();
         return $data['declare_id'] ? $arr[$data['declare_id']] : '-';
-    }
-    public function getStatusTextAttr($value, $data)
-    {
-        $arr = $this->getStatusList();
-        return $arr[$data['status']];
     }
 
     public function getAddTimeTextAttr($value, $data)
@@ -133,9 +128,15 @@ class News extends Model
         return ['1' => __('Declare_id 1'),'2' => __('Declare_id 2') , '3' => __('Declare_id 3')];
     }
 
-    public function getStatusList()
+    public function getIsUploadedList()
     {
-        return ['0' => __('Status 0'),'1' => __('Status 1')];
+        return ['0' => __('Is_uploaded 0'), '1' => __('Is_uploaded 1')];
+    }
+
+    public function getIsUploadedTextAttr($value, $data)
+    {
+        $arr = $this->getIsUploadedList();
+        return $arr[$data['is_uploaded']];
     }
 
     public function category(){
@@ -153,7 +154,7 @@ class News extends Model
     public function layout(){
         return $this->belongsTo('NewsLayout', 'layout_id')->setEagerlyType(0);
     }
-    
+
     public function user(){
         return $this->belongsTo('User', 'add_uid', 'id', '', 'left')->setEagerlyType(0);
     }

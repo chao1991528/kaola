@@ -141,16 +141,6 @@
     </div>
     <div id="contentDiv" style="display:none">{$row.content}</div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
-        <div class="col-xs-12 col-sm-8">
-            <select class="selectpicker form-control" name="row[status]">
-                {volist name="status" id="vo"}
-                <option value="{$key}" {if condition="$key == $row['status']"}selected="selected"{/if}>{$vo}</option>
-                {/volist}
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Add_uid')}:</label>
         <div class="col-xs-12 col-sm-8">
             <select class="selectpicker form-control" name="row[add_uid]">
