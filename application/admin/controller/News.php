@@ -186,7 +186,7 @@ class News extends Backend
         $ids = explode(',', $ids);
         $data = [];
         foreach ($ids as $id) {
-            $news = db('news')->field('id', true)->where('id', $id)->find();
+            $news = db('news')->field('id,origin_publish_time', true)->where('id', $id)->find();
             if ($news) {
                 if($news['is_uploaded']){
                     $this->error('已经上传过了，请勿重复上传!');
