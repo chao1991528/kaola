@@ -100,7 +100,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 });
             });
             $("#c-category_id").data("params", function (obj) {
-                return {city_id: $("#c-city_id").val()};
+                return {custom: {city_id: $("#c-city_id").val()}};
             });
             $('#is_top').on('changed.bs.select',function(e){
                 if (e.target.value == 1) {

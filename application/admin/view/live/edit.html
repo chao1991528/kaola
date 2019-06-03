@@ -16,13 +16,13 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('City_id')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-city_id" data-rule="required" data-source="ajax/getCity" class="form-control selectpage" name="row[city_id]" type="text" value="{$row.city_id}">
+            <input id="c-city_id" data-rule="required" data-source="city/selectpage" class="form-control selectpage" name="row[city_id]" type="text" value="{$row.city_id}">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Live_category')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-category_id" data-rule="required" data-source="live/ajax_get_category" class="form-control selectpage" name="row[category_id]" type="text" value="{$row.category_id}">
+            <input id="c-category_id" data-rule="required" data-field="category_name" data-source="live_category/selectpage" class="form-control selectpage" name="row[category_id]" type="text" value="{$row.category_id}">
         </div>
     </div>
     <div class="form-group">
