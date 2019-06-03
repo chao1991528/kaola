@@ -78,7 +78,6 @@ class Live extends Backend
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
                         $row->validate($validate);
                     }
-                    $params['content'] = htmlentities($params['content']);
                     $result = $row->allowField(true)->save($params);
                     if ($result !== false) {
                         $this->success();
@@ -93,7 +92,6 @@ class Live extends Backend
             }
             $this->error(__('Parameter %s can not be empty', ''));
         }
-        $row->content = html_entity_decode($row->content);
         $data['admin_ids'] = model('ProductUser')->where(['is_valid' => 1])->column('id,user_number');
         $this->assign($data);
         $this->view->assign("row", $row);
