@@ -61,8 +61,38 @@ class News extends Backend
         $data['types'] = db('news_type')->where(['is_valid' => 1, 'is_delete' => 0])->where('type_name', 'not like', '图片%')->column('id,type_name');
         $data['sources'] = db('news_source')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,source_name');
         $data['layouts'] = db('news_layout')->where(['is_valid' => 1, 'is_delete' => 0])->column('id,layout_name');
+        $data['admin_ids'] = model('User')->where(['is_valid' => 1])->column('id,user_number');
         $this->assign($data);
-        return parent::add();
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            if ($params) {
+                if ($this->dataLimit && $this->dataLimitFieldAutoFill) {
+                    $params[$this->dataLimitField] = $this->auth->id;
+                }
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
+                        $this->model->validate($validate);
+                    }
+                    $params['add_time'] = time();
+                    $params['delete_time'] = 0;
+                    $result = $this->model->allowField(true)->save($params);
+                    if ($result !== false) {
+                        $this->success();
+                    } else {
+                        $this->error($this->model->getError());
+                    }
+                } catch (\think\exception\PDOException $e) {
+                    $this->error($e->getMessage());
+                } catch (\think\Exception $e) {
+                    $this->error($e->getMessage());
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        return $this->view->fetch();
     }
 
 

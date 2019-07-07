@@ -115,7 +115,7 @@ class News extends Model
 
     public function getIsValidList()
     {
-        return ['0' => __('Is_valid 0'),'1' => __('Is_valid 1')];
+        return ['1' => __('Is_valid 1'), '0' => __('Is_valid 0')];
     }
 
     public function getIsRecommendList()
