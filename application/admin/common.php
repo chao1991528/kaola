@@ -179,9 +179,9 @@ if (!function_exists('saveFileFromUrl')) {
             mkdir($dir);
         }
         $file_name = md5(time()) . rand(10000, 99999) . '.jpg';
-        
+        // halt($url);
         file_put_contents($dir . $file_name, file_get_contents($url));
-        return $uploadDir . $file_name;
+        return config('image_domain') . $uploadDir . $file_name;
     }
 }
 
