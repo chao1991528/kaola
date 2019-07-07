@@ -78,6 +78,7 @@ class News extends Backend
                     }
                     $params['add_time'] = time();
                     $params['delete_time'] = 0;
+                    $params['content'] = htmlentities($params['content']);
                     $result = $this->model->allowField(true)->save($params);
                     if ($result !== false) {
                         $this->success();
