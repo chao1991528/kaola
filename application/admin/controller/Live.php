@@ -92,7 +92,8 @@ class Live extends Backend
             }
             $this->error(__('Parameter %s can not be empty', ''));
         }
-        $data['admin_ids'] = model('ProductUser')->where(['is_valid' => 1])->column('id,user_number');
+//        $data['admin_ids'] = model('ProductUser')->where(['is_valid' => 1])->column('id,user_number');
+        $data['admin_ids'] = ['0' => '暂时关闭'];
         $this->assign($data);
         $this->view->assign("row", $row);
         return $this->view->fetch();
