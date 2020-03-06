@@ -118,17 +118,17 @@ class Common extends Api
                     $imagewidth = isset($imgInfo[0]) ? $imgInfo[0] : $imagewidth;
                     $imageheight = isset($imgInfo[1]) ? $imgInfo[1] : $imageheight;
                     $image = \think\Image::open(ROOT_PATH . '/public' . $uploadDir . $fileName);
-                    if($imagewidth < 900){
-                        $waterImage = 'water_logo_70.png';
-                    }else if($imagewidth >= 900 && $imagewidth < 2000){
-                        $waterImage = 'water_logo_120.png';
-                    }else {
-                        $waterImage = 'water_logo_150.png';
-                    }
-                    if($needWater == 0){
-                        //需要水印
-                        $image->water('./assets/img/' . $waterImage, \think\Image::WATER_SOUTHEAST, 50)->save(ROOT_PATH . '/public' . $uploadDir . $fileName);
-                    }
+//                    if($imagewidth < 900){
+//                        $waterImage = 'water_logo_70.png';
+//                    }else if($imagewidth >= 900 && $imagewidth < 2000){
+//                        $waterImage = 'water_logo_120.png';
+//                    }else {
+//                        $waterImage = 'water_logo_150.png';
+//                    }
+//                    if($needWater == 0){
+//                        //需要水印
+//                        $image->water('./assets/img/' . $waterImage, \think\Image::WATER_SOUTHEAST, 50)->save(ROOT_PATH . '/public' . $uploadDir . $fileName);
+//                    }
                     if ($thumb) {
                         $thumb200Height = $imageheight > $imagewidth ? (200 * $imageheight/$imagewidth) : 200;
                         $thumb750Height = $imageheight > $imagewidth ? (750 * $imageheight/$imagewidth) : 750;
